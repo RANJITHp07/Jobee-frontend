@@ -43,7 +43,7 @@
     "postcss": "^8.4.28",
     "react": "^16.13.1",
     "react-bones": "^1.0.3",
-    "react-dom": "^18.2.0",
+    "react-dom": "^16.13.1",
     "react-emoji-picker": "^1.0.13",
     "react-iframe": "^1.8.5",
     "react-loading-skeleton": "^3.3.1",
