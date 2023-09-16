@@ -7,12 +7,12 @@ const getHeaders = (token:string) => ({
 });
 
 export const savejobs=async(data:{id:string,jobId:string},token:string)=>{
-   const res=await axios.post("http://localhost:5000/v6/api/job/save",data,getHeaders(token))
+   const res=await axios.post("http://www.jobee.website/v6/api/job/save",data,getHeaders(token))
    return res
 }
 
 export const savedJobs=async(id:string,token:string)=>{
-    const res=await axios.get(`http://localhost:5000/v6/api/job/save/${id}`,getHeaders(token))
+    const res=await axios.get(`/v6/api/job/save/${id}`,getHeaders(token))
     
     return res
  }

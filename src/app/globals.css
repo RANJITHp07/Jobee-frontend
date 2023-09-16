@@ -16,6 +16,8 @@
     width: 600px;
     height: 600px;
   }
+
+ 
   
   .swiper-slide img {
     display: block;
@@ -66,3 +68,4 @@
     width: 63rem;
   }
 }
+

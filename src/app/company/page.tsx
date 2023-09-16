@@ -68,7 +68,7 @@ function Page() {
         <p className='font-bold text-slate-500'>JOBS</p>
         <hr />
         {jobs.map((p: any) => (
-            <div key={p._id} className='my-3 cursor-pointer' onClick={() => { router.push(`/job/${p._id}`) }}>
+            <div key={p._id} className='my-3 cursor-pointer' onClick={() => { router.push(`/job/apply/${p._id}`) }}>
                 <p>Role: {p.role}</p>
                 <p>Location: {p.location}</p>
             </div>

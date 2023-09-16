@@ -135,14 +135,14 @@ function Header() {
       </div>
        <div  className='hidden md:flex' >
        <div className='w-1/2'>
-       <p className=' text-slate-300 text-4xl font-extrabold  leading-10  md:ml-8 md:mt-12 lg:text-7xl lg:mt-24' data-aos="zoom-out" data-aos-delay="200" data-aos-duration="800">The Smartest<br className=''/> Way To Get Your<br className=' block lg:hidden' /> Dream<span className='text-blue-300'> Job</span></p>
+       <p className=' text-slate-300 text-4xl font-extrabold  leading-10  md:ml-8 md:mt-12  lg:text-7xl lg:mt-24' data-aos="zoom-out" data-aos-delay="200" data-aos-duration="800">The Smartest<br className=''/> Way To Get Your<br className=' block lg:hidden' /> Dream<span className='text-blue-300'> Job</span></p>
          <p className='text-slate-300 ml-8 mt-3 mr-5'  data-aos="zoom-out" data-aos-delay="400" data-aos-duration="800"><span className='text-blue-300'>Jobee </span > opens doors to a world of endless career opportunities </p>
-         <div className='flex  bg-white p-2 rounded-full ml-5 mt-7 mr-10 w-11/12  lg:w-4/5'>
+         <div className='flex  bg-white p-2 rounded-full ml-5 mt-7 md:w-10/12 lg:w-9/12 '>
           <div className='flex justify-center items-center ml-5'>
             <div>
               <div className='flex'>
               <WorkIcon className='text-slate-300 mr-2'/>
-          <input type='text' placeholder='Enter Your Dream Job' className='outline-none focus:outline-non' value={search} onChange={handleChange}/>
+          <input type='text' placeholder='Enter Your Dream Job' className='outline-none focus:outline-non  md:w-3/4' value={search} onChange={handleChange}/>
               </div>
             
          {
@@ -161,7 +161,7 @@ function Header() {
           <div>
              <div className='flex'>
              <LocationOnIcon className='text-slate-300 mr-2 hidden lg:block'/>
-          <input type='text' placeholder='Search your Location' className='outline-none focus:outline-non w-full hidden lg:block' value={locationsearch} onChange={handlelocationChange}/>
+          <input type='text' placeholder='Search your Location' className='outline-none focus:outline-non md:w-3/4  hidden lg:block' value={locationsearch} onChange={handlelocationChange}/>
              </div>
              {
            locationstate &&  <div className='absolute  bg-white h-40 overflow-y-scroll md:w-56 rounded-lg overflow-hidden p-3 box_shadow'>
@@ -178,7 +178,7 @@ function Header() {
           </div>
          
           </div>
-            <button type='submit' className='rounded-full bg-indigo-950 text-white font-medium p-2 ml-5 lg:ml-0' onClick={()=>{handleJob()}} >Search</button>
+            <button type='submit' className='rounded-full bg-indigo-950 text-white font-medium p-2  ' onClick={()=>{handleJob()}} >Search</button>
           </div>
           
          </div>

@@ -227,7 +227,7 @@ function Page({params}:{params:{id:string}}) {
                         
                          <div className='md:flex'>
                           <div className='grid place-content-center my-auto rounded-lg'>
-                            <Image src={p._id.photo!='' ? `http://localhost:5443/images/${p._id.photo}`:"/person.jpg"} width={200} height={200} alt="photo" className="rounded-lg"/>
+                            <Image src={p._id.photo!='' ? p._id.photo:"/person.jpg"} width={200} height={200} alt="photo" className="rounded-lg"/>
                             </div>
                             <div className='cursor-pointer mx-5 my-2 ' onClick={()=>{router.push(`/applicant/${p._id.userId._id}`)}}>
                               <div>
