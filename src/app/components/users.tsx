@@ -19,8 +19,9 @@ function Users({setShowFilter,userId,setid,setrecieverId,setusername}:{setShowFi
     async function fetchData(){
       try{
          if(userId){
+          console.log(userId)
           const res=await getConvo(userId,token)
-         
+             console.log(res.data[0].members.length)
             res.data.length>0 && setid(res.data[0]._id)
             res.data.length>0 && setrecieverId(userId===res.data[0].members[0]._id?res.data[0].members[1]._id:res.data[0].members[0]._id)
             res.data.length>0 && setusername(userId===res.data[0].members[0]._id?res.data[0].members[1].username:res.data[0].members[0].username)

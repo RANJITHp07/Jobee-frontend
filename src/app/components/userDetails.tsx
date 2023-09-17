@@ -20,6 +20,7 @@ function UserDetails({user,setview,id}:{user:any, setview: React.Dispatch<React.
     try{
       
       const res=await createConvo(user._id.userId._id,userId,token) 
+      console.log(res.data)
       router.push("/chat")
     }catch(err){
       throw err

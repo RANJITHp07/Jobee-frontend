@@ -83,7 +83,7 @@ function Page() {
           const res = await getCompany(userId)
           console.log(res.data);
           if (res.data === null){
-            router.push('/company/form');
+            router.push('/company/details');
           } else {
             setCompany(res.data);
             setloading(false)

@@ -51,7 +51,7 @@ function Payment({name,id,stripeId}: {name: keyof Plans,id:string,stripeId: stri
   const handleClick=async()=>{
     try{
         console.log(id,stripeId)
-         const res=await axios.post("http://localhost:6002/v1/api/plans",{priceId:id,stripeId:stripeId},
+         const res=await axios.post("http://www.jobeee.website/v1/api/plans",{priceId:id,stripeId:stripeId},
           {
             headers: {
                 Authorization: token,

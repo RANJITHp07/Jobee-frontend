@@ -27,6 +27,7 @@ function page() {
     const fetchData=async()=>{
       try{
         if(userId){
+          console.log("hii")
           const res=await getCompany(userId)
           setcompany(res.data)
           

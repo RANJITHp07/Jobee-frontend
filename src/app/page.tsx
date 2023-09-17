@@ -41,7 +41,7 @@ export default function Home() {
         </div>
       { loading? <LoadinPage/> : <>
       <div>
-        <div className="bg-[url('/background.png')] bg-no-repeat bg-cover w-screen">
+        <div className="bg-indigo-950 w-screen">
         <Navbar page={false}/>
   <hr className='bg-white border-3'/>
   <Header />

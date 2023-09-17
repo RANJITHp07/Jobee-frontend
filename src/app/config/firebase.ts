@@ -25,7 +25,6 @@ export const signInnWithGooogle = async () => {
       email: result.user.email,
       password: "signin with google"
     };
-    console.log(data);
     return data;
   } catch (err) {
     console.error(err);

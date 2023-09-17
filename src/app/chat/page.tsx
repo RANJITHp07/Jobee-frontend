@@ -120,7 +120,7 @@ function Page() {
   }
 
   useEffect(() => {
-    socket.current = io('ws://localhost:6005');
+    socket.current = io('ws://www.jobeee.website');
     socket.current.on('getMessage', (data) => {
       setArrivalMessage({
         sender: data.senderId,
