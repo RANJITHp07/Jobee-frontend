@@ -150,7 +150,7 @@ function Navbar({page}:{page:boolean}) {
     </Badge>
    
     <Dropdown menu={{ items }} placement="bottom" arrow>
-    <Image src={'/person.jpg'} width={40} height={40} alt="profile" className='rounded-full ml-5'/>
+    <Image src={'/profile-logo.jpg'} width={40} height={40} alt="profile" className='rounded-full ml-5'/>
     </Dropdown>
     <Modal title="Notification" footer={null} open={model} onOk={()=>openmodel(false)} onCancel={()=>openmodel(false)}>
      {

@@ -202,7 +202,7 @@ function Header() {
         <div className="fixed bottom-4 right-4 z-50">
           {
             ! isIframeVisible && <Image
-            src={"/robo.avif"}
+            src={"/dialog_flow.jpg"}
             width={100}
             height={100}
             alt="Toggle Image"
