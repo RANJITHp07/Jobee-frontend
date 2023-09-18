@@ -183,7 +183,7 @@ function Header() {
           
          </div>
          <div className='w-1/2'>
-           <Image src={'/job portal.webp'} width={650} height={200} alt="phoneHeader"  />
+           <Image src={'/job_portal.png'} width={700} height={250} alt="phoneHeader"  />
          </div> 
          
          <div className="fixed bottom-4 right-4 z-50">

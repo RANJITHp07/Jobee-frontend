@@ -36,50 +36,50 @@ export default function App() {
         className="mySwiper"
       >
         
-        <SwiperSlide>
-          <div className='p-5 w-44 box_shadow md:w-56 lg:w-72 my-3  rounded-xl '>
+        <SwiperSlide className='companies'>
+  <div className='box_shadow my-3  p-5 '>
+    <Image src={'/background.png'} width={200} height={200} alt='photo' className='mt-5' />
+    <p className='font-extrabold text-indigo-950 text-center mt-3'>Intech Spark</p>
+    <p className='text-center text-slate-500 mb-5'>Start Up</p>
+  </div>
+</SwiperSlide >
+        <SwiperSlide className='companies'>
+          <div className='  box_shadow p-5   my-3 '>
             <Image src={'/background.png'} width={200} height={200} alt='photo' className='mt-5 '/>
             <p className='font-extrabold text-indigo-950 text-center mt-3'>Intech Spark</p>
             <p className='text-center text-slate-500 mb-5'>Start Up</p>
           </div>
         </SwiperSlide>
-        <SwiperSlide>
-          <div className='p-5 w-44 box_shadow md:w-56 lg:w-72 my-3 rounded-xl'>
+        <SwiperSlide className='companies'>
+          <div className='  box_shadow   p-5  my-3'>
             <Image src={'/background.png'} width={200} height={200} alt='photo' className='mt-5 '/>
             <p className='font-extrabold text-indigo-950 text-center mt-3'>Intech Spark</p>
             <p className='text-center text-slate-500 mb-5'>Start Up</p>
           </div>
         </SwiperSlide>
-        <SwiperSlide>
-          <div className='p-5 w-44 box_shadow md:w-56 lg:w-72 my-3'>
+        <SwiperSlide className='companies'>
+          <div className='  box_shadow   p-5  my-3'>
             <Image src={'/background.png'} width={200} height={200} alt='photo' className='mt-5 '/>
             <p className='font-extrabold text-indigo-950 text-center mt-3'>Intech Spark</p>
             <p className='text-center text-slate-500 mb-5'>Start Up</p>
           </div>
         </SwiperSlide>
-        <SwiperSlide>
-          <div className='p-5 w-44 box_shadow md:w-56 lg:w-72 my-3'>
+        <SwiperSlide className='companies'>
+          <div className='  box_shadow   my-3'>
             <Image src={'/background.png'} width={200} height={200} alt='photo' className='mt-5 '/>
             <p className='font-extrabold text-indigo-950 text-center mt-3'>Intech Spark</p>
             <p className='text-center text-slate-500 mb-5'>Start Up</p>
           </div>
         </SwiperSlide>
-        <SwiperSlide>
-          <div className='p-5 w-44 box_shadow md:w-56 lg:w-72 my-3'>
+        <SwiperSlide className='companies'>
+          <div className='  box_shadow   my-3'>
             <Image src={'/background.png'} width={200} height={200} alt='photo' className='mt-5 '/>
             <p className='font-extrabold text-indigo-950 text-center mt-3'>Intech Spark</p>
             <p className='text-center text-slate-500 mb-5'>Start Up</p>
           </div>
         </SwiperSlide>
-        <SwiperSlide>
-          <div className='p-5 w-44 box_shadow md:w-56 lg:w-72 my-3'>
-            <Image src={'/background.png'} width={200} height={200} alt='photo' className='mt-5 '/>
-            <p className='font-extrabold text-indigo-950 text-center mt-3'>Intech Spark</p>
-            <p className='text-center text-slate-500 mb-5'>Start Up</p>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className='p-5 w-44 box_shadow md:w-56 lg:w-72 my-3'>
+        <SwiperSlide className='companies'>
+          <div className='  box_shadow   my-3'>
             <Image src={'/background.png'} width={200} height={200} alt='photo' className='mt-5 '/>
             <p className='font-extrabold text-indigo-950 text-center mt-3'>Intech Spark</p>
             <p className='text-center text-slate-500 mb-5'>Start Up</p>

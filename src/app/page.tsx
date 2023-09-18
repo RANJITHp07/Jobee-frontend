@@ -41,12 +41,12 @@ export default function Home() {
         </div>
       { loading? <LoadinPage/> : <>
       <div>
-        <div className="bg-indigo-950 w-screen">
+        <div className="bg-[url('/background.png')] bg-no-repeat bg-cover w-screen">
         <Navbar page={false}/>
   <hr className='bg-white border-3'/>
   <Header />
         </div >
-        <div className='my-12'  data-aos="fade-left" data-aos-delay="500" data-aos-duration="800">
+        <div className='my-12'  data-aos="fade-right" data-aos-delay="500" data-aos-duration="800">
         <p className='text-indigo-950 text-center font-extrabold text-xl'>CATEGORY</p>
         <p className='text-center text-sm mx-3 mb-12 text-slate-500 md:text-xl md:mx-5 md:font-semibold'>Experience the enchantment of our captivating selection in the category we provide</p>
            <Slider/>

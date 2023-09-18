@@ -38,11 +38,12 @@ function Form({ page }: { page: boolean }) {
   }, []);
 
   return (
-    <div className="md:flex md:my-20 md:mx-16 lg:mx-64">
+    <div className="md:flex md:my-20 md:mx-16 lg:mx-32">
       <div className="grid place-content-center md:hidden">
         <Image src={'/signinProfile.jpg'} width={300} height={300} alt="Signin Profile" />
       </div>
-      <div className="grid place-content-center w-full md:justify-start md:ml-5 lg:grid lg:place-content-center">
+      <div className="grid place-content-center w-screen md:justify-start md:ml-5 lg:grid lg:place-content-center">
+        <form>
         {page && (
           <div className="mb-4 md:mb-1 w-full">
             <label htmlFor="username" className="block text-sm font-medium text-gray-700">
@@ -82,8 +83,8 @@ function Form({ page }: { page: boolean }) {
               className="mt-1 pr-5 block w-full p-3 border-2 border-gray-400 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               ref={role}
             >
-              <option value="employer">Employer</option>
-              <option value="recruiter">Recruiter</option>
+              <option value="employer">Job Seeker</option>
+              <option value="recruiter">Employee</option>
             </select>
           </div>
         )}
@@ -150,7 +151,7 @@ function Form({ page }: { page: boolean }) {
             {loading ? <CircularProgress /> : 'Login'}
           </button>
         )}
-
+         </form>
         {page ? (
           <>
             <p className="mt-3 md:text-sm">
@@ -174,7 +175,7 @@ function Form({ page }: { page: boolean }) {
         )}
       </div>
       <div>
-        <Image src={'/log.png'} width={1000} height={1000} alt="Signin Profile" className="hidden md:block" />
+        <Image src={'/loginn.jpg'} width={1000} height={1000} alt="Signin Profile" className="hidden md:block" />
       </div>
       <Modal title="Otp verification" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         <div className="flex">

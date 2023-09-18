@@ -7,6 +7,7 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata = {
   title: 'Jobee',
   description: 'It is a job portal',
+  image:"/l"
 }
 
 export default function RootLayout({
