@@ -1,5 +1,5 @@
 'use client'
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, FormEventHandler, MouseEventHandler } from 'react';
 import { useRouter } from 'next/navigation';
 import { message } from 'antd';
 import {auth,signInnWithGooogle} from "../config/firebase"
@@ -106,21 +106,14 @@ const useForm = ({ page }: UseFormProps) => {
   }
  
   // this will redirect to the otp entering page on entering the details of the user
-  const handleClick = async () => {
+  const handleClick = async (e:React.FormEvent<HTMLFormElement>) => {
     try {
-      if (!(
-          password.current?.value.length &&
-          email.current?.value.length &&
-          username.current?.value.length &&
-          confirm_password.current?.value.length)
-      ) {
-        message.error('Enter all the input fields');
-      } else {
-        if(password.current && password.current?.value.length<8){
-          message.error("Minimum length should be 8")
-          return
-        }
-        if (password.current?.value === confirm_password.current?.value) {
+       e.preventDefault()
+      if( password.current && password.current.value.length<8){
+        password.current.setCustomValidity("Password must be at least 8 words")
+        return 
+      }
+        if (password.current?.value === confirm_password.current?.value && email.current && username.current) {
           setLoading(true)
           const res=await sendEmail(email?.current.value,username.current.value);
           
@@ -132,11 +125,11 @@ const useForm = ({ page }: UseFormProps) => {
           
          
         } else {
-          message.error('Password not matching');
+          confirm_password.current && confirm_password.current.setCustomValidity("Password not matching")
           setLoading(false);
         }
       }
-    } catch (err) {
+    catch (err) {
       
       message.error("Error in the input field")
       console.log(err);
@@ -147,9 +140,9 @@ const useForm = ({ page }: UseFormProps) => {
   };
 
   // helps to login with email and password and redirects to the homepage
-  const handleLogin=async ()=>{
+  const handleLogin=async (e:React.FormEvent<HTMLFormElement>)=>{
     try{
-     
+      e.preventDefault()
         setLoading(true);
         const newUser={
           email:email.current?.value,
@@ -161,11 +154,10 @@ const useForm = ({ page }: UseFormProps) => {
           localStorage.setItem("token",JSON.stringify(res.data))
            if(res?.data.user.role==="recruiter"){
             router.push("/company");
-            setLoading(false) 
+            
            }else{
             await createProfile(userId,res.data.user.token)
             router.push("/");
-            setLoading(false)
            }
         }
         else{
@@ -182,25 +174,30 @@ const useForm = ({ page }: UseFormProps) => {
 
 //to handle the forgetpassword if the user forgets and the user gets an otp and 
 //if it is verified then the user can change the password
-const handleforgetPssword=async(name:string)=>{
+const handleforgetPssword=async( e:React.MouseEvent<HTMLButtonElement>)=>{
+  e.preventDefault()
+ 
     try{
-      if(email.current && name){
-        const res=await sendEmail(email?.current.value,name);
+      if( email.current && email.current.value){
+        
+        const res=await sendEmail(email?.current.value,'User');
         if(res.data=="Email sent"){
           message.success(res.data)
           setLoading(false);
           setIsModalOpen(true);
 
         }
-    
       }
       else{
+        email.current && email.current.setCustomValidity("Enter the email")
         message.info("Enter the email")
       }
       
     }catch(err){
+      email.current && email.current.setCustomValidity("Enter the email")
       console.log(err)
-      message.error("Wrong Email")
+      
+      
     }
 }
  
@@ -210,13 +207,15 @@ const handleOk = async() => {
     if(username.current){
    if(email.current){
     const res=await emailVerification(email.current?.value,OTP)
-   
+    
    if(res.data==='Successfully logged in'){
+    let r
+    role.current?.value==="JobSeeker"? r="recruiter":r="employer"
     const user: FormValues = {
       username: username.current?.value,
       email: email.current?.value,
       password: password.current?.value,
-      role: role.current?.value,
+      role: r,
     };
     const p= await signin(user)
     if(p?.data==="Saved sucessfully"){

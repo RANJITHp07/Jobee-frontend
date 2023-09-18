@@ -3,7 +3,7 @@ import React, { ChangeEvent, useEffect } from 'react';
 import Image from 'next/image';
 import { CircularProgress } from '@mui/material';
 import useForm from '../hooks/signinHook';
-import { Button, Modal } from 'antd';
+import { Modal } from 'antd';
 import { useAppSelector } from '@/redux/store';
 import { useRouter } from 'next/navigation';
 
@@ -39,11 +39,11 @@ function Form({ page }: { page: boolean }) {
 
   return (
     <div className="md:flex md:my-20 md:mx-16 lg:mx-32">
-      <div className="grid place-content-center md:hidden">
-        <Image src={'/signinProfile.jpg'} width={300} height={300} alt="Signin Profile" />
+      <div className="grid place-content-center md:hidden my-5">
+        <Image src={'/loginn.jpg'} width={300} height={300} alt="Signin Profile" />
       </div>
       <div className="grid place-content-center w-screen md:justify-start md:ml-5 lg:grid lg:place-content-center">
-        <form>
+        <form onSubmit={ page ? handleClick : handleLogin}>
         {page && (
           <div className="mb-4 md:mb-1 w-full">
             <label htmlFor="username" className="block text-sm font-medium text-gray-700">
@@ -83,7 +83,7 @@ function Form({ page }: { page: boolean }) {
               className="mt-1 pr-5 block w-full p-3 border-2 border-gray-400 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               ref={role}
             >
-              <option value="employer">Job Seeker</option>
+              <option value="employer">JobSeeker</option>
               <option value="recruiter">Employee</option>
             </select>
           </div>
@@ -102,14 +102,12 @@ function Form({ page }: { page: boolean }) {
             required
           />
           {!page && (
-            <p
+            <button
               className="mt-2 text-blue-400 text-sm cursor-pointer"
-              onClick={() => {
-                handleforgetPssword('User');
-              }}
+              onClick={  handleforgetPssword }
             >
               Forget password?
-            </p>
+            </button>
           )}
         </div>
         {page && (
@@ -129,7 +127,7 @@ function Form({ page }: { page: boolean }) {
         )}
         <button
           type="button"
-          className="login-with-google-btn my-3"
+          className="login-with-google-btn my-3 w-full"
           onClick={page ? signInnWithgoogle : signinwithLogin}
         >
           Sign in with Google
@@ -137,7 +135,6 @@ function Form({ page }: { page: boolean }) {
         {page ? (
           <button
             type="submit"
-            onClick={handleClick}
             className="w-full px-4 py-2 text-base md:p-2 lg:p-3   font-semibold text-white bg-indigo-950 rounded-md hover:bg-indigo-700"
           >
             {loading ? <CircularProgress /> : 'Submit'}
@@ -145,7 +142,6 @@ function Form({ page }: { page: boolean }) {
         ) : (
           <button
             type="submit"
-            onClick={handleLogin}
             className="w-full px-4 py-2 text-base md:p-2 lg:p-3  mt-3  font-semibold text-white bg-indigo-950 rounded-md hover:bg-indigo-700"
           >
             {loading ? <CircularProgress /> : 'Login'}
