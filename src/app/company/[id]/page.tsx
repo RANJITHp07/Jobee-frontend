@@ -1,5 +1,5 @@
 'use client'
-import { getCompany} from '@/api/company';
+import { getCompany, getPhoto} from '@/api/company';
 import Image from 'next/image';
 import dynamic from "next/dynamic"
 import Navbar from '@/app/components/navbar'
@@ -18,6 +18,7 @@ const ReviewPage = dynamic(() => import('@/app/components/reviewPage'), {
 
 function page({ params }: { params: { id: string } }) {
 
+   const [url,seturl]=useState<string>('')
     const [showFilter, setShowFilter] = useState(false);
     const [jobs,setjobs]=useState([]);
     const [loading,setloading]=useState(true)
@@ -64,6 +65,18 @@ function page({ params }: { params: { id: string } }) {
       fetchData();
     },[])
 
+    useEffect(()=>{
+      const fetchData=async()=>{
+        if(company){
+          const response=await getPhoto(company.logo)
+          console.log(response.data)
+          seturl(response.data)
+        }
+       
+      }
+      fetchData()
+      
+    },[company])
     
 
   return (
@@ -86,11 +99,11 @@ function page({ params }: { params: { id: string } }) {
             <div className="md:flex mt-5 mb-3  p-3 m-1 box_shadow rounded-lg   lg:w-10/12 mx-auto">
             {company && (<>
          <div className="grid place-content-center">
-            <Image src={company.logo} width={200} height={200} alt="photo" />
+            <Image src={url} width={200} height={200} alt="photo" />
           </div>
           <div className="mx-5 mt-3">
               <p><span className='font-bold text-slate-800'>Name:</span> {company.companyId.username}</p>
-              <p><span className='font-bold text-slate-800'>Website:</span> {company.website}</p>
+              <p><span className='font-bold text-slate-800'>Website:</span><a href={ `http://${company.website}`} target="_blank" className='hover:text-blue-400 cursor-pointer'> {company.website}</a></p>
             <p><span className='font-bold text-slate-800'>Location:</span> {company.location}</p>
             </div>
         </> 

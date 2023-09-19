@@ -2,9 +2,12 @@
 import React, { useState,useEffect } from 'react'
 import Image from 'next/image'
 import { Steps } from 'antd';
+import { getPhoto } from '@/api/company';
 
 function Jobstatus({job,status}:{job:any,status:any[]}) {
   const[number,setnumber]=useState(0)
+  const[url,seturl]=useState('')
+
   useEffect(()=>{
     const user= status.find((id)=>job._id===id._id)
     if(user){
@@ -15,6 +18,17 @@ function Jobstatus({job,status}:{job:any,status:any[]}) {
       } 
     }
   },[])
+
+  useEffect(()=>{
+    const fetchData=async()=>{
+      const response=await getPhoto(job.company.logo)
+    console.log(response.data)
+    seturl(response.data)
+    }
+    fetchData()
+    
+  },[])
+
   return (
     <div className='mx-5 md:mx-20 box_shadow  p-5 rounded-lg'>
     <div className=' flex justify-between' onClick={()=>{}}>
@@ -26,7 +40,7 @@ function Jobstatus({job,status}:{job:any,status:any[]}) {
                        
                        </div>
                        <div>
-                        <Image src={`http://localhost:5443/logo/${job.company.logo}`} width={100} height={100} alt='photo'/>
+                        <Image src={url} width={100} height={100} alt='photo'/>
                         </div>
                         
                     </div>

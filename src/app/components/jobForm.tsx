@@ -12,7 +12,7 @@ import { useSearchParams } from 'next/navigation';
 function JobForm() {
    
   const searchParams = useSearchParams()
-  const param=searchParams.get("job")
+  const param=searchParams.get("update")
   const [job,setjob]=useState<any>()
     const [skills, setSkills] = useState<string[]>([]);
   const [skillInput, setSkillInput] = useState('');
@@ -27,6 +27,7 @@ function JobForm() {
   const city=useRef<HTMLInputElement>(null);
   const state=useRef<HTMLInputElement>(null);
   const country=useRef<HTMLInputElement>(null);
+  
   const router=useRouter()
 
 
@@ -37,9 +38,18 @@ function JobForm() {
      const fetchData=async ()=>{
       try{
         if(param){
+         
           const res=await getJobapplication(param)
+          console.log(res.data)
           setSkills(res.data.skills)
           setjob(res.data)
+          let location=res.data.location.split(',')
+          if(city.current && state.current && country.current){
+            city.current.value=location[0];
+            state.current.value=location[1]
+            country.current.value=location[2];
+          } 
+         
 
         }
       }catch(err){
@@ -74,6 +84,7 @@ function JobForm() {
               salary:salaryFrom.current?.value&&salaryTo.current?.value ? [parseInt(salaryFrom.current?.value),parseInt(salaryTo.current?.value)] : [0,0],
               education:education.current?.value,
                workmode:workMode.current?.value,
+               location:city.current?.value+","+state.current?.value+","+country.current?.value,
                skills:skills,
                
            }

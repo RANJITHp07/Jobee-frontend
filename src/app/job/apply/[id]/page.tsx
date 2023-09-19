@@ -11,6 +11,7 @@ import LoadinPage from '@/app/components/loadinPage'
 import { getUser } from '@/api/job'
 import { getShortlist, getView, getapplicant, shortlistusers, statusShortlist } from '@/api/user'
 import { useAppSelector } from '@/redux/store'
+import { getPhoto } from '@/api/company'
 
 function Page({params}:{params:{id:string}}) {
   const token=useAppSelector((state)=>state.authReducer.value.token)
@@ -23,6 +24,7 @@ function Page({params}:{params:{id:string}}) {
   const [view,setview]=useState(false)
   const [state,setstate]=useState(false)
   const [job,setjob]=useState()
+  const [url,setImageUrl]=useState<any>([])
   const router=useRouter()
 
   useEffect(()=>{
@@ -57,6 +59,7 @@ function Page({params}:{params:{id:string}}) {
           const res=await getapplicant(params.id,token)
        
           res?.data ? setusers(res.data.applications) :setusers([])
+          console.log(res?.data.application)
         }
       }
     }
@@ -126,6 +129,32 @@ function Page({params}:{params:{id:string}}) {
       throw err
      }
   }
+
+  useEffect(() => {
+    const fetchMessageUrls = async () => {
+        const imageUrlPromises = users.map(async (p:any) => {
+          
+          if(p._id.photo!==''){
+           
+            let res= await getPhoto(p._id.photo);
+            return res?.data
+          }else{
+            return "/profile-logo.jpg"
+          }
+          
+          
+        
+      });
+      const resolvedUrls = await Promise.all(imageUrlPromises);
+      console.log(resolvedUrls)
+      setImageUrl(resolvedUrls);
+    };
+  
+    fetchMessageUrls();
+      
+      
+  }, [users]);
+
   return (
     <div >
         <div className="hidden">
@@ -216,7 +245,7 @@ function Page({params}:{params:{id:string}}) {
            
            </div>
              {
-               users.length>0  ? users.map((p:any)=>{
+               users.length>0  ? users.map((p:any,index:number)=>{
                   return (
                        <div className='box_shadow p-3  lg:m-5 my-5  rounded-lg lg:w-full '>
                        {
@@ -227,7 +256,7 @@ function Page({params}:{params:{id:string}}) {
                         
                          <div className='md:flex'>
                           <div className='grid place-content-center my-auto rounded-lg'>
-                            <Image src={p._id.photo!='' ? p._id.photo:"/person.jpg"} width={200} height={200} alt="photo" className="rounded-lg"/>
+                            <Image src={url[index]} width={200} height={200} alt="photo" className="rounded-lg"/>
                             </div>
                             <div className='cursor-pointer mx-5 my-2 ' onClick={()=>{router.push(`/applicant/${p._id.userId._id}`)}}>
                               <div>

@@ -19,7 +19,7 @@ function Users({setShowFilter,userId,setid,setrecieverId,setusername}:{setShowFi
     async function fetchData(){
       try{
          if(userId){
-          console.log(userId)
+          
           const res=await getConvo(userId,token)
              console.log(res.data[0].members.length)
             res.data.length>0 && setid(res.data[0]._id)
@@ -35,7 +35,7 @@ function Users({setShowFilter,userId,setid,setrecieverId,setusername}:{setShowFi
   },[userId])
 
   return (
-    <div className="w-3/4 md:w-1/2 bg-white h-screen   lg:w-full lg:border-2 border-slate-200">
+    <div className="w-3/4 md:w-1/2 bg-white h-screen   lg:w-full lg:border-r-2 border-slate-200">
         <div className='flex justify-end m-2 lg:hidden'>
         <CloseIcon onClick={()=>{setShowFilter(false)}}/>
         </div>
@@ -47,7 +47,7 @@ function Users({setShowFilter,userId,setid,setrecieverId,setusername}:{setShowFi
         {
             users.length >0 ?users.map((p:any)=>{
                 return(<>
-        <div className='mx-5 my-4 flex items-center cursor-pointer hover:bg-slate-100' onClick={()=>{
+        <div className='mx-5 my-4 flex items-center cursor-pointer hover:bg-slate-100 hover:p-2 hover:rounded-lg' onClick={()=>{
           setid(p._id)
           setrecieverId(p.members[0]._id===userId ? p.members[1]._id :p.members[0]._id)
           setusername(p.members[0]._id===userId ? p.members[1].username :p.members[0].username)

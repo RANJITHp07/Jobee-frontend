@@ -6,7 +6,7 @@ const getHeaders = (token:string) => ({
    },
 });
 
-export const uploadlogo=async(file:FormData,token:string)=>{
+export const uploadlogo=async(file:FormData)=>{
     try{
         const res=await axios.post(`http://www.jobeee.website/v1/api/upload?category=''`,file)
         return res

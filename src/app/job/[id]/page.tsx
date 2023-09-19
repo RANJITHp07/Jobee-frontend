@@ -91,6 +91,7 @@ const [loading,setloading]=useState(true)
         </div>
           
         </div>
+        <div className='hidden md:block'>
         {
             mutual.map((s:string)=>{
               return (
@@ -103,6 +104,7 @@ const [loading,setloading]=useState(true)
               )
             })
           }
+          </div>
       </div>
       </div>
       <div className='lg:w-1/2 p-5'>

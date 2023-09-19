@@ -3,7 +3,7 @@ import React, { ChangeEvent, useEffect, useState } from 'react'
 import Image from "next/image"
 import Navbar from '../components/navbar'
 import { useRouter } from 'next/navigation'
-import { Searchcomapny} from '@/api/company'
+import { Searchcomapny, getPhoto} from '@/api/company'
 import { AutoComplete, Input } from 'antd';
 import { Pagination } from 'antd';
 import CompanyFilter from '../components/companyFilter'
@@ -14,6 +14,7 @@ import StarIcon from '@mui/icons-material/Star';
 function page() {
 
     const [comapnies,setcomapnies]=useState<any>([])
+    const [url,setImageUrl]=useState<any>([])
     const[items,setitems]=useState<any>([])
     const [search,setsearch]=useState<string>('')
     const[pagination,setpagination]=useState(1)
@@ -50,6 +51,27 @@ function page() {
     setsearch(value); 
   
   };
+
+
+  useEffect(() => {
+    const fetchMessageUrls = async () => {
+      
+        const imageUrlPromises = comapnies.map(async (p:any) => {
+           const res= await getPhoto(p.logo);
+          return res.data
+          
+        
+      });
+  
+      const resolvedUrls = await Promise.all(imageUrlPromises);
+      
+      setImageUrl(resolvedUrls);
+    };
+  
+    fetchMessageUrls();
+      
+      
+  }, [comapnies]);
 
   return (
 
@@ -88,11 +110,11 @@ function page() {
     </div>
         
         {
-          comapnies.length>0 ? comapnies.slice(pagination * 4 - 4, pagination * 4).map((p:any)=>{
+          comapnies.length>0 ? comapnies.slice(pagination * 4 - 4, pagination * 4).map((p:any,index:number)=>{
                 return <div className="box_shadow mx-3  md:mx-5 my-5 rounded-lg p-2 cursor-pointer" onClick={()=>router.push(`/company/${p._id}`)}>
                     <div className="md:flex">
                         <div className="grid place-content-center">
-                        <Image src={p.logo} width={200} height={200} alt=''/>
+                        <Image src={url[index*pagination]} width={200} height={200} alt=''/>
                         </div>
                         
                         

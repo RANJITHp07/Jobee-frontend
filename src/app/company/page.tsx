@@ -6,7 +6,7 @@ import { useAppSelector } from '@/redux/store';
 import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '../components/navbar';
-import {getCompany} from '@/api/company';
+import {getCompany, getPhoto} from '@/api/company';
 import AddIcon from '@mui/icons-material/Add';
 import Footer from '../components/footer';
 import { useDispatch } from 'react-redux';
@@ -30,10 +30,23 @@ function Page() {
   const { confirm } = Modal;
   const [jobs,setjobs]=useState([]);
   const [showFilter, setShowFilter] = useState(false);
+  const [url,seturl]=useState<string>('')
   const [isModalOpen, setIsModalOpen] = useState(false);
 
 
 
+  useEffect(()=>{
+    const fetchData=async()=>{
+      if(company){
+        const response=await getPhoto(company.logo)
+        console.log(response.data)
+        seturl(response.data)
+      }
+     
+    }
+    fetchData()
+    
+  },[company])
 
   const showDeleteConfirm = (id:string) => {
     confirm({
@@ -62,16 +75,27 @@ function Page() {
  
   const router = useRouter();
 
-
+ // job listing page
   const jobListings = useMemo(() => (
     <div className='box_shadow rounded-lg p-3  lg:w-10/12 lg:mx-auto mt-12 lg:1/4' id='job'>
         <p className='font-bold text-slate-500'>JOBS</p>
         <hr />
         {jobs.map((p: any) => (
-            <div key={p._id} className='my-3 cursor-pointer' onClick={() => { router.push(`/job/apply/${p._id}`) }}>
+          <>
+            <div key={p._id} className='my-3 cursor-pointer flex justify-between'>
+              <div onClick={() => { router.push(`/job/apply/${p._id}`) }}>
                 <p>Role: {p.role}</p>
                 <p>Location: {p.location}</p>
+                
+                </div>
+                <div className='flex text-xs'>
+                  <DeleteIcon className='mx-3 text-md cursor-pointer' onClick={()=>showDeleteConfirm(p._id)}/>
+                  <ModeEditOutlineIcon className='cursor-pointer' onClick={()=>router.push(`/job/form?update=${p._id}`)}/>
+                </div>
+                
             </div>
+            <hr className="my-3"/>
+            </>
         ))}
     </div>
 ), [jobs, router]);
@@ -158,7 +182,7 @@ function Page() {
         
         {company && (<>
          <div className="grid place-content-center">
-            <Image src={'/logo.png'} width={200} height={200} alt="photo" />
+            <Image src={url} width={200} height={200} alt="photo" />
           </div>
           <div className="mx-5 mt-3">
               <p><span className='font-bold text-slate-800'>Name:</span> {company.companyId.username}</p>

@@ -15,6 +15,7 @@ import { Modal } from 'antd';
 import VideoCameraBackIcon from '@mui/icons-material/VideoCameraBack';
 import { upload } from '@/api/user';
 import { chatMessage, sendMessage, uploadmedia } from '@/api/chat';
+import { uploadlogo } from '@/api/company';
 
 
 function Page() {
@@ -36,8 +37,13 @@ function Page() {
   const [showEmojii,setshowemojii]=useState(false)
   const [online,getonline]=useState([])
   const [username,setusername]=useState('')
+  const [vedio,setvedio]=useState(false)
+   const [isModelOpen,setIsModalOpen]=useState(false)
+   const [file,setfile]=useState<File | null>(null)
   const [randomNumber, setRandomNumber] = useState<number | null>(null);
+  const [typingTimeout, settypingTimeout] = useState<any>(null);
 
+  //to add emojii
   const addEmoji = (e:any) => {
     const sym = e.unified.split("_");
     const codeArray:any = [];
@@ -46,14 +52,16 @@ function Page() {
     setNewMessage((prev)=>prev+emoji)
   };
 
+  //to generate a random number
   const generateRandomNumber = (min: number, max: number) => {
     const randomValue = Math.random() * (max - min) + min;
     const roundedRandomNumber = Math.floor(randomValue) * 1000;
     return roundedRandomNumber;
   };
 
-  const [typingTimeout, settypingTimeout] = useState<any>(null);
+  
 
+  //to handle the typing
   function handleInput(e: ChangeEvent<HTMLInputElement>) {
     if (socket.current) {
       setNewMessage(e.target.value);
@@ -69,6 +77,7 @@ function Page() {
     }
   }
 
+  //to send the message
   const handleSendmessage = async () => {
     try {
       if (newMessage.trim() !== '' && socket.current && id) {
@@ -88,37 +97,64 @@ function Page() {
     }
   }
 
-  const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    try {
-      if (e.target.files && socket.current) {
-        const uploadedFile = e.target.files[0];
-        const fileExtension = uploadedFile.name.split('.').pop(); 
-        let text
-        
-        const formData = new FormData();
-        formData.append('file', e.target.files[0]);
-        const response = await upload('chat', formData,token);
-        console.log(response.data);
-        if(fileExtension==='pdf'){
-          text={
-            type:'pdf',
-            text:response.data
-          }
-      } else{
-        text={
-          type:'image',
-          text:response.data
-        }
-      }
-        id && await uploadmedia(id,userId,text,token)
-        setImage(response.data);
-        socket.current.emit('sendMessage', { senderId: userId, receiverId: receiverId, text: response.data });
-      }
-    } catch (err) {
-      throw err;
-    }
-  }
+  const handlePhoto=(e:ChangeEvent<HTMLInputElement>)=>{
+    try{
+      if(e.target.files){
 
+      
+      const selectedFile =e.target.files[0] as File
+      console.log(selectedFile)
+
+      setfile(e.target.files[0] as File) 
+      
+      if (selectedFile) {
+        setIsModalOpen(true)
+        if (selectedFile.type.startsWith('video')) {
+          if (selectedFile.size > 10 * 1024 * 1024) {
+            setfile(null)
+            message.info('Video size exceeds 10MB limit.');
+            return;
+          }else{
+             setvedio(true)
+          }
+    };
+  }
+       } }catch(err){
+        throw err
+       }
+      
+    }
+
+    //to handle upload
+    const handleUpload=async()=>{
+      const formData = new FormData();
+      
+      if(file){
+        formData.append('file', file);
+        const response=await uploadlogo(formData);
+        id && await sendMessage(
+          id,userId,'chat',response.data,token
+      )
+      if(socket.current){
+        socket?.current.emit('sendMessage', { senderId: userId, receiverId:receiverId , text:response.data });
+      
+        setNewMessage('');
+        setMessage((prev:any)=>[...prev,{
+          conversationId:id,
+          sender:userId,
+          text:response.data,
+          type:vedio ?"vedio" :"photo"
+       }])
+      }
+      
+     
+      }
+       
+    setIsModalOpen(false)
+    }
+
+
+    //to accept the incoming
   useEffect(() => {
     socket.current = io('ws://www.jobeee.website');
     socket.current.on('getMessage', (data) => {
@@ -212,7 +248,7 @@ function Page() {
         </div>
       )}
       <div className="lg:flex bg-[url('/wallpaper.jpg')] w-screen">
-        <div className="hidden lg:block lg:w-1/4">
+        <div className="hidden lg:block lg:w-1/4 h-1/2">
           <Users setShowFilter={setShowFilter} userId={userId} setid={setId} setrecieverId={setReceiverId}  setusername={setusername}/>
         </div>
         <button
@@ -221,22 +257,22 @@ function Page() {
         >
           Users
         </button>
-        <div className="w-screen">
+        <div className="w-screen ">
         
        
-          <div className="message-container relative overflow-scroll-y m-3">
+          <div className="overflow-y-auto h-screen lg:h-full m-3">
             
             {message.map((p: any, index: number) => (
               <div
                 key={index}
                 className={`message ${
-                  p.sender === userId ? 'justify-end' : 'justify-start w-1/2'
+                  p.sender === userId ? 'justify-end ' : 'justify-start w-1/2'
                 }`}
               >
                 {p.text.type === 'chat' ? (
-                  <div className={p.sender === userId ? 'flex justify-end' : 'flex justify-start w-1/2'}>
+                  <div className={p.sender === userId ? 'flex justify-end ' : 'flex justify-start '}>
                     
-                  <div className="bg-indigo-950 text-white text-sm rounded-lg p-3 my-5 ">
+                  <div className= {p.text.text.length >50 ? "bg-indigo-950 text-white text-sm rounded-lg p-3 my-5 w-1/2" : "bg-indigo-950 text-white text-sm rounded-lg p-3 my-5 "}>
                     <p className=" text-white text-sm rounded-lg inline p-3">{p.text.text}</p>
                   
                   </div>
@@ -267,6 +303,7 @@ function Page() {
                    </>
                 
                 )}
+                <div ref={scrollRef}></div> 
               </div>
             ))}
             {typing && (
@@ -275,8 +312,14 @@ function Page() {
               </p>
             )}
           </div>
-         
-          <div className=" position absolute bottom-0  rounded-full box_shadow p-3 w-11/12 lg:w-8/12 ml-3 md:ml-7 lg:ml-20 bg-white">
+          <Modal  open={isModelOpen} footer={null} onCancel={()=>{setIsModalOpen(false)}}>
+            {
+               vedio ?(file && <video src={URL.createObjectURL(file)} controls  className='my-3 h-96 w-full'/>) :
+                (file && <img src={URL.createObjectURL(file)} alt='img' className='my-3 h-96 w-96 mx-auto'/>)
+              }
+              <button className='p-2 w-full bg-blue-500 text-white' onClick={()=>handleUpload()}>Send</button>
+            </Modal>
+          <div className=" rounded-full box_shadow p-3 w-11/12 lg:w-11/12 ml-3 md:ml-7  mx-auto my-3 bg-white">
          {
            showEmojii && 
            <div className=" absolute bottom-16">
@@ -302,7 +345,7 @@ function Page() {
                   type="file"
                   id="file"
                   className="hidden"
-                  onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(e)}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => handlePhoto(e)}
                 />
                 <label htmlFor="file" className="cursor-pointer  right-0">
                   <AttachFileIcon className="-rotate-45 mx-3" id="file" />

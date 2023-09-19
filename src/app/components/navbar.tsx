@@ -13,7 +13,6 @@ import { Dropdown} from 'antd';
 import {useRouter} from 'next/navigation';
 import { logOut } from '@/redux/features/auth-slice';
 import { useAppSelector } from '@/redux/store';
-import { AutoComplete } from 'antd';
 import 'aos/dist/aos.css';
 import AOS from 'aos'
 import {Modal} from 'antd'
@@ -21,6 +20,7 @@ import ProfileMenu from './profileMenu';
 import { getRoles } from '@/api/job';
 import { chatNotification, deleteAllNotification } from '@/api/chat';
 import { loadingItems } from '@/redux/features/loading-slice';
+import SearchIcon from '@mui/icons-material/Search';
 
 
  
@@ -33,6 +33,8 @@ function Navbar({page}:{page:boolean}) {
   const [token,setToken]=useState<any>({})
   const [notification,setnotification]=useState([])
   const [model,openmodel]=useState(false)
+  const [state,setstate]=useState(false)
+  const [filter,setfilter]=useState<string[]>([])
   const router=useRouter()
   const dispatch=useDispatch<AppDispatch>()
 
@@ -86,9 +88,8 @@ function Navbar({page}:{page:boolean}) {
   useEffect(()=>{
     const fetchData=async()=>{
       const res=await getRoles()
-      const r=res.data.map((m:string)=>({value:m}))
-      console.log(r)
-      setroles(r)
+     
+      setroles(res.data)
       
     }
     fetchData()
@@ -112,6 +113,30 @@ function Navbar({page}:{page:boolean}) {
     }
   }, [model]);
 
+  //filter
+
+  const handleChange=(e:ChangeEvent<HTMLInputElement>)=>{
+    try{
+      if(e.target.value.length!=0 && filter.length>0){
+        setstate(true)
+       
+       const newFilter = roles.filter((value:string) => {
+         return value.toLowerCase().includes(e.target.value.toLowerCase());
+       });
+       setfilter(newFilter)
+      }
+      else if(filter.length===0){
+       setstate(true)
+         setfilter(roles)
+      }else{
+       setstate(false)
+      }
+     
+    }catch(err){
+      throw err
+    }
+  }
+
   return (
     <nav >
       <div className="mx-auto px-4 sm:px-6 lg:px-8 lg:py-4">
@@ -126,16 +151,29 @@ function Navbar({page}:{page:boolean}) {
               <Link href="/companies" className="text-white font-bold lg:font-extrabold hover:text-slate-300">COMPANY</Link>
             </div>
           </div>
-            <div className='bg-white rounded-lg hidden lg:block'>
-             {page && <AutoComplete
-      options={roles}
-      style={{ width: 300 }}
-      placeholder="Search for Job"
-      bordered={false}
-      onChange={(value:string) => setsearch(value)}
-            onKeyDown={handleInputKeyDown}
-      />
-      }
+            <div className='bg-white  hidden rounded-full lg:block'>
+             {
+              page &&
+              <div className='bg-white rounded-full py-2 px-3 flex '>
+                <SearchIcon className='text-slate-400'/>
+                 <input type="text" placeholder="Search you job" className='focus:outline-none' onChange={handleChange}/>
+                 {
+                    state && <div className='absolute box_shadow bg-white p-3 rounded-lg top-20 w-56'>
+                   { filter.length>0 ? filter.map((p:string)=>{
+                       return (
+                        <>
+                         <p className='my-3'>{p}</p>
+                         <hr/>
+                        </>
+                       
+                       )
+                     }): <p>No such role</p>
+                    }
+                 
+                 </div>
+                  }
+              </div>
+             }
       </div>
     
 
@@ -153,9 +191,9 @@ function Navbar({page}:{page:boolean}) {
     <Image src={'/profile-logo.jpg'} width={40} height={40} alt="profile" className='rounded-full ml-5'/>
     </Dropdown>
     <Modal title="Notification" footer={null} open={model} onOk={()=>openmodel(false)} onCancel={()=>openmodel(false)}>
-     {
+     {/* {
   notification.map((p, index) => {
-    const parsedNotification = JSON.parse(p);
+   
     
     return (
       <div className='my-3 cursor-pointer' onClick={()=>{}}>
@@ -166,7 +204,7 @@ function Navbar({page}:{page:boolean}) {
       
     );
   })
-}
+} */}
 <button className='border-2 p-2 rounded-lg text-xs' onClick={()=>handleMarkasread()}>Mark as read</button>
 </Modal>
     
