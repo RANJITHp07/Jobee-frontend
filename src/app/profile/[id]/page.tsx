@@ -60,7 +60,7 @@ function Page() {
   const router=useRouter()
 
   
-
+  // to fetch the user data
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -77,6 +77,8 @@ function Page() {
     fetchData();
   }, [userId]);
 
+
+// to fetch the saved jobs
   useEffect(()=>{
     const fetchData = async () => {
       try {

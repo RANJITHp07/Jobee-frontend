@@ -5,7 +5,6 @@ import Navbar from './components/navbar'
 import Header from './components/header'
 import Slider from './components/slider'
 import { useAppSelector } from "@/redux/store"
-import { getUser } from "@/api/auth"
 import { useRouter } from "next/navigation"
 import LoadinPage from "./components/loadinPage"
 import { useDispatch } from "react-redux"

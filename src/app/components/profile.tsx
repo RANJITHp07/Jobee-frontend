@@ -75,22 +75,30 @@ function Profile({ page}: ProfileProps) {
     }
   };
 
-  useEffect(()=>{
-    const fetchData=async()=>{
-           if(Object.keys(currUser).length>0 && currUser.photo!=''){
-           
-               const res=await getPhoto(currUser.photo)
-               console.log(res.data)
-               console.log("lo")
-               seturl({...url , profile:res.data})
-           }
-           if(Object.keys(currUser).length>0 && currUser.resume!=''){
-            const res=await getPhoto(currUser.resume)
-            seturl({...url , resume:res.data})
-           }
-    }
-      fetchData()
-  },[currUser])
+
+  //setting up the url for the profile and resume
+  useEffect(() => {
+    const fetchData = async () => {
+      if (Object.keys(currUser).length > 0) {
+        const updatedUrl = { ...url }; 
+  
+        if (currUser.photo !== '') {
+          const res = await getPhoto(currUser.photo);
+          updatedUrl.profile = res.data;
+        }
+  
+        if (currUser.resume !== '') {
+          const res = await getPhoto(currUser.resume);
+          updatedUrl.resume = res.data;
+        }
+  
+        seturl(updatedUrl);
+      }
+    };
+  
+    fetchData();
+  }
+  )
 
   return (
     <div className={`m-5 box_shadow p-5 rounded-lg  ${page? "" : "lg:w-12/12 "}`}>
