@@ -37,7 +37,7 @@ function Page() {
   const [showEmojii,setshowemojii]=useState(false)
   const [online,getonline]=useState([])
   const [username,setusername]=useState('')
-  const [vedio,setvedio]=useState(false)
+  const [type,settype]=useState('')
    const [isModelOpen,setIsModalOpen]=useState(false)
    const [file,setfile]=useState<File | null>(null)
   const [randomNumber, setRandomNumber] = useState<number | null>(null);
@@ -109,17 +109,29 @@ function Page() {
       
       if (selectedFile) {
         setIsModalOpen(true)
-        if (selectedFile.type.startsWith('video')) {
+        const fileType = selectedFile.type;
+
+        if (fileType.startsWith('image/')) {
+           settype("image")
+        } else if (fileType === 'application/pdf') {
+           settype("pdf")
+        } else if (fileType.startsWith('video/')) {
           if (selectedFile.size > 10 * 1024 * 1024) {
             setfile(null)
             message.info('Video size exceeds 10MB limit.');
             return;
           }else{
-             setvedio(true)
+            settype("vedio")
           }
-    };
+           
+        } else {
+          message.info("Not supported type")
+        }
+        
   }
-       } }catch(err){
+  
+        }
+      }catch(err){
         throw err
        }
       
@@ -143,7 +155,7 @@ function Page() {
           conversationId:id,
           sender:userId,
           text:response.data,
-          type:vedio ?"vedio" :"photo"
+          type:type
        }])
       }
       
