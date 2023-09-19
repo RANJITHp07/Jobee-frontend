@@ -1,28 +1,46 @@
 'use client'
 import React,{useEffect, useState,useMemo} from 'react'
 import Navbar from '@/app/components/navbar'
-import { getUser } from '@/api/job'
+import { getUser, mutualskills } from '@/api/job'
 import Joblisting from '@/app/components/joblisting'
 import SimilarJobs from '@/app/components/similarJobs'
 import Footer from '@/app/components/footer'
 import LoadinPage from '@/app/components/loadinPage'
+import { Switch } from 'antd';
+import { getProfile } from '@/api/user'
+import { useAppSelector } from '@/redux/store'
 
 
 
 function Page({ params }: { params: { id: string } }) {
+  const userId: string = useAppSelector((state) => state.authReducer.value.userId);
+  const token=useAppSelector((state)=>state.authReducer.value.token)
 const [job,setJob]=useState<any>()
+const [mutual,setmutual]=useState([])
 const [loading,setloading]=useState(true)
 
 
   useEffect(()=>{
        const fetchData=async()=>{
         const res=await getUser(params.id)
-      
+        
         setJob(res?.data)
         setloading(false)
        }
        fetchData()
   },[])
+
+  useEffect(()=>{
+    const fetchData=async()=>{
+      const res= await getProfile(userId,token)
+      console.log(res?.data.skills)
+      const response=await mutualskills( params.id,res?.data.skills)
+      console.log(response.data)
+      setmutual(response.data)
+
+    }
+    fetchData()
+  },[params.id])
 
   const skillsList = useMemo(() => {
     if (job) {
@@ -58,11 +76,33 @@ const [loading,setloading]=useState(true)
        <p className='text-slate-600 font-bold mt-2'>Job desciption</p>
        <div className='bg-slate-100 p-2 rounded-lg mb-2'>{job?.desc}</div>
        <p className='text-slate-600 font-bold mt-2'>Education</p>
-       <div className='bg-slate-100 p-2 rounded-lg mb-2'>{job?.education}</div>
+       <div className='bg-slate-100 p-2 rounded-lg mb-2'>{job?.education===''?"Not mentioned" : job?.education}</div>
        <p className='text-slate-600 font-bold'>Skills</p>
        
         {skillsList}
    
+      </div>
+      <div className='box_shadow my-3 p-5 rounded-lg'>
+        <div className='flex justify-between'>
+        <p className='text-slate-600 font-bold'>MUTUAL SKILLS<span className='text-xs mx-4'> {mutual.length} mutual skills</span></p>
+        <div className='flex items-center'>
+          <p className=' text-slate-400 mx-3'>Job alert</p>
+        <Switch defaultChecked  className='bg-green-500' />
+        </div>
+          
+        </div>
+        {
+            mutual.map((s:string)=>{
+              return (
+                <div
+                key={s}
+                className="my-3 bg-slate-300 bg-opacity-30 border mx-1 border-slate-200 text-slate-600 rounded-xl mt-3 px-2 inline-block backdrop-filter backdrop-blur-lg"
+              >
+                {s}
+              </div>
+              )
+            })
+          }
       </div>
       </div>
       <div className='lg:w-1/2 p-5'>

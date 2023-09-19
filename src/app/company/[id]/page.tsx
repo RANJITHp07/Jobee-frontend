@@ -64,6 +64,8 @@ function page({ params }: { params: { id: string } }) {
       fetchData();
     },[])
 
+    
+
   return (
     <div>
         <div className="bg-indigo-950">

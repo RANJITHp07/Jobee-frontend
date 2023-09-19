@@ -118,3 +118,13 @@ export const updateStatus=async(id:string,userId:string,status:string,token:stri
         throw err
     }
 }
+
+
+export const jobcount=async(id:string)=>{
+    try{
+           const res=await axios.get(`http://www.jobeee.website/v4/api/profile/countjobapplication/${id}`)
+           return res
+    }catch(err){
+        throw err
+    }
+}

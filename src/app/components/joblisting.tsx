@@ -17,6 +17,7 @@ import {format} from "timeago.js"
 import { saveJobs } from '@/redux/features/save-slice';
 import { jobApply, userExist } from '@/api/job';
 import { getPhoto } from '@/api/company';
+import { jobcount } from '@/api/user';
 
 interface Props{
     _id?:string
@@ -36,7 +37,7 @@ interface Props{
 function Joblisting({page,...p}: Props & { key: React.Key }) {
   const userId: string = useAppSelector((state) => state.authReducer.value.userId);
   const token=useAppSelector((state) => state.authReducer.value.token)
-  const saved=useAppSelector((state) => state.saveReducer.value.saved)
+  const [count,setcount]=useState()
   const [applied,setapplied]=useState(false)
   const [url,seturl]=useState('')
   const router=useRouter()
@@ -93,6 +94,17 @@ useEffect(()=>{
   
 },[])
 
+
+//to get number of applicants
+useEffect(()=>{
+  const fetchData=async()=>{
+    const response=await jobcount(p._id as string)
+        console.log(response.data)
+  setcount(response.data)
+  }
+  fetchData()
+},[])
+
   return (
     <div {...p} className={page ?'box_shadow p-3 mx-10 my-8 rounded-xl md:w-10/12  job md:ml-16 w-3/4':'box_shadow p-3 my-3 rounded-xl  w-full '} >
       <div  className='cursor-pointer'>
@@ -136,14 +148,18 @@ useEffect(()=>{
         <p>Save</p>
              </div>
      </div> :
-     <div className='flex justify-end'>  
+     <div className='flex justify-betweem items-center'>  
+     <div>
+      <p className='text-slate-500 text-sm'>{count || 0} Applicantions</p>
+      </div>
+      <div className='ml-auto'>
       <button className='bg-indigo-950 text-white px-4 py-1 font-bold rounded-full mx-1' onClick={()=>{if(!applied){ userId ?handleApply(p._id ? p._id:"") : message.info("Please Login")}}}>{applied ? "Applied" : "Apply" }</button>
       <button className='border-indigo-950 border-2 px-4 py-1 font-bold rounded-full mx-1'onClick={()=>{
         
          userId ? handleSave(p._id ? p._id:"") : message.info("Please Login")
           }}>{save? "Saved":"Save"}</button>
      </div>
-
+      </div>
        }
        
     </div>

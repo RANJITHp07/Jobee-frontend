@@ -201,3 +201,14 @@ export const Jobroleserach=async(role:string,location:string)=>{
     throw err
    }
 }
+
+
+
+export const mutualskills=async(id:string,skills:string[])=>{
+    try{
+     const res=await  axios.post("http://www.jobeee.website/v6/api/job/mutual/skills",{id,skills})
+     return res
+    }catch(err){
+     throw err
+    }
+ }
