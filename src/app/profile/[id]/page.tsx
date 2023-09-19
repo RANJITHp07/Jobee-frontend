@@ -20,7 +20,8 @@ import { createProfile } from '@/api/user';
 import Footer from '@/app/components/footer';
 import { loadingItems} from '@/redux/features/loading-slice';
 import LoadinPage from '@/app/components/loadinPage';
-import { savedJobs, savejobs } from '@/api/save';
+import { savedJobs } from '@/api/save';
+import {getUser } from '@/redux/features/user-slice';
 
 
 interface UserData {
@@ -50,9 +51,10 @@ function Page() {
   const saved: any[] = useAppSelector((state) => state.saveReducer.value.saved);
   const token=useAppSelector((state)=>state.authReducer.value.token)
   const loading:Boolean=useAppSelector((state)=>state.loadingReducer.value.loading)
+  const currUser=useAppSelector((state)=>state.userReducer.value.user)
 
   const [menu,setmenu]=useState(false)
-  const [user, setUser] = useState<UserData | undefined>();
+ 
  
   const dispatch=useDispatch<AppDispatch>()
   const router=useRouter()
@@ -64,8 +66,8 @@ function Page() {
       try {
         if(userId){
           const res:any = await createProfile(userId,token)
-          setUser(res.data)
-          
+          dispatch(getUser(res.data))
+          console.log(res.data)
         }
         dispatch(loadingItems())
       } catch (err) {
@@ -80,7 +82,6 @@ function Page() {
       try {
         if(userId){
           const res = await savedJobs(userId,token)
-          
           dispatch(saveJobs(res.data.saved))
           
         }
@@ -103,13 +104,13 @@ function Page() {
       
       <div className="lg:flex ">
         <div className="hidden lg:block md:w-56 lg:w-72 border-2 pt-6">
-        <p className='font-bold mx-3 text-slate-600'>Welcome {user?.userId?.username}</p>
-          <hr className='border-1 border-indigo-950' />
-        <div className=' flex items-center p-2 hover:bg-slate-100 '><a href='/profile/update' className='font-semibold mx-3 mt-6 text-slate-600'><EditIcon/>Update</a></div>
-          <div className=' flex items-center my-2 p-2 hover:bg-slate-100'><a href="/chat" className='font-semibold mx-3 text-slate-600'><MarkUnreadChatAltIcon/>Chat</a></div>
-          <div className=' flex items-center my-2 p-2 hover:bg-slate-100'><a href="#saved" className='font-semibold mx-3 text-slate-600'><BookmarksIcon/>Saved</a></div>
-          <div className=' flex items-center my-2 p-2 hover:bg-slate-100'><a href={user && `/profile/status?id=${user._id}`} className='font-semibold mx-3 text-slate-600'><PendingActionsIcon/>Application Status</a></div>
-          <div className=' flex items-center my-2 p-2 hover:bg-slate-100'><a className='font-semibold mx-3 text-slate-600' onClick={()=>{
+        <p className='font-bold mx-3 text-slate-600'>Welcome {currUser?.userId?.username}</p>
+          <hr className='border-1 border-indigo-950 mb-6' />
+        <div className=' flex items-center p-2 hover:bg-slate-200 hover:rounded-lg hover:p-3 hover:mx-2'><a href='/profile/update' className='font-semibold mx-3   text-slate-600'><EditIcon/>Update</a></div>
+          <div className=' flex items-center my-2 p-2 hover:bg-slate-200 hover:rounded-lg hover:p-3 hover:mx-2'><a href="/chat" className='font-semibold mx-3 text-slate-600'><MarkUnreadChatAltIcon/>Chat</a></div>
+          <div className=' flex items-center my-2 p-2 hover:bg-slate-200 hover:rounded-lg hover:p-3 hover:mx-2'><a href="#saved" className='font-semibold mx-3 text-slate-600'><BookmarksIcon/>Saved</a></div>
+          <div className=' flex items-center my-2 p-2 hover:bg-slate-200 hover:rounded-lg hover:p-3 hover:mx-2'><a href={currUser && `/profile/status?id=${currUser._id}`} className='font-semibold mx-3 text-slate-600'><PendingActionsIcon/>Application Status</a></div>
+          <div className=' flex items-center my-2 p-2 hover:bg-slate-200 hover:rounded-lg hover:p-3 hover:mx-2'><a className='font-semibold mx-3 text-slate-600' onClick={()=>{
           dispatch( logOut())
           localStorage.removeItem("token")
           router.push("/login")}}><ExitToAppIcon/>Logout</a></div>
@@ -120,12 +121,12 @@ function Page() {
             <div className="fixed top-0 left-0 right-0 bottom-0 flex  bg-black bg-opacity-50 z-50">
                <div className=" bg-white md:w-1/2 border-2 ">
                 <div className="flex justify-end mb-5 mt-2"><CloseIcon className="cursor-pointer" onClick={()=>setmenu(false)}/></div>
-        <p className='font-bold mx-3 text-slate-600'>Welcome {user?.userId?.username}</p>
+        <p className='font-bold mx-3 text-slate-600'>Welcome {currUser?.userId?.username}</p>
           <hr className='border-1 border-indigo-950' />
         <div className=' flex items-center p-2 hover:bg-slate-100 '><a href='/profile/update' className='font-semibold mx-3 mt-6 text-slate-600'><EditIcon/>Update</a></div>
           <div className=' flex items-center my-2 p-2 hover:bg-slate-100'><a href="/chat" className='font-semibold mx-3 text-slate-600'><MarkUnreadChatAltIcon/>Chat</a></div>
           <div className=' flex items-center my-2 p-2 hover:bg-slate-100'><a href="/chat" className='font-semibold mx-3 text-slate-600'><MarkUnreadChatAltIcon/>Saved</a></div>
-          <div className=' flex items-center my-2 p-2 hover:bg-slate-100'><a href={user && `/profile/status?id=${user._id}`} className='font-semibold mx-3 text-slate-600'><PendingActionsIcon/>Application Status</a></div>
+          <div className=' flex items-center my-2 p-2 hover:bg-slate-100'><a href={currUser && `/profile/status?id=${currUser._id}`} className='font-semibold mx-3 text-slate-600'><PendingActionsIcon/>Application Status</a></div>
           <div className=' flex items-center my-2 p-2 hover:bg-slate-100'><a href='/login' className='font-semibold mx-3 text-slate-600 cursor-pointer' 
           onClick={()=>{
           dispatch( logOut())
@@ -135,28 +136,10 @@ function Page() {
             </div>
           }
         <div className=" lg:w-8/12 lg:mx-8">
-        {user && (
+        {Object.keys(currUser).length>0 && (
         <>
-          
-          <Profile
-            page={true}
-            profile={user.photo || ""}
-            name={user.userId?.username || "No username Provided"}
-            email={user.userId?.email || "No email Provided"}
-            contact={user.phoneNumber?.toString() || "No phoneNumber Provided"}
-            location={user.address || "Not mentioned"}
-            profileResume={user.resume || ""}
-          />
-          <ProfileBody page={true} 
-          profileSummary={user.profileSummary || "Not at mentioned" } 
-          skills={user.skills || ["Not at mentioned"] } 
-          experience={user.experience || "Not at mentioned"  } 
-          language={user.language || "Not at mentioned" } 
-          achievements={user.achievements || "Not at mentioned" }
-          education={user.education || "Not at mentioned" }  />
-          <div className='mt-1 flex justify-end'>
-        
-      </div>
+       <Profile page={true} />
+          <ProfileBody page={true} />
         </>
       )}
           <div className='mx-5 my-3 box_shadow p-5 rounded-lg' id="saved">

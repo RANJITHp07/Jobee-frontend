@@ -158,7 +158,7 @@ function Page() {
         
         {company && (<>
          <div className="grid place-content-center">
-            <Image src={company.logo} width={200} height={200} alt="photo" />
+            <Image src={'/logo.png'} width={200} height={200} alt="photo" />
           </div>
           <div className="mx-5 mt-3">
               <p><span className='font-bold text-slate-800'>Name:</span> {company.companyId.username}</p>

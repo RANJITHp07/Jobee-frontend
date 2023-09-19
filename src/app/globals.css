@@ -21,6 +21,18 @@
     flex-shrink:0 !important;
   }
 
+
+
+    @media (min-width: 1240px) {
+      .headerSize{
+        font-size: 4.5rem !important ;
+      }
+      .btn{
+        width:75% !important;
+      }
+      
+    }
+
   
   .swiper-slide img {
     display: block;

@@ -1,15 +1,58 @@
 'use client'
-import React from 'react';
+import React, { useEffect,useState } from 'react';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Image from 'next/image';
-
 import 'swiper/css';
 import 'swiper/css/pagination';
 
 import { Pagination } from 'swiper/modules';
+import { getAllcompanies, getPhoto } from '@/api/company';
 
 export default function App() {
+  const [companies,setcompanies]=useState<any>([])
+  const [url,setImageurl]=useState<string[]>([])
+
+  useEffect(()=>{
+    const fecthData=async()=>{
+      const res=await getAllcompanies()
+      setcompanies(res.data)
+    }
+    fecthData()
+  },[])
+
+  const getUrl=async(imageName:string)=>{
+    if(imageName!=''){
+      const res=await getPhoto(imageName);
+      console.log(res.data)
+      return res.data
+    }
+    
+  }
+
+  useEffect(() => {
+    const fetchMessageUrls = async () => {
+      
+        const imageUrlPromises = companies.map(async (p:any) => {
+            
+          return getUrl(p.logo);
+          
+        
+      });
+  
+      const resolvedUrls = await Promise.all(imageUrlPromises);
+      console.log(resolvedUrls)
+      setImageurl(resolvedUrls);
+    };
+  
+    fetchMessageUrls();
+
+      
+      
+  }, [companies]);
+
+
+
   return (
     <>
       <Swiper
@@ -19,7 +62,7 @@ export default function App() {
           clickable: true,
         }}
         breakpoints={{
-          680: {
+          300: {
             slidesPerView: 2,
             spaceBetween: 20,
           },
@@ -36,13 +79,20 @@ export default function App() {
         className="mySwiper"
       >
         
-        <SwiperSlide className='companies'>
-  <div className='box_shadow my-3  p-5 '>
-    <Image src={'/background.png'} width={200} height={200} alt='photo' className='mt-5' />
-    <p className='font-extrabold text-indigo-950 text-center mt-3'>Intech Spark</p>
-    <p className='text-center text-slate-500 mb-5'>Start Up</p>
-  </div>
-</SwiperSlide >
+        {
+          companies.map((p:any,index:number)=>{
+            return (
+              <SwiperSlide className='companies'>
+              <div className='box_shadow my-3 h-72  p-5 '>
+                <Image src={url[index]} width={100} height={100} alt='photo' className='mt-3 h-32 w-24' />
+                <p className='font-extrabold text-indigo-950 text-center mt-3'>{p.companyId.username}</p>
+                <p className='text-center text-slate-500 mb-5'>{p.companyType}</p>
+              </div>
+            </SwiperSlide >
+            )
+          })
+        }
+        
         <SwiperSlide className='companies'>
           <div className='  box_shadow p-5   my-3 '>
             <Image src={'/background.png'} width={200} height={200} alt='photo' className='mt-5 '/>

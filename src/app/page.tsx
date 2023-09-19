@@ -68,7 +68,7 @@ export default function Home() {
 <p className='text-indigo-950 text-center font-extrabold text-xl mt-8'>SERVICES WE PROVIDE</p>
         <p className='text-center text-sm mx-3 mb-5 md:mb-12 text-slate-500 md:text-xl md:mx-5 md:font-semibold'>Comprehensive Solutions Tailored to Your Needs</p>
         <div  className='grid place-content-center' data-aos="fade-up">
-        <Image src={'/service.png'} width={1000} height={1000} alt='photo'/>
+        <Image src={'/services.png'} width={1000} height={1000} alt='photo'/>
         </div>
 </div>
 <Footer/>

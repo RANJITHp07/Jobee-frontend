@@ -94,3 +94,16 @@ export const Searchcomapny=async(search:string)=>{
       throw err
    }
 }
+
+export const getPhoto=async(imageName:string)=>{
+   try{
+      const res=await axios.get(`http://www.jobeee.website/v1/api/upload`,{
+         params:{
+           imageName
+         }
+       })
+       return res
+   }catch(err){
+      throw err
+   }
+}

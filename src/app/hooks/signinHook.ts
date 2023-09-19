@@ -115,6 +115,7 @@ const useForm = ({ page }: UseFormProps) => {
       }
         if (password.current?.value === confirm_password.current?.value && email.current && username.current) {
           setLoading(true)
+          console.log( role.current && role.current.value)
           const res=await sendEmail(email?.current.value,username.current.value);
           
           if(res.data=="Email sent"){
@@ -209,13 +210,11 @@ const handleOk = async() => {
     const res=await emailVerification(email.current?.value,OTP)
     
    if(res.data==='Successfully logged in'){
-    let r
-    role.current?.value==="JobSeeker"? r="recruiter":r="employer"
     const user: FormValues = {
       username: username.current?.value,
       email: email.current?.value,
       password: password.current?.value,
-      role: r,
+      role: role.current?.value,
     };
     const p= await signin(user)
     if(p?.data==="Saved sucessfully"){
