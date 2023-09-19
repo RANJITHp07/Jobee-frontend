@@ -141,7 +141,7 @@ function Profile({ page}: ProfileProps) {
             <div className="my-5">
               {
                 currUser.resume==='' ? <label htmlFor="resume" className='border-2 border-slate-700 bg-indigo-950 text-white rounded-lg p-2'>{resume ? resume.name : "Upload Your Resume"}</label>:
-                <label htmlFor="resume" className='border-2 border-slate-700 bg-indigo-950 text-white rounded-lg p-2'>{currUser.resume}</label>
+                <label htmlFor="resume" className='border-2 border-slate-700 bg-indigo-950 text-white rounded-lg p-2'>resume.pdf</label>
 
 
               }

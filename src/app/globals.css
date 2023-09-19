@@ -79,8 +79,14 @@
   }  
 
 .job{
-  @media (min-width: 1024px) {
-    width: 63rem;
+  @media (min-width: 1000px) {
+    width: 46rem !important;
+  }
+  @media (min-width: 1280px) {
+    width: 60rem !important;
+  }
+  @media (min-width: 1290px) {
+    width: 65rem !important;
   }
 }
 

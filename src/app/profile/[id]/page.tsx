@@ -22,6 +22,7 @@ import { loadingItems} from '@/redux/features/loading-slice';
 import LoadinPage from '@/app/components/loadinPage';
 import { savedJobs } from '@/api/save';
 import {getUser } from '@/redux/features/user-slice';
+import { getPhoto } from '@/api/company';
 
 
 interface UserData {
@@ -52,6 +53,7 @@ function Page() {
   const token=useAppSelector((state)=>state.authReducer.value.token)
   const loading:Boolean=useAppSelector((state)=>state.loadingReducer.value.loading)
   const currUser=useAppSelector((state)=>state.userReducer.value.user)
+  const [url,setImageUrl]=useState<any>([])
 
   const [menu,setmenu]=useState(false)
  
@@ -84,6 +86,16 @@ function Page() {
       try {
         if(userId){
           const res = await savedJobs(userId,token)
+          const imageUrlPromises = res.data.saved.map(async (p:any) => {
+              const res=await getPhoto(p.company.logo)
+            return res?.data;
+            
+          
+        });
+    
+        const resolvedUrls = await Promise.all(imageUrlPromises);
+        
+        setImageUrl(resolvedUrls);
           dispatch(saveJobs(res.data.saved))
           
         }
@@ -148,13 +160,13 @@ function Page() {
             <div className='flex justify-between'>
             <p className='font-bold text-sm text-slate-600'>SAVED JOBS</p>
             {
-               !saved[0]  &&      <p className='font-bold text-xs text-slate-600'>No saved posts</p>
+               !saved[0]  &&  <p className='font-bold text-xs text-slate-600'>No saved posts</p>
             }
             
             </div>
               <hr/>
               {
-               saved.length >0 && saved[0].map((p:any)=>{
+               saved.length >0 && saved[0].map((p:any,index:number)=>{
                 
                   return(
                   
@@ -164,7 +176,9 @@ function Page() {
                         <p className='text-medium'>Role: {p.role}</p>
                         <p className='text-medium'>Location: {p.location}</p>
                         </div>
-                       <Image src={p.company.logo} width={100} height={100} alt='' className='mb-2'/>
+
+                       
+                       { url.length >0 && <Image src={url[index]} width={100} height={100} alt='' className='mb-2 h-16 w-16 rounded-lg'/>}
                        </div>
                        <hr/>
                     </div>

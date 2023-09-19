@@ -2,17 +2,28 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { findSimilarJobs } from '@/api/job';
+import { getPhoto } from '@/api/company';
 
 function SimilarJobs({ role, location, id,skills}: { role: string; location: string; id: string,skills:string[]}) {
   const [job, setJob] = useState<any>([]);
   const [page,setpage]=useState(3);
+  const [url,setImageUrl]=useState<any>([])
   const router=useRouter()
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await findSimilarJobs(role,location,skills)
-        console.log(res.data);
+        const imageUrlPromises = res.data.map(async (p:any) => {
+          const res=await getPhoto(p.company.logo)
+        return res?.data;
+        
+      
+    });
+
+    const resolvedUrls = await Promise.all(imageUrlPromises);
+    console.log(resolvedUrls)
+    setImageUrl(resolvedUrls);
         setJob(res.data);
       } catch (err) {
         throw err;
@@ -29,7 +40,7 @@ function SimilarJobs({ role, location, id,skills}: { role: string; location: str
       </div>
         
         
-      {job.slice(0,page).map((p: any) => {
+      {job.slice(0,page).map((p: any,index:number) => {
         if (p._id !== id) {
           return (
             <div className='cursor-pointer' onClick={()=>router.push(`/job/${p._id}`)}>
@@ -39,7 +50,7 @@ function SimilarJobs({ role, location, id,skills}: { role: string; location: str
                 <p>Location: {p.location}</p>
               </div>
               <div>
-                <Image src={p.company.logo} width={60} height={60} alt="" />
+                <Image src={url[index]} width={60} height={60} alt="" />
               </div>
             </div>
             <hr/>
