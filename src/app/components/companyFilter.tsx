@@ -7,7 +7,7 @@ import { companyFilter, getLocations, jobCompanies } from '@/apis/job';
 
 function CompanyFilter({setcompanies,setstate}:{setcompanies: React.Dispatch<any>,setstate: React.Dispatch<React.SetStateAction<boolean>>}) {
 
-    const [location,setlocation]=useState([])
+    const [location,setlocation]=useState([]);
     const [page,setpage]=useState({
         page1:3,
         page2:3,
