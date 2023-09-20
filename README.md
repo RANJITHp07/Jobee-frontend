@@ -1,4 +1,4 @@
-![photo](https://github.com/RANJITHp07/Jobee-frontend/assets/107017062/aa5141ff-91de-40d9-a3fa-1ce4ad526f83)![image](https://github.com/RANJITHp07/Jobee-frontend/assets/107017062/48524ef2-0e82-433f-a811-dc8e8fd503b9)This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+![Uploading photo.png…]()
 
 ## Getting Started
 
