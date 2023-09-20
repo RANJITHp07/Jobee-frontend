@@ -1,13 +1,13 @@
 'use client'
 import React,{useEffect, useState,useMemo} from 'react'
 import Navbar from '@/app/components/navbar'
-import { getUser, mutualskills } from '@/api/job'
+import { getUser, mutualskills } from '@/apis/job'
 import Joblisting from '@/app/components/joblisting'
 import SimilarJobs from '@/app/components/similarJobs'
 import Footer from '@/app/components/footer'
 import LoadinPage from '@/app/components/loadinPage'
 import { Switch } from 'antd';
-import { getProfile } from '@/api/user'
+import { getProfile } from '@/apis/user'
 import { useAppSelector } from '@/redux/store'
 
 

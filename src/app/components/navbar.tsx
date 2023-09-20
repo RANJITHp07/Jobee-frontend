@@ -17,8 +17,8 @@ import 'aos/dist/aos.css';
 import AOS from 'aos'
 import {Modal} from 'antd'
 import ProfileMenu from './profileMenu';
-import { getRoles } from '@/api/job';
-import { chatNotification, deleteAllNotification } from '@/api/chat';
+import { getRoles } from '@/apis/job';
+import { chatNotification, deleteAllNotification } from '@/apis/chat';
 import { loadingItems } from '@/redux/features/loading-slice';
 import SearchIcon from '@mui/icons-material/Search';
 

@@ -8,16 +8,16 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
 import { useAppSelector } from '@/redux/store';
 import { useRouter } from 'next/navigation';
-import { savejobs, savedJobs } from '@/api/save';
+import { savejobs, savedJobs } from '@/apis/save';
 import { message } from 'antd';
 import {useDispatch} from "react-redux"
 import { AppDispatch } from '@/redux/store';
 import StarIcon from '@mui/icons-material/Star';
 import {format} from "timeago.js"
 import { saveJobs } from '@/redux/features/save-slice';
-import { jobApply, savedorNot, userExist } from '@/api/job';
-import { getPhoto } from '@/api/company';
-import { jobcount } from '@/api/user';
+import { jobApply, savedorNot, userExist } from '@/apis/job';
+import { getPhoto } from '@/apis/company';
+import { jobcount } from '@/apis/user';
 
 interface Props{
     _id?:string

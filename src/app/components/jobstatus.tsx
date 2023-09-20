@@ -2,7 +2,7 @@
 import React, { useState,useEffect } from 'react'
 import Image from 'next/image'
 import { Steps } from 'antd';
-import { getPhoto } from '@/api/company';
+import { getPhoto } from '@/apis/company';
 
 function Jobstatus({job,status}:{job:any,status:any[]}) {
   const[number,setnumber]=useState(0)

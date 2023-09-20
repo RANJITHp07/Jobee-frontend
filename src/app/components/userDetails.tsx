@@ -8,8 +8,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import type { MenuProps } from 'antd';
 import { Dropdown, message,Button } from 'antd';
 import { useRouter } from 'next/navigation';
-import { updateStatus } from '@/api/user';
-import { createConvo } from '@/api/chat';
+import { updateStatus } from '@/apis/user';
+import { createConvo } from '@/apis/chat';
 
 function UserDetails({user,setview,id}:{user:any, setview: React.Dispatch<React.SetStateAction<boolean>>,id:string}) {
   const userId: string = useAppSelector((state) => state.authReducer.value.userId);

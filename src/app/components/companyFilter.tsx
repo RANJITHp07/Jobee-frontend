@@ -3,7 +3,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import React,{useEffect,useState} from 'react'
 import { company } from '../data/filterData'
 import StarIcon from '@mui/icons-material/Star';
-import { companyFilter, getLocations, jobCompanies } from '@/api/job';
+import { companyFilter, getLocations, jobCompanies } from '@/apis/job';
 
 function CompanyFilter({setcompanies,setstate}:{setcompanies: React.Dispatch<any>,setstate: React.Dispatch<React.SetStateAction<boolean>>}) {
 

@@ -4,12 +4,12 @@ import Image from 'next/image'
 import StarIcon from '@mui/icons-material/Star';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { getReviews, postReviews } from '@/api/company';
+import { getReviews, postReviews } from '@/apis/company';
 import { useAppSelector } from '@/redux/store';
 import {  Modal,Rate, message} from 'antd';
 import { ExclamationCircleFilled } from '@ant-design/icons';
-import { deletereview, savecomment } from '@/api/review';
-import { getUser } from '@/api/auth';
+import { deletereview, savecomment } from '@/apis/review';
+import { getUser } from '@/apis/auth';
 
 function ReviewPage({id,page}:{id:string,page:boolean}) {
 

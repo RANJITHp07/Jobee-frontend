@@ -3,11 +3,11 @@ import React, { ChangeEvent, useEffect, useState } from 'react'
 import Image from "next/image"
 import Navbar from '../components/navbar'
 import { useRouter } from 'next/navigation'
-import { Searchcomapny, getPhoto} from '@/api/company'
+import { Searchcomapny, getPhoto} from '@/apis/company'
 import { AutoComplete, Input } from 'antd';
 import { Pagination } from 'antd';
 import CompanyFilter from '../components/companyFilter'
-import { jobCompanies } from '@/api/job'
+import { jobCompanies } from '@/apis/job'
 import StarIcon from '@mui/icons-material/Star';
 
 

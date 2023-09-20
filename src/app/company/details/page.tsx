@@ -8,7 +8,7 @@ import { message } from 'antd';
 import Image from 'next/image';
 import { useAppSelector } from '@/redux/store';
 import { useRouter } from 'next/navigation';
-import { uploadlogo,createCompany, getCompany, updateCompany, getPhoto } from '@/api/company';
+import { uploadlogo,createCompany, getCompany, updateCompany, getPhoto } from '@/apis/company';
 
 function page() {
   const userId: string = useAppSelector((state) => state.authReducer.value.userId);

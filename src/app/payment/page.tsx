@@ -4,7 +4,7 @@ import Payment from '../components/payment'
 import { useAppSelector } from '@/redux/store';
 import Navbar from '../components/navbar';
 import { useRouter } from 'next/navigation';
-import { getPlans,getUsepayment, payment } from '@/api/payments';
+import { getPlans,getUsepayment, payment } from '@/apis/payments';
 import LoadinPage from '../components/loadinPage';
 
 

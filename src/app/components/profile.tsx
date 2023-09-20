@@ -2,14 +2,14 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { message } from 'antd';
 import { useAppSelector } from '@/redux/store';
-import { upload,updateProfilephoto} from '@/api/user';
+import { upload,updateProfilephoto} from '@/apis/user';
 import Person3Icon from '@mui/icons-material/Person3';
 import MailIcon from '@mui/icons-material/Mail';
 import CallIcon from '@mui/icons-material/Call';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useDispatch } from 'react-redux';
 import { setAuth, updateUser } from '@/redux/features/user-slice';
-import { getPhoto } from '@/api/company';
+import { getPhoto } from '@/apis/company';
 
 interface ProfileProps {
   page: boolean;

@@ -3,7 +3,7 @@ import { message,Modal } from 'antd';
 import React, { useRef,useState,ChangeEvent, useEffect } from 'react'
 import {auth,signInnWithGooogle} from "../config/firebase"
 import { useRouter } from 'next/navigation';
-import { Adminlogin, AdminsendEmail, Adminsignin } from '@/api/auth';
+import { Adminlogin, AdminsendEmail, Adminsignin } from '@/apis/auth';
 import { CircularProgress } from '@mui/material';
 
 function AdminSignin({page}:{page:boolean}) {

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { findSimilarJobs } from '@/api/job';
-import { getPhoto } from '@/api/company';
+import { findSimilarJobs } from '@/apis/job';
+import { getPhoto } from '@/apis/company';
 
 function SimilarJobs({ role, location, id,skills}: { role: string; location: string; id: string,skills:string[]}) {
   const [job, setJob] = useState<any>([]);

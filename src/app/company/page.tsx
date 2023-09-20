@@ -6,7 +6,7 @@ import { useAppSelector } from '@/redux/store';
 import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '../components/navbar';
-import {getCompany, getPhoto} from '@/api/company';
+import {getCompany, getPhoto} from '@/apis/company';
 import AddIcon from '@mui/icons-material/Add';
 import Footer from '../components/footer';
 import { useDispatch } from 'react-redux';
@@ -14,7 +14,7 @@ import LoadingPage from '../components/loadinPage';
 import { loadingItems } from '@/redux/features/loading-slice';
 import CompanyPanel from '../components/companyPanel';
 import MenuIcon from '@mui/icons-material/Menu';
-import {deleteJob, getJobs} from "../../api/job"
+import {deleteJob, getJobs} from "../../apis/job"
 import {Modal } from 'antd';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import ReviewPage from '../components/reviewPage';

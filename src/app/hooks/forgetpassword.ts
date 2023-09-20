@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { message } from 'antd';
 import { useRouter } from 'next/navigation';
-import { UpdatePassword } from '@/api/auth';
+import { UpdatePassword } from '@/apis/auth';
 
 const useOtpVerification = () => {
   const router=useRouter()

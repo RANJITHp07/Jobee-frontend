@@ -2,7 +2,7 @@
 import React, { useState,useRef,useEffect} from 'react';
 import CancelIcon from '@mui/icons-material/Cancel';
 import {message} from "antd"
-import { getJobapplication, jobForm, updateApplication } from '../../api/job';
+import { getJobapplication, jobForm, updateApplication } from '../../apis/job';
 import { useAppSelector } from '@/redux/store';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
