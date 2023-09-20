@@ -1,4 +1,5 @@
-![Uploading photo.png…]()
+![photo](https://github.com/RANJITHp07/Jobee-frontend/assets/107017062/2f65bf36-7748-4b17-ae5b-607158833ee8)
+
 
 ## Getting Started
 
