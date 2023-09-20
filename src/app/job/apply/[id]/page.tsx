@@ -8,10 +8,10 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import UserDetails from '@/app/components/userDetails'
 import LoadinPage from '@/app/components/loadinPage'
-import { getUser } from '@/api/job'
-import { getShortlist, getView, getapplicant, shortlistusers, statusShortlist, unshortlistusers } from '@/api/user'
+import { getUser } from '@/apis/job'
+import { getShortlist, getView, getapplicant, shortlistusers, statusShortlist, unshortlistusers } from '@/apis/user'
 import { useAppSelector } from '@/redux/store'
-import { getPhoto } from '@/api/company'
+import { getPhoto } from '@/apis/company'
 
 function Page({params}:{params:{id:string}}) {
   const token=useAppSelector((state)=>state.authReducer.value.token)

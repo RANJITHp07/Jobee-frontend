@@ -16,13 +16,13 @@ import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import {useRouter} from "next/navigation"
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
-import { createProfile } from '@/api/user';
+import { createProfile } from '@/apis/user';
 import Footer from '@/app/components/footer';
 import { loadingItems} from '@/redux/features/loading-slice';
 import LoadinPage from '@/app/components/loadinPage';
-import { savedJobs } from '@/api/save';
+import { savedJobs } from '@/apis/save';
 import {getUser } from '@/redux/features/user-slice';
-import { getPhoto } from '@/api/company';
+import { getPhoto } from '@/apis/company';
 
 
 interface UserData {

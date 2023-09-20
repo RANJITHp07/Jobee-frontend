@@ -7,7 +7,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 
 import { Pagination } from 'swiper/modules';
-import { getAllcompanies, getPhoto } from '@/api/company';
+import { getAllcompanies, getPhoto } from '@/apis/company';
 
 export default function App() {
   const [companies,setcompanies]=useState<any>([])

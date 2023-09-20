@@ -5,7 +5,7 @@ import Navbar from '../components/navbar';
 import dynamic from "next/dynamic";
 import Joblisting from '../components/joblisting';
 import { Pagination, message } from 'antd';
-import { Jobroleserach, filter,searchJob } from '@/api/job';
+import { Jobroleserach, filter,searchJob } from '@/apis/job';
 import LoadinPage from '../components/loadinPage';
 
 

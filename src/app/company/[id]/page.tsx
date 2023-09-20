@@ -1,12 +1,12 @@
 'use client'
-import { getCompany, getPhoto} from '@/api/company';
+import { getCompany, getPhoto} from '@/apis/company';
 import Image from 'next/image';
 import dynamic from "next/dynamic"
 import Navbar from '@/app/components/navbar'
 import React,{useEffect,useState,useMemo} from 'react'
 import { useRouter } from 'next/navigation';
 import LoadinPage from '@/app/components/loadinPage';
-import { getcompanyJob } from '@/api/job';
+import { getcompanyJob } from '@/apis/job';
 
 
 const CompanyPanel = dynamic(() => import('@/app/components/companyPanel'), {

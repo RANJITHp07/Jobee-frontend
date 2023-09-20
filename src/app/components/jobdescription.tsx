@@ -1,5 +1,5 @@
 'use client'
-import { getShortlist } from '@/api/user'
+import { getShortlist } from '@/apis/user'
 import { useAppSelector } from '@/redux/store'
 import React, { useEffect } from 'react'
 

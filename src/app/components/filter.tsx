@@ -3,7 +3,7 @@ import React, { useReducer,useEffect,useState} from 'react'
 import CloseIcon from '@mui/icons-material/Close';
 import { Slider } from 'antd';
 import {company, salray} from '../data/filterData';
-import { filter, getLocations } from '../../api/job';
+import { filter, getLocations } from '../../apis/job';
 import { initialState } from '../../reducer/filter/initialState';
 import { filterReducer } from '../../reducer/filter/reducer';
 import StarIcon from '@mui/icons-material/Star';

@@ -3,7 +3,7 @@ import React, {useState,useEffect, ChangeEvent} from 'react'
 import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
 import Image from "next/image"
-import { getConvo } from '@/api/chat';
+import { getConvo } from '@/apis/chat';
 import { useAppSelector } from '@/redux/store';
 
 

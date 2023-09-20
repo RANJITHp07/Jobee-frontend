@@ -13,8 +13,8 @@ import Picker from '@emoji-mart/react'
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
 import { Modal } from 'antd';
 import VideoCameraBackIcon from '@mui/icons-material/VideoCameraBack';
-import { chatMessage, sendMessage, uploadmedia } from '@/api/chat';
-import { getPhoto, uploadlogo } from '@/api/company';
+import { chatMessage, sendMessage, uploadmedia } from '@/apis/chat';
+import { getPhoto, uploadlogo } from '@/apis/company';
 
 
 function Page() {

@@ -15,7 +15,7 @@ import { useAppSelector } from '@/redux/store';
 import LoadinPage from '@/app/components/loadinPage'
 import { loadingItems } from '@/redux/features/loading-slice'
 import CloseIcon from '@mui/icons-material/Close';
-import { statusJob } from '@/api/user'
+import { statusJob } from '@/apis/user'
 
 
 function page() {

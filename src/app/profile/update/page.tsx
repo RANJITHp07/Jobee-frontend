@@ -5,9 +5,9 @@ import React,{useMemo} from 'react'
 import { useAppSelector } from '@/redux/store';
 import {message} from 'antd'
 import ProfileBody from '@/app/components/profileBody';
-import { getProfile,updateprofile } from '@/api/user';
+import { getProfile,updateprofile } from '@/apis/user';
 import { useRouter } from 'next/navigation';
-import { updateAuth } from '@/api/auth';
+import { updateAuth } from '@/apis/auth';
 import { useDispatch } from 'react-redux';
 import { getAuth, getUser } from '@/redux/features/user-slice';
 

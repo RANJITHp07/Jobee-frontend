@@ -4,7 +4,7 @@ import AdminPanel from '../components/adminPanel'
 import MenuIcon from '@mui/icons-material/Menu';
 import LoadinPage from '../components/loadinPage';
 import { Pagination } from 'antd';
-import { getAdmin, getEmail, getrole } from '@/api/auth';
+import { getAdmin, getEmail, getrole } from '@/apis/auth';
 import { useRouter } from 'next/navigation';
 
 

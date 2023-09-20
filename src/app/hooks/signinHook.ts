@@ -3,8 +3,8 @@ import { useRef, useState, FormEventHandler, MouseEventHandler } from 'react';
 import { useRouter } from 'next/navigation';
 import { message } from 'antd';
 import {auth,signInnWithGooogle} from "../config/firebase"
-import { login, signin,sendEmail, emailVerification } from '../../api/auth';
-import { createProfile } from '@/api/user';
+import { login, signin,sendEmail, emailVerification } from '../../apis/auth';
+import { createProfile } from '@/apis/user';
 
 interface FormValues {
   username: string | undefined;

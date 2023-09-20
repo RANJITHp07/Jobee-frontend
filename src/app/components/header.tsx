@@ -9,7 +9,7 @@ import 'aos/dist/aos.css';
 import { useRouter } from 'next/navigation';
 import { useAppSelector } from '@/redux/store';
 import AOS from 'aos'
-import { getLocations, getRoles } from '@/api/job';
+import { getLocations, getRoles } from '@/apis/job';
 import { message } from 'antd';
 
 function Header() {
