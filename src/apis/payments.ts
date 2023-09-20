@@ -9,7 +9,7 @@ const getHeaders = (token:string) => ({
 
 export const getPlans=async ()=>{
     try{
-        const res=await axios.get("http://www.jobeee.website/v1/api/plans")
+        const res=await axios.get("https://www.jobeee.website/v1/api/plans")
         return res
     }catch(err){
         throw err
@@ -19,7 +19,7 @@ export const getPlans=async ()=>{
 export const getUsepayment=async (userId:string,token:string)=>{
     try{
        
-        const res=await axios.get(`http://www.jobeee.website/v1/api/plans/user/${userId}`,getHeaders(token))
+        const res=await axios.get(`https://www.jobeee.website/v1/api/plans/user/${userId}`,getHeaders(token))
         
         return res
     }catch(err){
@@ -31,7 +31,7 @@ export const getUsepayment=async (userId:string,token:string)=>{
 
 export const payment=async (stripeCustomerId:string,token:string)=>{
     try{
-        const res=await axios.get(`http://www.jobeee.website/v1/api/plans/subs/${stripeCustomerId}`,getHeaders(token))
+        const res=await axios.get(`https://www.jobeee.website/v1/api/plans/subs/${stripeCustomerId}`,getHeaders(token))
         return res
     }catch(err){
         throw err
