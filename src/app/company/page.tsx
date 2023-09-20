@@ -206,7 +206,7 @@ function Page() {
        </div>
        </div>
        {
-        jobListings
+        jobs.length > 0 && jobListings
        }
         </div>
            <div className="md:flex  mb-3  md:p-3 mt-3  rounded-lg md:mx-3  lg:w-9/12 lg:mx-auto">

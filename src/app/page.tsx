@@ -27,7 +27,20 @@ export default function Home() {
 
   useEffect(()=>{
      const fetchData=async()=>{
-          dispatch(loadingItems())
+      const storedToken:any = localStorage.getItem('token');
+    if(storedToken!==null){
+      const parsedToken: any = JSON.parse(storedToken);
+      if(parsedToken?.user.role==='recruiter'){
+        router.push("/company");
+      }else{
+        dispatch(loadingItems())
+      }
+        
+         
+    }else{
+      dispatch(loadingItems())
+    }
+         
      }
      fetchData()
      
@@ -35,9 +48,6 @@ export default function Home() {
   
   return (
      <div>
-      <div className='hidden'>
-      <Navbar page={false}/>
-        </div>
       { loading? <LoadinPage/> : <>
       <div>
         <div className="bg-[url('/background.png')] bg-no-repeat bg-cover w-screen">

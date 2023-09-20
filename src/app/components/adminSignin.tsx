@@ -115,7 +115,9 @@ function AdminSignin({page}:{page:boolean}) {
             email:email.current?.value,
             password:password.current?.value
           }
+          
           const res= await Adminlogin(newUser)
+          console.log(res?.data)
           const userId=res?.data.session.user
           if(res?.data.user.message==="Logged In succesfully"){
             console.log(res?.data.user.role)

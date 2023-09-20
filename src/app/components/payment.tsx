@@ -27,7 +27,7 @@ function Payment({name,id,stripeId}: {name: keyof Plans,id:string,stripeId: stri
       name: "Basic",
       price: "10.00",
       month: 1,
-      image:"basic.avif"
+      image:"basic.jpg"
     },
     Standard: {
       name: "Standard",

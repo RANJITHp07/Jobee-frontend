@@ -15,7 +15,7 @@ import { AppDispatch } from '@/redux/store';
 import StarIcon from '@mui/icons-material/Star';
 import {format} from "timeago.js"
 import { saveJobs } from '@/redux/features/save-slice';
-import { jobApply, userExist } from '@/api/job';
+import { jobApply, savedorNot, userExist } from '@/api/job';
 import { getPhoto } from '@/api/company';
 import { jobcount } from '@/api/user';
 
@@ -37,11 +37,12 @@ interface Props{
 function Joblisting({page,...p}: Props & { key: React.Key }) {
   const userId: string = useAppSelector((state) => state.authReducer.value.userId);
   const token=useAppSelector((state) => state.authReducer.value.token)
-  const [count,setcount]=useState()
+  const [count,setcount]=useState<number>(0)
   const [applied,setapplied]=useState(false)
+  const [saved,setsaved]=useState(false)
   const [url,seturl]=useState('')
   const router=useRouter()
-  const [save,setsave]=useState<boolean>(false)
+  
   const dispatch=useDispatch<AppDispatch>()
   
   // to handle the user who apply  for the job
@@ -50,6 +51,7 @@ function Joblisting({page,...p}: Props & { key: React.Key }) {
     try {
       const res = await jobApply(id, userId, token);
       setapplied(true);
+      setcount((prev)=>prev+1 )
       message.info('Applied to the job post');
     } catch (err) {
       console.log(err);
@@ -58,9 +60,9 @@ function Joblisting({page,...p}: Props & { key: React.Key }) {
 
 
    //to save the job in the save posts
-  const handleSave = useCallback(async (jobId: string) => {
+  const handleSave = async (jobId: string) => {
     try {
-      setsave(!save);
+      setsaved(!saved);
       const res = await savejobs({ id: userId, jobId }, token);
       const response = await savedJobs(userId, token);
       dispatch(saveJobs(response.data.saved));
@@ -68,7 +70,7 @@ function Joblisting({page,...p}: Props & { key: React.Key }) {
     } catch (err) {
       console.log(err);
     }
-  }, [userId, token, dispatch]);
+  };
 
 
 //checking if the user has saved the post or not
@@ -102,8 +104,19 @@ useEffect(()=>{
         console.log(response.data)
   setcount(response.data)
   }
-  fetchData()
+   !page && fetchData()
 },[])
+
+useEffect(()=>{
+  const fetchData=async()=>{
+    console.log(p._id)
+    const response=await savedorNot(userId,p._id as string)
+    console.log(response.data)
+     setsaved(response.data)
+  }
+  userId &&
+  fetchData()
+},[userId])
 
   return (
     <div {...p} className={page ?'box_shadow p-3 mx-10 my-8 rounded-xl md:w-10/12  job md:ml-16 w-3/4':'box_shadow p-3 my-3 rounded-xl  w-full '} >
@@ -135,7 +148,7 @@ useEffect(()=>{
        {
         page ? <div className=' flex justify-between ml:auto mt-3 mx-2 cursor-pointer' onClick={()=>{
           if(userId){
-            handleSave(p._id ? p._id:"")
+            handleSave(p._id as string)
           }else{
             message.info("Please Login")
           }
@@ -143,21 +156,21 @@ useEffect(()=>{
           }}>
              <p className='text-xs text-slate-500'>{format(p.createdAt)}</p>
              <div  className='flex'>
-             {save ? <BookmarkIcon/> : <TurnedInNotIcon/>}
+             {saved ? <BookmarkIcon/> : <TurnedInNotIcon/>}
         
         <p>Save</p>
              </div>
      </div> :
      <div className='flex justify-betweem items-center'>  
      <div>
-      <p className='text-slate-500 text-sm'>{count || 0} Applicantions</p>
+      <p className='text-slate-500 text-sm'>{count || 0} Applied</p>
       </div>
       <div className='ml-auto'>
       <button className='bg-indigo-950 text-white px-4 py-1 font-bold rounded-full mx-1' onClick={()=>{if(!applied){ userId ?handleApply(p._id ? p._id:"") : message.info("Please Login")}}}>{applied ? "Applied" : "Apply" }</button>
       <button className='border-indigo-950 border-2 px-4 py-1 font-bold rounded-full mx-1'onClick={()=>{
         
-         userId ? handleSave(p._id ? p._id:"") : message.info("Please Login")
-          }}>{save? "Saved":"Save"}</button>
+         userId ? handleSave( p._id as string) : message.info("Please Login")
+          }}>{saved ? "Saved":"Save"}</button>
      </div>
       </div>
        }

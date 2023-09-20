@@ -13,9 +13,8 @@ import Picker from '@emoji-mart/react'
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
 import { Modal } from 'antd';
 import VideoCameraBackIcon from '@mui/icons-material/VideoCameraBack';
-import { upload } from '@/api/user';
 import { chatMessage, sendMessage, uploadmedia } from '@/api/chat';
-import { uploadlogo } from '@/api/company';
+import { getPhoto, uploadlogo } from '@/api/company';
 
 
 function Page() {
@@ -42,6 +41,7 @@ function Page() {
    const [file,setfile]=useState<File | null>(null)
   const [randomNumber, setRandomNumber] = useState<number | null>(null);
   const [typingTimeout, settypingTimeout] = useState<any>(null);
+  const [url,setImageUrl]=useState<any>([])
 
   //to add emojii
   const addEmoji = (e:any) => {
@@ -88,7 +88,7 @@ function Page() {
 
         socket.current.emit('sendMessage', { senderId: userId, receiverId: receiverId, text: newMessage });
         const res = await sendMessage(id,userId,'chat',newMessage,token)
-        console.log(res);
+        
         setNewMessage('');
         scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
       }
@@ -115,16 +115,7 @@ function Page() {
            settype("image")
         } else if (fileType === 'application/pdf') {
            settype("pdf")
-        } else if (fileType.startsWith('video/')) {
-          if (selectedFile.size > 10 * 1024 * 1024) {
-            setfile(null)
-            message.info('Video size exceeds 10MB limit.');
-            return;
-          }else{
-            settype("vedio")
-          }
-           
-        } else {
+        }else {
           message.info("Not supported type")
         }
         
@@ -143,28 +134,54 @@ function Page() {
       
       if(file){
         formData.append('file', file);
-        const response=await uploadlogo(formData);
+        let response=await uploadlogo(formData);
+        
+        setMessage((prev:any)=>[...prev,{
+          conversationId:id,
+          sender:userId,
+          text:{
+            text:response.data,
+            type:type
+          }
+          
+       }])
+      
         id && await sendMessage(
-          id,userId,'chat',response.data,token
+          id,userId,type,response?.data,token
       )
       if(socket.current){
         socket?.current.emit('sendMessage', { senderId: userId, receiverId:receiverId , text:response.data });
       
         setNewMessage('');
-        setMessage((prev:any)=>[...prev,{
-          conversationId:id,
-          sender:userId,
-          text:response.data,
-          type:type
-       }])
-      }
+        
       
      
       }
        
     setIsModalOpen(false)
     }
+  }
 
+    //to get the urls
+    useEffect(() => {
+      const fetchMessageUrls = async () => {
+        const imageUrlPromises = message.map(async (p:any) => {
+          if (p.text.type === 'image' || p.text.type==='pdf') {
+                 const res= await getPhoto(p.text.text)
+            return res?.data ;
+          }
+          return null; 
+        });
+    
+        const resolvedUrls = await Promise.all(imageUrlPromises);
+        console.log(resolvedUrls)
+        setImageUrl(resolvedUrls);
+      };
+    
+      fetchMessageUrls();
+    }, [message]);
+    
+  
 
     //to accept the incoming
   useEffect(() => {
@@ -201,7 +218,7 @@ function Page() {
 
   const handleVediocall = async () => {
     try {
-      const newRandomNumber = generateRandomNumber(1, 100);
+      const newRandomNumber = generateRandomNumber(1, 100000000);
       setRandomNumber(newRandomNumber);
       socket.current && socket.current.emit('vedio-calling', { senderId: userId, receiverId: receiverId, text: newRandomNumber });
       router.push(`/vediocall/${newRandomNumber}`);
@@ -231,7 +248,7 @@ function Page() {
     const fetchData = async () => {
       if (id && token) {
         const res = await chatMessage(id,token)
-        console.log(res.data);
+        console.log(res.data)
         setMessage(res.data);
       }
     }
@@ -250,7 +267,10 @@ function Page() {
       <div className="bg-indigo-950 p-5 w-screen hidden lg:block">
         <p className="text-white font-extrabold text-2xl">Jobee</p>
       </div>
-      <div className='bg-indigo-950 p-3 lg:hidden '>
+      <Modal open={modal}  onOk={()=>handleOk()} onCancel={()=>openModal(false)}>
+          <p>Do you want to pick up the vedio call</p>
+      </Modal>
+      <div className='bg-indigo-950 p-3  lg:hidden'>
               <p className='text-white '>{username}</p>
               {id && <p className='text-white text-xs online'>{id in online ? "Online" : "Offline"}</p>}
             </div>
@@ -270,11 +290,14 @@ function Page() {
           Users
         </button>
         <div className="w-screen ">
-        
+        <div className='bg-indigo-950 p-3 hidden lg:block'>
+              <p className='text-white '>{username}</p>
+              {id && <p className='text-white text-xs online'>{id in online ? "Online" : "Offline"}</p>}
+            </div>
        
           <div className="overflow-y-auto h-screen lg:h-full m-3">
             
-            {message.map((p: any, index: number) => (
+            { message.length>0 ? message.map((p: any, index: number) => (
               <div
                 key={index}
                 className={`message ${
@@ -290,11 +313,11 @@ function Page() {
                   </div>
                   </div>
                   
-                ) : (  p.text.type ==='image'? 
+                ) : (  p.text.type ==='image' ? 
                   <div className={p.sender === userId ? 'flex justify-end' : 'flex justify-start w-1/2'}>
-                    <a href={`http://localhost:5443/chat/${p.text.text}`} target="_blank" rel="noopener noreferrer" >
+                    <a href={url[index]} target="_blank" rel="noopener noreferrer" >
                     <Image
-                      src={`http://localhost:5443/chat/${p.text.text}`}
+                      src={url[index]}
                       width={200}
                       height={100}
                       alt=""
@@ -302,22 +325,36 @@ function Page() {
                     />
                     </a>
                   </div> :
-                  <>
-                     <div className={p.sender === userId ? 'flex justify-end my-3' : 'flex justify-start w-1/2 my-3'}>
-                     
-                     <a href={`http://localhost:5443/chat/${p.text.text}`} target="_blank" rel="noopener noreferrer" className='inline border-2'>
-                     <Image src={"/pdf.png"} width={200} height={70} alt=''/>
-                     <p className=''>{p.text.text}</p>
-                     </a>
-                  
-                   </div>
+                  (
+                    p.text.type==='vedio' ?
+                    <div className={p.sender === userId ? 'flex justify-end my-3' : 'flex justify-start w-1/2 my-3'}>
+                    
+                    <video src={url[index]} controls  className="my-3 h-32 w-32 md:h-72 md:w-72 mx-3 rounded-lg" />
+                 
+                  </div>
                    
-                   </>
+                    :  <>
+                    <div className={p.sender === userId ? 'flex justify-end my-3' : 'flex justify-start w-1/2 my-3'}>
+                    
+                    <a href={url[index]} target="_blank" rel="noopener noreferrer" className='inline border-2'>
+                     <div className='border-4 border-slate-400'>
+                     <img src={"/pdf.jpg"} alt='img' className=' h-32 w-36 '/>
+                     <p className='bg-slate-400 text-white'>{p.text.text.slice(0,10)+"pdf"}</p>
+                     </div>
+                    
+                    </a>
+                 
+                  </div>
+                  
+                  </>
+                  )
+                  
                 
-                )}
+                )}  
                 <div ref={scrollRef}></div> 
               </div>
-            ))}
+            )):<p className=" text-2xl md:text-8xl my-16 mx-32 font-bold text-slate-200">Open a message</p>
+          }
             {typing && (
               <p className="bg-indigo-950 inline text-white text-sm rounded-lg p-3 my-5">
                 Typing...
@@ -326,7 +363,7 @@ function Page() {
           </div>
           <Modal  open={isModelOpen} footer={null} onCancel={()=>{setIsModalOpen(false)}}>
             {
-               vedio ?(file && <video src={URL.createObjectURL(file)} controls  className='my-3 h-96 w-full'/>) :
+                type==='pdf' ?(file && <img src={"/pdf.jpg"} alt='img' className='my-3 h-96 w-96 mx-auto'/>) :
                 (file && <img src={URL.createObjectURL(file)} alt='img' className='my-3 h-96 w-96 mx-auto'/>)
               }
               <button className='p-2 w-full bg-blue-500 text-white' onClick={()=>handleUpload()}>Send</button>
@@ -357,6 +394,7 @@ function Page() {
                   type="file"
                   id="file"
                   className="hidden"
+                  accept=".pdf, image/*"
                   onChange={(e: ChangeEvent<HTMLInputElement>) => handlePhoto(e)}
                 />
                 <label htmlFor="file" className="cursor-pointer  right-0">
@@ -384,4 +422,4 @@ function Page() {
   );
 }
 
-export default Page;
+export default Page

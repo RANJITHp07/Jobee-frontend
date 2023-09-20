@@ -36,7 +36,7 @@ function Jobstatus({job,status}:{job:any,status:any[]}) {
                         <p className='text-xs md:text-lg font-bold'>Role:{job.role}</p>
                         <p className='text-xs md:text-lg font-bold'>Location:{job.location}</p>
                         
-                        <p className='text-xs md:text-lg  font-bold'>Salary:{job.salary[0]}-{job.salary[1]} Lakhs</p>
+                        <p className='text-xs md:text-lg  font-bold'>Salary:{ job.salary[0]==0 ? "Not disclosed" : ( job.salary[0] - job.salary[1] + "lakhs" )} </p>
                        
                        </div>
                        <div>

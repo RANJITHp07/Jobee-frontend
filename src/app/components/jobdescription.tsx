@@ -10,7 +10,6 @@ function Jobdescription({job,setusers}:{job:any,setusers: React.Dispatch<React.S
         const handleClick=async()=>{
           try{
             const res=await getShortlist(job._id,token)
-            
             setusers(res.data)
           }catch(err){
             throw err

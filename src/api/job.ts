@@ -212,3 +212,21 @@ export const mutualskills=async(id:string,skills:string[])=>{
      throw err
     }
  }
+
+
+ export const savedorNot=async(userId:string,id:string)=>{
+    try{
+        const res=await  axios.get("http://www.jobeee.website/v6/api/job/saved/exist",{
+            params:{
+                userId:userId,
+                id:id
+            }
+        }
+        )
+        return res
+       }catch(err){
+        throw err
+       }
+ }
+
+

@@ -31,28 +31,28 @@ function CompanyPanel({setShowFilter,company}:adminProps) {
           
         </div>
         <hr className='border-1 border-indigo-950' />
-        <div className='p-2  mt-7 cursor-pointer hover:bg-slate-200'>
+        <div className='p-2  mt-7 cursor-pointer hover:bg-slate-200  hover:p-3 hover:rounded-lg'>
           <p className='text-indigo-950 font-semibold flex items-center'><InfoIcon/><a href='#company' className='text-medium'>About</a></p>
         </div>
         {
           company && <>
-           <div className='p-2  cursor-pointer hover:bg-slate-200'>
+           <div className='p-2  cursor-pointer hover:bg-slate-200  hover:p-3 hover:rounded-lg'>
           <p className='text-indigo-950 font-semibold flex items-center'><MarkUnreadChatAltIcon/><a href='/chat' className='text-medium'>Chat</a></p>
         </div>
-        <div className='p-2 cursor-pointer hover:bg-slate-200'>
-          <p className='text-indigo-950 font-semibold flex items-center'><EditIcon/><a href='/company/form' className='text-medium'>Update</a></p>
+        <div className='p-2 cursor-pointer hover:bg-slate-200  hover:p-3 hover:rounded-lg'>
+          <p className='text-indigo-950 font-semibold flex items-center'><EditIcon/><a href='/company/details' className='text-medium'>Update</a></p>
         </div>
           </>
         }
   
-        <div className='p-2 cursor-pointer hover:bg-slate-200'>
+        <div className='p-2 cursor-pointer hover:bg-slate-200  hover:p-3 hover:rounded-lg'>
           <p className='text-indigo-950 font-semibold'><RateReviewIcon/><a href='#review' className='text-medium'>Reviews</a></p>
           
         </div>
-        <div className='p-2 cursor-pointer hover:bg-slate-200'>
+        <div className='p-2 cursor-pointer hover:bg-slate-200  hover:p-3 hover:rounded-lg'>
           <p className='text-indigo-950 font-semibold'><ApartmentIcon/><a href='#job' className='text-medium'>Jobs</a></p>
         </div>
-        <div className='p-2 cursor-pointer hover:bg-slate-200 flex'>
+        <div className='p-2 cursor-pointer hover:bg-slate-200 flex  hover:p-3 hover:rounded-lg'>
           <p className='text-indigo-950 font-semibold flex' ><LogoutIcon/><p className='text-medium'  onClick={()=>{
           dispatch( logOut())
           localStorage.removeItem("token")

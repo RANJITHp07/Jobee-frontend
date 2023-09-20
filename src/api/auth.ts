@@ -116,20 +116,22 @@ export const getUser=async(id:string,token:string)=>{
      }
 }
 
-export const getrole=async(role:string)=>{
+export const getrole=async(role:string,token:string)=>{
   try{
-    const res=await axios.get("http://www.jobeee.website/v4/api/auth",{params:{
+    const res=await axios.get("http://www.jobeee.website/v4/api/auth",{
+      params:{
       role:role
-    }})
+    },...getHeaders(token)})
     return res
   }catch(err){throw err}
 }
 
-export const getEmail=async(email:string)=>{
+export const getEmail=async(email:string,token:string)=>{
   try{
     const res=await axios.get("http://www.jobeee.website/v4/api/auth",{params:{
       email:email
-    }})
+    },...getHeaders(token)
+  })
     return res
   }catch(err){throw err}
 }

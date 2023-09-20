@@ -3,33 +3,17 @@ import React, { useEffect, useRef,useState} from 'react';
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 import Navbar from '@/app/components/navbar';
 import { useAppSelector } from '@/redux/store';
-import axios from 'axios';
+
 
 function Page({ params }: { params: { id: string } }) {
   const userId: string = useAppSelector((state) => state.authReducer.value.userId);
-  const[user,setuser]=useState<any>()
   const elementRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(()=>{
-    const fetchdata=async()=>{
-        try{
-          if(userId){
-            const res=await axios.get(`http://localhost:4000/api/user/${userId}`)
-            console.log(res.data)
-            setuser(res.data)
-          }
-          
-        }catch(err){
-          throw err
-        }
-    }
-    fetchdata()
-  },[userId])
 
   useEffect(() => {
     if (elementRef.current) {
-      const appID = 797504077;
-      const serverSecret = '34f12bc529f6cf5390e05eaa31d0f66e';
+      const appID = 826092704;
+      const serverSecret = 'dcc0763502d19fbed1b29e2e625282ed';
       const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
         appID,
         serverSecret,
@@ -53,7 +37,8 @@ function Page({ params }: { params: { id: string } }) {
   return (
     <div>
        <div className="hidden"><Navbar page={true}/></div>
-      <div ref={elementRef} ></div>
+
+      <div ref={elementRef} className='grid placecontent-center h-screen' ></div>
     </div>
   );
 }

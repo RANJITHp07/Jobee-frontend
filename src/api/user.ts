@@ -77,6 +77,16 @@ export const getShortlist=async(id:string,token:string)=>{
     }
 }
 
+export const unShortlist=async(id:string,token:string)=>{
+    try{
+        const res=await axios.get(`http://www.jobeee.website/v4/api/profile/unshortlist/${id}`,getHeaders(token))
+        return res
+    }catch(err){
+        throw err
+    }
+}
+
+
 export const statusShortlist=async(id:string,status:string[],token:string)=>{
     try{
         const res=await axios.get(`http://www.jobeee.website/v4/api/profile/filter/${id}`,{params:{
@@ -96,6 +106,16 @@ export const shortlistusers=async(id:string,userId:string[],token:string)=>{
     throw err
    }
 }
+
+
+export const unshortlistusers=async(id:string,userId:string,token:string)=>{
+    try{
+     const res=await axios.put("http://www.jobeee.website/v4/api/profile/user/unshortlist",{id,userId},getHeaders(token))
+     return res
+    }catch(err){
+     throw err
+    }
+ }
 
 export const getView=async(id:string,userId:string,token:string)=>{
    const res= await axios.put("http://www.jobeee.website/v4/api/profile/status/jobapplied",{id,userId,status:"view"},getHeaders(token))

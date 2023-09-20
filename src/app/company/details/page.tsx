@@ -8,7 +8,7 @@ import { message } from 'antd';
 import Image from 'next/image';
 import { useAppSelector } from '@/redux/store';
 import { useRouter } from 'next/navigation';
-import { uploadlogo,createCompany, getCompany, updateCompany } from '@/api/company';
+import { uploadlogo,createCompany, getCompany, updateCompany, getPhoto } from '@/api/company';
 
 function page() {
   const userId: string = useAppSelector((state) => state.authReducer.value.userId);
@@ -16,6 +16,7 @@ function page() {
   const [Company,setcompany]=useState<any>()
   const [file, setFile] = useState<File | null>(null);
   const [loading,setloading]=useState(true)
+  const [url,seturl]=useState('')
   const companyType=useRef<HTMLInputElement>(null);
   const desc=useRef<HTMLTextAreaElement>(null);
   const website=useRef<HTMLInputElement>(null);
@@ -56,7 +57,7 @@ function page() {
         if(file){
           const formData = new FormData();
           formData.append('file', file);
-            response = await uploadlogo(formData,token)
+            response = await uploadlogo(formData)
             data.logo=response.data
         }
         
@@ -68,8 +69,8 @@ function page() {
         
         const formData = new FormData();
         formData.append('file', file);
-          const response = await uploadlogo(formData,token)
-        console.log(response.data)
+          const response = await uploadlogo(formData)
+        
          
         const data={
           companyId:userId,
@@ -91,6 +92,20 @@ function page() {
       console.log(err);
     }
   };
+
+  useEffect(()=>{
+    const fetchData=async()=>{
+      if(Company){
+        const response=await getPhoto(Company.logo)
+        console.log(response.data)
+        seturl(response.data)
+      }
+     
+    }
+    fetchData()
+    
+  },[Company])
+
   return (
     <div >
       <div className="hidden">
@@ -106,7 +121,7 @@ function page() {
             {file? (
           <Image src={URL.createObjectURL(file)} width={200} height={200} alt="photo" className="rounded-xl" />
         ) : (
-          <Image src={Company? Company.logo :"/uploads.jpg"}width={200} height={200} alt="photo" className="rounded-xl" />
+          <Image src={Company? url :"/uploads.jpg"}width={200} height={200} alt="photo" className="rounded-xl" />
         )}
             </label>
             <input type="file" name="file" id="file" accept=".jpg,.jpeg,.webp3" onChange={(e: ChangeEvent<HTMLInputElement>) => { if (e.target.files) setFile(e.target.files[0]) }} className='hidden'/>
@@ -131,15 +146,20 @@ function page() {
       
       id="combo-box-demo"
       options={company}
+      
       sx={{ width: 327 }}
+      
       renderInput={(params) => (
         <TextField
           {...params}
           label={Company ? Company.companyType : "CompanyType"}
           inputRef={companyType}
+          defaultValue={Company && Company.companyType}
           sx={{ border:0 }}
           className="border-none rounded-lg"
         />
+
+        
       )}
       className=" border-2 border-gray-400 rounded-lg w-full"
     />

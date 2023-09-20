@@ -8,6 +8,7 @@ import { getAdmin, getEmail, getrole } from '@/api/auth';
 import { useRouter } from 'next/navigation';
 
 
+
 function Page() {
     const [loading,setloading]=useState(true)
     const router=useRouter()
@@ -26,12 +27,22 @@ function Page() {
    //to search an user using his email Id
     const handleSearch = async()=>{
          try{
-             const res=await getEmail(email)
+          let to=localStorage.getItem("token")
+          if(to){
+            const token=JSON.parse(to).user.token
+           
+             const res=await getEmail(email,token)
+              console.log(res.data)
+              if(!res.data){
+                setuser([]);
+                setcompany([])
+              }
              if(res.data.role==='employer'){
               res.data ? setuser([res.data]) :setuser([])
              }else if(res.data.role==='recruiter'){
               res.data ? setcompany([res.data]):setcompany([])
              }
+            }
          }catch(err){
           throw err
          }
@@ -64,9 +75,14 @@ function Page() {
     useEffect(()=>{
       const fetchData=async()=>{
          try{
-            const res=await getrole('employer')
-            
+          let to=localStorage.getItem("token")
+          if(to){
+            const token=JSON.parse(to).user.token
+           
+            const res=await getrole('employer',token)
+           
             setuser(res.data)
+          }
          }catch(err){
            throw err
          }
@@ -77,8 +93,14 @@ function Page() {
     useEffect(()=>{
       const fetchData=async()=>{
          try{
-            const res=await getrole("recruiter")
+          let to=localStorage.getItem("token")
+          if(to){
+            const token=JSON.parse(to).user.token
+            const res=await getrole("recruiter",token)
+            console.log(res.data)
+            setloading(false)
             setcompany(res.data)
+          }
          }catch(err){
            throw err
          }
@@ -156,7 +178,7 @@ function Page() {
           <td className="border px-4 py-2 hidden md:block">{new Date(p.updatedAt).toLocaleDateString()}</td>
           
         </tr>
-      )) : <p className='md:text-8xl text-6xl text-center my-32 text-slate-300 font-medium'>No such Company</p>}
+      )) : <p className=' text-6xl text-center my-32 lg:mx-56 text-slate-300 font-medium'>No such Company</p>}
     </tbody>
   </table>
 }

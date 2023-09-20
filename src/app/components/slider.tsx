@@ -36,7 +36,7 @@ export default function Slider(){
             <SwiperSlide>
               <Link href={`/job?category=${p.name}`}>
               <div className='bg-indigo-950 text-white grid place-content-center py-5 px-12 rounded-xl p-12'>
-               < p.icon className='text-8xl md:mx-12 md:mt-6 lg:mt-8' />
+               < p.icon className='text-8xl md:mx-12 md:mt-6 lg:mt-8 logo' />
                <p className='text-lg  text-center md:fond-extrabold md:mb-6 lg:mb-8'>{p.name}</p>
             </div>
               </Link>

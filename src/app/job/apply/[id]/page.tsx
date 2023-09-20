@@ -9,7 +9,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import UserDetails from '@/app/components/userDetails'
 import LoadinPage from '@/app/components/loadinPage'
 import { getUser } from '@/api/job'
-import { getShortlist, getView, getapplicant, shortlistusers, statusShortlist } from '@/api/user'
+import { getShortlist, getView, getapplicant, shortlistusers, statusShortlist, unshortlistusers } from '@/api/user'
 import { useAppSelector } from '@/redux/store'
 import { getPhoto } from '@/api/company'
 
@@ -55,11 +55,18 @@ function Page({params}:{params:{id:string}}) {
 
         res.data[0] ? setusers(res.data) :setusers([])
       }else{
+      
         if(token){
           const res=await getapplicant(params.id,token)
        
           res?.data ? setusers(res.data.applications) :setusers([])
-          console.log(res?.data.application)
+          const p=res?.data.applications.map((m:any)=>{
+             if(m.shortlisted){
+              return m._id._id
+             }
+          })
+          const idArray = p.filter((id:string | undefined) => id !== undefined);
+          setselectedusers(idArray)
         }
       }
     }
@@ -109,8 +116,9 @@ function Page({params}:{params:{id:string}}) {
     }
   }
 
+  //to handle the change
   const handleChange=(id:string)=>{
-    
+  
     setselectedusers((prev:any)=>{
       if(selectedusers.includes(id)){
          return prev.filter((p:any)=>p!==id)
@@ -130,6 +138,7 @@ function Page({params}:{params:{id:string}}) {
      }
   }
 
+//to fetch the url
   useEffect(() => {
     const fetchMessageUrls = async () => {
         const imageUrlPromises = users.map(async (p:any) => {
@@ -155,6 +164,17 @@ function Page({params}:{params:{id:string}}) {
       
   }, [users]);
 
+
+  //to remove from the shortlisted
+  const handleRemove=async(userId:string)=>{
+     try{
+        await unshortlistusers(params.id,userId,token)
+        setselectedusers((prev:string[])=>prev.filter((p)=>p!=userId) )
+     }catch(err){
+      throw err
+     }
+  }
+
   return (
     <div >
         <div className="hidden">
@@ -162,7 +182,7 @@ function Page({params}:{params:{id:string}}) {
       </div>{
         loading ?<LoadinPage/>:<>
           <div className="bg-indigo-950 p-5 w-screen flex justify-between">
-        <p className='text-white font-extrabold text-2xl'>Jobee</p>
+        <p className='text-white font-extrabold text-2xl cursor-pointer' onClick={()=>router.push("/company")}>Jobee</p>
          <MenuIcon className="text-white md:hidden" onClick={()=>{setstate(true)}}/>
         </div>
 
@@ -265,7 +285,11 @@ function Page({params}:{params:{id:string}}) {
                               </div>
                             </div>
                           </div>
-                          <div className='flex justify-end items-center'><button className='border-2 rounded-full px-2 cursor-pointer bg-indigo-950 text-white' onClick={()=>{handleView(p._id.userId._id)}}>View</button></div>
+                          <div className='flex justify-end items-center'>
+                            <button className='border-2 rounded-full px-2 cursor-pointer bg-indigo-950 text-white' onClick={()=>{handleView(p._id.userId._id)}}>View</button>
+                            {(selectedusers && selectedusers.includes(p._id._id) ) && checkbox &&  <button className='border-2 rounded-full px-2 cursor-pointer bg-indigo-950 ml-2 text-white' onClick={()=>{handleRemove(p._id._id)}}>Remove</button>
+}
+                            </div>
                           { view && p._id.userId._id === selectedUserId  &&
                                <div className="fixed top-0 left-0 right-0 bottom-0 flex  bg-slate-800 bg-opacity-50 z-50 ">
                                <UserDetails user={p} setview={setview} id={params.id}/>

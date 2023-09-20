@@ -96,7 +96,7 @@ function page() {
     <div className='w-full lg:w-3/4 mx-5'>
        
         
-        <div className="my-3 mx-5">
+        <div className="my-3 mx-5 z-20">
       <AutoComplete
         popupClassName="certain-category-search-dropdown"
         className="w-full text-center my-auto"

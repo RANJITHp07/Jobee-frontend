@@ -45,7 +45,7 @@ function AdminPanel({setShowFilter,setpage,page}:adminProps) {
           <p className='text-indigo-950 font-semibold'><ApartmentIcon/><span className='text-medium' onClick={()=>setpage({...page,page1:false,page2:true})}> All Companies</span></p>
         </div>
 
-        <div className='p-2 cursor-pointer hover:bg-slate-200'>
+        <div className='p-2 cursor-pointer hover:bg-slate-200 '>
         <p className='text-indigo-950 font-semibold flex' ><LogoutIcon/><p className='text-medium'  onClick={()=>{
           dispatch( logOut())
           localStorage.removeItem("token")

@@ -76,7 +76,11 @@
         0 2px 4px rgba(0, 0, 0, .25),
         0 0 0 3px #c8dafc;
     }
-  }  
+  } 
+  
+  .logo{
+    font-size: 6rem !important ;
+  }
 
 .job{
   @media (min-width: 1000px) {

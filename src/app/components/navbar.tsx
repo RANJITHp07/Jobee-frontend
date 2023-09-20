@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link';
 import Image from 'next/image';
-import React, { useState,useEffect, ChangeEvent} from 'react';
+import React, { useState,useEffect, ChangeEvent,useRef} from 'react';
 import {  Badge, message } from 'antd';
 import MenuIcon from '@mui/icons-material/Menu';
 import { BellOutlined } from '@ant-design/icons';
@@ -29,12 +29,13 @@ function Navbar({page}:{page:boolean}) {
   const loading:Boolean=useAppSelector((state)=>state.loadingReducer.value.loading)
   const [roles,setroles]=useState<any>([])
   const [open,setopen]=useState(false)
-  const [search,setsearch]=useState('');
   const [token,setToken]=useState<any>({})
   const [notification,setnotification]=useState([])
   const [model,openmodel]=useState(false)
   const [state,setstate]=useState(false)
   const [filter,setfilter]=useState<string[]>([])
+  const [role,setrole]=useState<string>('')
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const router=useRouter()
   const dispatch=useDispatch<AppDispatch>()
 
@@ -42,7 +43,9 @@ function Navbar({page}:{page:boolean}) {
    
     if (e.key === 'Enter') {
      
-      router.push(`/job?search=${search}`)
+      router.push(`/job?search=${role}`)
+    
+      setrole('')
     }
   };
 
@@ -51,6 +54,7 @@ function Navbar({page}:{page:boolean}) {
   const handleMarkasread=async()=>{
       try{
            const res=await deleteAllNotification(token.user?.userId)
+           setnotification([])
            message.info(res.data)
            openmodel(false)
       }catch(err){
@@ -119,7 +123,7 @@ function Navbar({page}:{page:boolean}) {
     try{
       if(e.target.value.length!=0 && filter.length>0){
         setstate(true)
-       
+         setrole(e.target.value)
        const newFilter = roles.filter((value:string) => {
          return value.toLowerCase().includes(e.target.value.toLowerCase());
        });
@@ -128,8 +132,10 @@ function Navbar({page}:{page:boolean}) {
       else if(filter.length===0){
        setstate(true)
          setfilter(roles)
+         
       }else{
        setstate(false)
+       setrole('')
       }
      
     }catch(err){
@@ -156,13 +162,18 @@ function Navbar({page}:{page:boolean}) {
               page &&
               <div className='bg-white rounded-full py-2 px-3 flex '>
                 <SearchIcon className='text-slate-400'/>
-                 <input type="text" placeholder="Search you job" className='focus:outline-none' onChange={handleChange}/>
+                 <input type="text" placeholder="Search you job" className='focus:outline-none' value={role} autoFocus  onChange={handleChange} onKeyDown={(e:React.KeyboardEvent<HTMLInputElement>)=>handleInputKeyDown(e)} ref={inputRef}/>
                  {
-                    state && <div className='absolute box_shadow bg-white p-3 rounded-lg top-20 w-56'>
+                    state && <div className='absolute box_shadow bg-white p-3 rounded-lg top-20 w-56 z-50'>
                    { filter.length>0 ? filter.map((p:string)=>{
                        return (
                         <>
-                         <p className='my-3'>{p}</p>
+                         <p className='my-3 cursor-pointer' onClick={()=>{
+                          setrole(p)
+                          setstate(false)
+                          inputRef.current?.focus()
+                        }
+                         }>{p}</p>
                          <hr/>
                         </>
                        
@@ -191,20 +202,20 @@ function Navbar({page}:{page:boolean}) {
     <Image src={'/profile-logo.jpg'} width={40} height={40} alt="profile" className='rounded-full ml-5'/>
     </Dropdown>
     <Modal title="Notification" footer={null} open={model} onOk={()=>openmodel(false)} onCancel={()=>openmodel(false)}>
-     {/* {
-  notification.map((p, index) => {
+     {
+  notification.map((p:any, index) => {
    
     
     return (
-      <div className='my-3 cursor-pointer' onClick={()=>{}}>
-      <p className=' text-xs font-semibold text-slate-400' >{parsedNotification.username}</p>
-      <p className='mb-3 text-xs' >Message: {parsedNotification.text.slice(0,10)}</p>
+      <div className='my-3 cursor-pointer' onClick={()=>router.push("/chat")}>
+      <p className=' text-xs font-semibold text-slate-400' >{p.user_id.username}</p>
+      <p className='mb-3 text-xs' >Message: {p.message.slice(0,10)}</p>
       <hr />
       </div>
       
     );
   })
-} */}
+}
 <button className='border-2 p-2 rounded-lg text-xs' onClick={()=>handleMarkasread()}>Mark as read</button>
 </Modal>
     

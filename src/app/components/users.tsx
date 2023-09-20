@@ -1,5 +1,5 @@
 'use client'
-import React, {useState,useEffect} from 'react'
+import React, {useState,useEffect, ChangeEvent} from 'react'
 import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
 import Image from "next/image"
@@ -12,8 +12,31 @@ import { useAppSelector } from '@/redux/store';
 function Users({setShowFilter,userId,setid,setrecieverId,setusername}:{setShowFilter: React.Dispatch<React.SetStateAction<boolean>>,userId:string,setid: React.Dispatch<React.SetStateAction<null>>,setrecieverId: React.Dispatch<React.SetStateAction<string>>,setusername: React.Dispatch<React.SetStateAction<string>>}) {
 
   const [users,setusers]=useState<any>([])
-  const token=useAppSelector((state)=>state.authReducer.value.token)
+  const token=useAppSelector((state)=>state.authReducer.value.token);
+  const [friends,setfriends]=useState([])
   
+
+  const handleChange=(e:ChangeEvent<HTMLInputElement>)=>{
+    if(e.target.value.length!=0 && friends.length>0){
+     
+     const newFilter = users.filter((value:any) => {
+      if(value.members[0]._id===userId){
+        return value.members[1].username.toLowerCase().includes(e.target.value.toLowerCase());
+      }else{
+        return value.members[0].username.toLowerCase().includes(e.target.value.toLowerCase());
+
+      }
+       
+     });
+     setfriends(newFilter)
+    }
+    else if(friends.length===0){
+   
+       setfriends(users)
+    }else{
+      setfriends(users)
+    }
+   }
 
   useEffect(()=>{
     async function fetchData(){
@@ -21,11 +44,12 @@ function Users({setShowFilter,userId,setid,setrecieverId,setusername}:{setShowFi
          if(userId){
           
           const res=await getConvo(userId,token)
-             console.log(res.data[0].members.length)
+            
             res.data.length>0 && setid(res.data[0]._id)
             res.data.length>0 && setrecieverId(userId===res.data[0].members[0]._id?res.data[0].members[1]._id:res.data[0].members[0]._id)
             res.data.length>0 && setusername(userId===res.data[0].members[0]._id?res.data[0].members[1].username:res.data[0].members[0].username)
           setusers(res.data)
+          setfriends(res.data)
          }
       }catch(err){
         throw err
@@ -41,11 +65,11 @@ function Users({setShowFilter,userId,setid,setrecieverId,setusername}:{setShowFi
         </div>
         <div className='bg-slate-100 rounded-full w-11/12 mx-auto  px-3 py-1 flex items-center lg:mt-8'>
             <SearchIcon className='text-slate-400 mx-2'/>
-            <input type='text' placeholder='Search' className='bg-slate-100 w-3/4  focus:outline-none text-slate-600'/>
+            <input type='text' placeholder='Search' className='bg-slate-100 w-3/4  focus:outline-none text-slate-600' onChange={handleChange}/>
         </div>
         
         {
-            users.length >0 ?users.map((p:any)=>{
+            users.length >0 ?friends.map((p:any)=>{
                 return(<>
         <div className='mx-5 my-4 flex items-center cursor-pointer hover:bg-slate-100 hover:p-2 hover:rounded-lg' onClick={()=>{
           setid(p._id)
