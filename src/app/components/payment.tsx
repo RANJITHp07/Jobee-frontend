@@ -45,12 +45,12 @@ function Payment({name,id,stripeId}: {name: keyof Plans,id:string,stripeId: stri
 
   
   const selectedPlan = plans[name];
-  console.log(selectedPlan)
+ 
   
  
   const handleClick=async()=>{
     try{
-        console.log(id,stripeId)
+        
          const res=await axios.post("https://www.jobeee.website/v1/api/plans",{priceId:id,stripeId:stripeId},
           {
             headers: {
@@ -58,7 +58,7 @@ function Payment({name,id,stripeId}: {name: keyof Plans,id:string,stripeId: stri
             },
         }
          )
-         console.log(res.data.url)
+        
          router.push(res.data.url)
     }catch(err){
       console.log(err)

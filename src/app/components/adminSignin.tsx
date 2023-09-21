@@ -30,7 +30,7 @@ function AdminSignin({page}:{page:boolean}) {
    const signInnWithgoogle=async ()=>{
        try{
         const google= await signInnWithGooogle()
-        console.log(google)
+        
         const data:any={
             ...google,   
             credentials:"qwerty",
@@ -117,10 +117,10 @@ function AdminSignin({page}:{page:boolean}) {
           }
           
           const res= await Adminlogin(newUser)
-          console.log(res?.data)
+          
           const userId=res?.data.session.user
           if(res?.data.user.message==="Logged In succesfully"){
-            console.log(res?.data.user.role)
+            
             localStorage.setItem("token",JSON.stringify(res.data))
               router.push("/admin")
           }

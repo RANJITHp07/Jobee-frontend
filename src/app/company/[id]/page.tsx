@@ -29,7 +29,7 @@ function page({ params }: { params: { id: string } }) {
        const fetchData=async()=>{
            try{
             const res = await getCompany(params.id)
-            console.log(res.data)
+            
             setcompany(res.data)
             setloading(false)
            }catch(err){
@@ -69,7 +69,7 @@ function page({ params }: { params: { id: string } }) {
       const fetchData=async()=>{
         if(company){
           const response=await getPhoto(company.logo)
-          console.log(response.data)
+          
           seturl(response.data)
         }
        

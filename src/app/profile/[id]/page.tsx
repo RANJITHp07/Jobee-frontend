@@ -69,7 +69,7 @@ function Page() {
         if(userId){
           const res:any = await createProfile(userId,token)
           dispatch(getUser(res.data))
-          console.log(res.data)
+        
         }
         dispatch(loadingItems())
       } catch (err) {

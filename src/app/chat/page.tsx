@@ -83,7 +83,7 @@ function Page() {
       if (newMessage.trim() !== '' && socket.current && id) {
         const u=online.some((p:any)=>p.userId===receiverId);
         if(!u){
-            console.log(newMessage)   
+               
         }
 
         socket.current.emit('sendMessage', { senderId: userId, receiverId: receiverId, text: newMessage });
@@ -103,7 +103,7 @@ function Page() {
 
       
       const selectedFile =e.target.files[0] as File
-      console.log(selectedFile)
+      
 
       setfile(e.target.files[0] as File) 
       
@@ -174,7 +174,7 @@ function Page() {
         });
     
         const resolvedUrls = await Promise.all(imageUrlPromises);
-        console.log(resolvedUrls)
+       
         setImageUrl(resolvedUrls);
       };
     
@@ -211,7 +211,7 @@ function Page() {
       socket.current.emit('addUser', userId);
       socket.current.on('getUsers', (users) => {
         getonline(users)
-        console.log(users)
+        
       });
     }
   }, [userId, socket.current]);
@@ -248,7 +248,7 @@ function Page() {
     const fetchData = async () => {
       if (id && token) {
         const res = await chatMessage(id,token)
-        console.log(res.data)
+        
         setMessage(res.data);
       }
     }

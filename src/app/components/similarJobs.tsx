@@ -22,7 +22,7 @@ function SimilarJobs({ role, location, id,skills}: { role: string; location: str
     });
 
     const resolvedUrls = await Promise.all(imageUrlPromises);
-    console.log(resolvedUrls)
+  
     setImageUrl(resolvedUrls);
         setJob(res.data);
       } catch (err) {

@@ -24,7 +24,7 @@ function CompanyFilter({setcompanies,setstate}:{setcompanies: React.Dispatch<any
         try{
             if(places.length>0 || rating.length>0 || companyType.length>0){
                 const filter=await companyFilter(places,rating,companyType)
-                console.log(filter.data)
+                
                 setcompanies(filter.data)
             }else{
                 const filter=await jobCompanies()

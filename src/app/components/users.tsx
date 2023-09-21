@@ -76,7 +76,7 @@ function Users({setShowFilter,userId,setid,setrecieverId,setusername}:{setShowFi
           setrecieverId(p.members[0]._id===userId ? p.members[1]._id :p.members[0]._id)
           setusername(p.members[0]._id===userId ? p.members[1].username :p.members[0].username)
         }}>
-            <Image src={'/person.jpg'} width={40} height={40} alt="photo" className="rounded-full border-2 mr-3"/>
+            <Image src={'/profile-logo.jpg'} width={40} height={40} alt="photo" className="rounded-full border-2 mr-3"/>
                <div>
                <p>{p.members[0]._id===userId ? p.members[1].username :p.members[0].username }</p>
                {p.latestMessage!='' ?<p className='text-xs'>lastest message : {p.latestMessage.slice(0,10)}...</p>:<p></p>}

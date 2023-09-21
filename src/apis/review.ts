@@ -19,7 +19,7 @@ export const deletereview=async(id:string,index:number,token:string)=>{
 export const savecomment=async(id:string,index:number,comment:string,rating:number,token:string)=>{
     try{
         const res= await axios.put("https://www.jobeee.website/v3/api/company/update/review",{id:id,index:index,comment:comment,rating},getHeaders(token))
-        console.log(res.data)
+       
         return res
     }catch(err){
         throw err

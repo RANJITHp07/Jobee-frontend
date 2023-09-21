@@ -152,7 +152,7 @@ function Navbar({page}:{page:boolean}) {
           </div>
           <div className="hidden md:block mx-auto">
             <div className="ml-10 flex space-x-4">
-              <Link href="#" className="text-white font-bold lg:font-extrabold hover:text-slate-300">HOME</Link>
+              <Link href="/" className="text-white font-bold lg:font-extrabold hover:text-slate-300">HOME</Link>
               <Link href="/job" className="text-white font-bold lg:font-extrabold hover:text-slate-300">JOB</Link>
               <Link href="/companies" className="text-white font-bold lg:font-extrabold hover:text-slate-300">COMPANY</Link>
             </div>

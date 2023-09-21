@@ -64,7 +64,7 @@ function Header() {
 
   const handlelocationChange=(e:ChangeEvent<HTMLInputElement>)=>{
     try{
-       console.log(e.target.value)
+      
      if(e.target.value.length!=0 && locationFilter.length>0){
       setlocationsearch(e.target.value)
       setlocationstate(true) 
@@ -117,11 +117,11 @@ function Header() {
       
       <div className='grid place-content-center mt-8 md:hidden'>
          <p className='text-center text-slate-300 text-4xl font-extrabold mx-5 leading-10'>The Smartest<br /> Way To Get Your<br/> Dream<span className='text-blue-300'> Job</span></p>
-         <Image src={'/job portal.webp'} width={500} height={200} alt="phoneHeader" data-aos="zoom-out" data-aos-delay="200" data-aos-duration="800" />
+         <Image src={'/job_portal.png'} width={500} height={200} alt="phoneHeader" data-aos="zoom-out" data-aos-delay="200" data-aos-duration="800" />
          <div className='flex justify-center items-center'>
           {
-              !userId &&     <>  <button type='submit' className='rounded-full bg-indigo-700 text-white mx-2 px-9 py-1 text-xl font-bold'>Login</button>
-                     <button type='submit' className='rounded-full bg-indigo-700 mx-2 text-white px-9 py-1 text-xl font-bold'>SignIn</button></>
+              !userId &&     <>  <button type='submit' className='rounded-full bg-indigo-700 text-white mx-2 px-9 py-1 text-xl font-bold' onClick={()=>router.push("/login")}>Login</button>
+                     <button type='submit' className='rounded-full bg-indigo-700 mx-2 text-white px-9 py-1 text-xl font-bold'  onClick={()=>router.push("/signin")}>SignIn</button></>
           }
          
          </div>
@@ -159,7 +159,7 @@ function Header() {
          } 
             </div>
           <div>
-             <div className='flex'>
+             <div className='lg:flex hidden'>
              <LocationOnIcon className='text-slate-300 mr-2 hidden lg:block'/>
           <input type='text' placeholder='Search your Location' className='outline-none focus:outline-non md:w-3/4  hidden lg:block' value={locationsearch} onChange={handlelocationChange}/>
              </div>

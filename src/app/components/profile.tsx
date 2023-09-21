@@ -38,7 +38,7 @@ function Profile({ page}: ProfileProps) {
         formData.append('file',e.target.files[0]);
 
         const response =await upload("resume",formData,token)
-        console.log(response.data)
+        
         await updateProfilephoto(userId,response.data,"",token)
         if(currUser){
          dispatch(updateUser({key:"resume", value:response.data}))
@@ -63,7 +63,7 @@ function Profile({ page}: ProfileProps) {
         const response = await upload("id",formData,token);
         
         const res=await updateProfilephoto(userId,response.data,"profile",token)
-        console.log(res.data)
+        
         if(currUser){
           dispatch(updateUser({key:"photo", value:response.data}))
            

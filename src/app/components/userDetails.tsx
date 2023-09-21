@@ -10,17 +10,19 @@ import { Dropdown, message,Button } from 'antd';
 import { useRouter } from 'next/navigation';
 import { updateStatus } from '@/apis/user';
 import { createConvo } from '@/apis/chat';
+import { getPhoto } from '@/apis/company';
 
 function UserDetails({user,setview,id}:{user:any, setview: React.Dispatch<React.SetStateAction<boolean>>,id:string}) {
   const userId: string = useAppSelector((state) => state.authReducer.value.userId);
   const token=useAppSelector((state)=>state.authReducer.value.token)
+  const [url,seturl]=useState<string>('')
   const router=useRouter()
 
   const handleChat=async()=>{
     try{
       
       const res=await createConvo(user._id.userId._id,userId,token) 
-      console.log(res.data)
+      
       router.push("/chat")
     }catch(err){
       throw err
@@ -55,6 +57,15 @@ function UserDetails({user,setview,id}:{user:any, setview: React.Dispatch<React.
     },
   ];
 
+
+  useEffect(()=>{
+    const fetchData=async()=>{
+      const res=await getPhoto(user._id.resume)
+      seturl(res.data)
+    }
+    fetchData()
+  },[])
+
   return (
     
       
@@ -83,7 +94,7 @@ function UserDetails({user,setview,id}:{user:any, setview: React.Dispatch<React.
                  !(user._id.resume==='') &&
 
                  <div className='my-3'>
-              <a href={`http://localhost:5443/resume/${user._id.resume}`} target="_blank" rel="noopener noreferrer" className=" border-2 p-2 rounded-lg my-3 text-sm font-semibold border-slate-700">Resume</a>
+              <a href={url} target="_blank" rel="noopener noreferrer" className=" border-2 p-2 rounded-lg my-3 text-sm font-semibold border-slate-700">Resume</a>
               </div>
               }
               

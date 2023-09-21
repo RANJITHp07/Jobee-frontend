@@ -86,7 +86,7 @@ const useForm = ({ page }: UseFormProps) => {
   const signinwithLogin=async ()=>{
     try{
         !google ? google= await signInnWithGooogle() :google=google // we get details from the firebase
-        console.log(google)
+     
             const res=await login(google)
             const userId=res?.data.session.user
             if(res?.data.user.message==="Logged In succesfully"){
@@ -115,7 +115,7 @@ const useForm = ({ page }: UseFormProps) => {
       }
         if (password.current?.value === confirm_password.current?.value && email.current && username.current) {
           setLoading(true)
-          console.log( role.current && role.current.value)
+          
           const res=await sendEmail(email?.current.value,username.current.value);
           
           if(res.data=="Email sent"){

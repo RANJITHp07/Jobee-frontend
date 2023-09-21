@@ -47,7 +47,6 @@ function Page() {
           jobData = res.data;
         }else if(param3 && param4){
           const res=await Jobroleserach(param3,param4)
-          console.log(res.data)
           jobData = res.data;
         }
          else {
@@ -58,7 +57,7 @@ function Page() {
         setjob(jobData);
         setloading(false);
       } catch (err) {
-        console.log(err);
+        throw err
       }
     };
 
