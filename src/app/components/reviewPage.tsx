@@ -93,7 +93,7 @@ function ReviewPage({id,page}:{id:string,page:boolean}) {
 
   useEffect(()=>{
      const fetchData=async()=>{
-        const res=await getReviews(id,token)
+      const res=await getReviews(id)
         res.data && setgetreview(res.data.review)
         
      }
@@ -120,7 +120,7 @@ function ReviewPage({id,page}:{id:string,page:boolean}) {
               <div className='my-3 bg-slate-100 p-4 rounded-lg'>
               <div className='flex justify-between my-3'>
                  <div className='flex items-center'>
-                 <Image src={'/person.webp'} width={30} height={30} alt='profile' className='rounded-full mx-1'/>
+                 <Image src={'/profile-logo.jpg'} width={30} height={30} alt='profile' className='rounded-full mx-1'/>
                  <div className=' mx-2'>
                  <p className='text-sm'>{p.username}</p>
                  <div className='flex items-center '><p className='text-xs'>{p.rating}</p><p className='text-xs'><StarIcon className='text-xs text-yellow-300'/></p></div>
@@ -129,7 +129,7 @@ function ReviewPage({id,page}:{id:string,page:boolean}) {
                  </div>
                  {
                   
-                  ( user.username==p.username) && <div className='flex'>
+                  ( user && (user.username==p.username)) && <div className='flex'>
                   <DeleteIcon className='mx-2 cursor-pointer' onClick={()=>{ userId ? showDeleteConfirm(index) : message.info("Please Login")}} />
                   <EditIcon
   className='cursor-pointer'
