@@ -1,3 +1,4 @@
+import { StringGradients } from "antd/es/progress/progress";
 import axios from "axios"
 
 const getHeaders = (token:string) => ({
@@ -55,9 +56,9 @@ export const updateCompany=async(id:string,update:any,token:string)=>{
      }
 }
 
-export const getReviews =async(id:string,token:string)=>{
+export const getReviews =async(id:string)=>{
      try{
-       const res=await axios.get(`https://www.jobeee.website/v3/api/company/review/${id}`,getHeaders(token))
+       const res=await axios.get(`https://www.jobeee.website/v3/api/company/review/${id}`)
        return res
     }catch(err){
         throw err
