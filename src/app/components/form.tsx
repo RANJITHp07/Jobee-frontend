@@ -83,8 +83,9 @@ function Form({ page }: { page: boolean }) {
               className="mt-1 pr-5 block w-full p-3 border-2 border-gray-400 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               ref={role}
             >
-              <option value="recruiter">JobSeeker</option>
               <option value="employer">Employee</option>
+              <option value="recruiter">JobSeeker</option>
+              
             </select>
           </div>
         )}

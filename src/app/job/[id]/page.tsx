@@ -14,6 +14,7 @@ import { useAppSelector } from '@/redux/store'
 
 function Page({ params }: { params: { id: string } }) {
   const userId: string = useAppSelector((state) => state.authReducer.value.userId);
+  console.log(userId)
   const token=useAppSelector((state)=>state.authReducer.value.token)
 const [job,setJob]=useState<any>()
 const [mutual,setmutual]=useState([])
@@ -33,9 +34,9 @@ const [loading,setloading]=useState(true)
   useEffect(()=>{
     const fetchData=async()=>{
       const res= await getProfile(userId,token)
-      console.log(res?.data.skills)
+      
       const response=await mutualskills( params.id,res?.data.skills)
-      console.log(response.data)
+      
       setmutual(response.data)
 
     }
@@ -82,6 +83,8 @@ const [loading,setloading]=useState(true)
         {skillsList}
    
       </div>
+      {
+          userId!=='' && 
       <div className='box_shadow my-3 p-5 rounded-lg'>
         <div className='flex justify-between'>
         <p className='text-slate-600 font-bold'>MUTUAL SKILLS<span className='text-xs mx-4'> {mutual.length} mutual skills</span></p>
@@ -105,7 +108,9 @@ const [loading,setloading]=useState(true)
             })
           }
           </div>
+       
       </div>
+           }
       </div>
       <div className='lg:w-1/2 p-5'>
        {job && <SimilarJobs role={job.role} location={job.location} id={job._id} skills={job.skills}/>}

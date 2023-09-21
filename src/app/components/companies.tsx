@@ -24,7 +24,7 @@ export default function App() {
   const getUrl=async(imageName:string)=>{
     if(imageName!=''){
       const res=await getPhoto(imageName);
-      console.log(res.data)
+    
       return res.data
     }
     
@@ -41,7 +41,7 @@ export default function App() {
       });
   
       const resolvedUrls = await Promise.all(imageUrlPromises);
-      console.log(resolvedUrls)
+     
       setImageurl(resolvedUrls);
     };
   

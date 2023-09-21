@@ -99,7 +99,7 @@ export const AdminsendEmail=async(email:string,username:string)=>{
 export const emailVerification=async(email:string,otp:string)=>{
   try{
     const res=await axios.post("https://www.jobeee.website/v4/api/auth/otp",{email,otp})
-    console.log(res.data);
+    
     return res
 }catch(err){
    console.log(err)

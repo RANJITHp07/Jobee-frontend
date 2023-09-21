@@ -7,8 +7,9 @@ import { Searchcomapny, getPhoto} from '@/apis/company'
 import { AutoComplete, Input } from 'antd';
 import { Pagination } from 'antd';
 import CompanyFilter from '../components/companyFilter'
-import { jobCompanies } from '@/apis/job'
+import { companyFilter, jobCompanies } from '@/apis/job'
 import StarIcon from '@mui/icons-material/Star';
+import LoadinPage from '../components/loadinPage'
 
 
 function page() {
@@ -19,6 +20,8 @@ function page() {
     const [search,setsearch]=useState<string>('')
     const[pagination,setpagination]=useState(1)
     const [state,setstate]=useState(false)
+    const[loading,setloading]=useState(true)
+    const [filter,setfilter]=useState([])
     const router=useRouter()
 
     const handleSearch=async()=>{
@@ -38,8 +41,9 @@ function page() {
               const c=res.data.map((p:any)=>({value:p.companyusername}))
               setitems(c)
               setcomapnies(res.data)
+              setfilter(res.data)
             }
-            
+            setloading(false)
           }catch(err){
             throw err
           }
@@ -47,8 +51,15 @@ function page() {
     fetchData()
   },[])
 
-  const handleSelect = (value: string) => {
-    setsearch(value); 
+  const handleSelect = (e:ChangeEvent<HTMLInputElement>) => {
+    try{
+       const companyFilter=comapnies.filter((p:any)=>{
+         return p.companyusername.toLowerCase().includes(e.target.value.toLowerCase());
+       })
+       setfilter(companyFilter)
+    }catch(err){
+      throw err
+    }
   
   };
 
@@ -76,6 +87,9 @@ function page() {
   return (
 
     <div>
+      {
+        loading ? <LoadinPage/> :
+      <>
        <div className='bg-indigo-950'>
             <Navbar page={true}/>
         </div>
@@ -96,25 +110,17 @@ function page() {
     <div className='w-full lg:w-3/4 mx-5'>
        
         
-        <div className="my-3 mx-5 z-20">
-      <AutoComplete
-        popupClassName="certain-category-search-dropdown"
-        className="w-full text-center my-auto"
-        style={{ width: '100%', maxWidth: '1000px', background: '#f0f0f0', borderRadius: '8px' }}
-        options={items}
-        onSelect={handleSelect}
-        
-      >
-        <Input.Search size="large" placeholder="Search Your Company" onChange={(e:ChangeEvent<HTMLInputElement>)=>setsearch(e.target.value)} onPressEnter={handleSearch} />
-      </AutoComplete>
+        <div className="my-6 mx-5 z-20">
+          <input type='text' placeholder='Enter the company' onChange={(e:ChangeEvent<HTMLInputElement>)=>handleSelect(e)} className='border-2 w-full p-2 rounded-lg'/>
+      
     </div>
         
         {
-          comapnies.length>0 ? comapnies.slice(pagination * 4 - 4, pagination * 4).map((p:any,index:number)=>{
+          filter.length>0 ? filter.slice(pagination * 4 - 4, pagination * 4).map((p:any,index:number)=>{
                 return <div className="box_shadow mx-3  md:mx-5 my-5 rounded-lg p-2 cursor-pointer" onClick={()=>router.push(`/company/${p._id}`)}>
                     <div className="md:flex">
                         <div className="grid place-content-center">
-                        <Image src={url[index*pagination]} width={200} height={200} alt=''/>
+                         {url[index*pagination] && <Image src={url[index*pagination]} width={200} height={200} alt=''/>}
                         </div>
                         
                         
@@ -135,6 +141,7 @@ function page() {
             }} className='text-center mt-32 mb-5' />
     </div>
     </div>
+    </>}
     </div>
   )
 }

@@ -49,9 +49,9 @@ function Page({params}:{params:{id:string}}) {
   useEffect(() => {
     const fetchData=async()=>{
       if(status.length>0){
-        console.log(status)
+       
         const res=await statusShortlist(params.id,status,token)
-        console.log(res.data)
+       
 
         res.data[0] ? setusers(res.data) :setusers([])
       }else{
@@ -106,9 +106,9 @@ function Page({params}:{params:{id:string}}) {
   const handleSelected=async()=>{
     try{
       if(checkbox){
-        console.log(selectedusers)
+        
         const res=await shortlistusers(params.id,selectedusers,token)
-        console.log(res.data)
+       
         setcheckbox(false)
       }
     }catch(err){
@@ -155,7 +155,7 @@ function Page({params}:{params:{id:string}}) {
         
       });
       const resolvedUrls = await Promise.all(imageUrlPromises);
-      console.log(resolvedUrls)
+      
       setImageUrl(resolvedUrls);
     };
   

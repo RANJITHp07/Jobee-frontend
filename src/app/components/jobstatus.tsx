@@ -22,7 +22,7 @@ function Jobstatus({job,status}:{job:any,status:any[]}) {
   useEffect(()=>{
     const fetchData=async()=>{
       const response=await getPhoto(job.company.logo)
-    console.log(response.data)
+   
     seturl(response.data)
     }
     fetchData()

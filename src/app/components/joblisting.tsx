@@ -49,12 +49,12 @@ function Joblisting({page,...p}: Props & { key: React.Key }) {
 
   const handleApply = useCallback(async (id: string) => {
     try {
-      const res = await jobApply(id, userId, token);
+       await jobApply(id, userId, token);
       setapplied(true);
       setcount((prev)=>prev+1 )
       message.info('Applied to the job post');
     } catch (err) {
-      console.log(err);
+      throw err
     }
   }, [userId, token]);
 
@@ -89,7 +89,7 @@ useMemo(()=>{
 useEffect(()=>{
   const fetchData=async()=>{
     const response=await getPhoto(p.company.logo)
-  console.log(response.data)
+  
   seturl(response.data)
   }
   fetchData()
@@ -101,17 +101,17 @@ useEffect(()=>{
 useEffect(()=>{
   const fetchData=async()=>{
     const response=await jobcount(p._id as string)
-        console.log(response.data)
-  setcount(response.data)
+      response.data ?   setcount(response.data) : setcount(0)
+  
   }
-   !page && fetchData()
+   !page && p._id && fetchData()
 },[])
 
 useEffect(()=>{
   const fetchData=async()=>{
-    console.log(p._id)
+    
     const response=await savedorNot(userId,p._id as string)
-    console.log(response.data)
+    
      setsaved(response.data)
   }
   userId &&
@@ -131,10 +131,10 @@ useEffect(()=>{
           <p className='text-xs mb-5'>{p.company.rating}<StarIcon className='text-xs text-yellow-500'/></p>
         </div>
         <div className='ml-auto md:ml-auto lg:hidden '>
-          <Image src={url} width={100} height={100} alt="photo" className='rounded-xl' onClick={()=>{router.push(`/company/${p.company._id}`)}} />
+         { url!='' && <Image src={url} width={100} height={100} alt="photo" className='rounded-xl' onClick={()=>{router.push(`/company/${p.company._id}`)}} />}
         </div>
         <div className='ml-6 md:ml-auto hidden lg:block'>
-        <Image src={url} width={100} height={100} alt="photo" className='rounded-xl' onClick={()=>{router.push(`/company/${p.company._id}`)}}/>
+       { url!='' &&  <Image src={url} width={100} height={100} alt="photo" className='rounded-xl' onClick={()=>{router.push(`/company/${p.company._id}`)}}/>}
         </div>
        </div>
        <div className={`${!page ? "grid" :"first-letter"}  mb-3  lg:mr-54`}>

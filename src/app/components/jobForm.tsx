@@ -40,7 +40,7 @@ function JobForm() {
         if(param){
          
           const res=await getJobapplication(param)
-          console.log(res.data)
+          
           setSkills(res.data.skills)
           setjob(res.data)
           let location=res.data.location.split(',')
@@ -90,7 +90,7 @@ function JobForm() {
            }
             if(param){
               const res=await updateApplication(param,jobData)
-             console.log(res.data)
+             
              router.push("/company")
              return
             }  

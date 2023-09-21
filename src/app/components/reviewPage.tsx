@@ -84,7 +84,7 @@ function ReviewPage({id,page}:{id:string,page:boolean}) {
     const fetchData=async()=>{
       if(userId){
         const res=await getUser(userId,token)
-        console.log(res.data);
+        console.log(res.data,userId)
         setuser(res.data)
       }
     }
@@ -94,8 +94,6 @@ function ReviewPage({id,page}:{id:string,page:boolean}) {
   useEffect(()=>{
      const fetchData=async()=>{
         const res=await getReviews(id,token)
-        
-        res.data && console.log(res.data.review)
         res.data && setgetreview(res.data.review)
         
      }
@@ -113,6 +111,7 @@ function ReviewPage({id,page}:{id:string,page:boolean}) {
         )
         }
         </div>
+        
         <hr/>
         {
           getreview && 
@@ -126,9 +125,11 @@ function ReviewPage({id,page}:{id:string,page:boolean}) {
                  <p className='text-sm'>{p.username}</p>
                  <div className='flex items-center '><p className='text-xs'>{p.rating}</p><p className='text-xs'><StarIcon className='text-xs text-yellow-300'/></p></div>
                   </div>
+                  
                  </div>
                  {
-                  page && <div className='flex'>
+                  
+                  ( user.username==p.username) && <div className='flex'>
                   <DeleteIcon className='mx-2 cursor-pointer' onClick={()=>{ userId ? showDeleteConfirm(index) : message.info("Please Login")}} />
                   <EditIcon
   className='cursor-pointer'

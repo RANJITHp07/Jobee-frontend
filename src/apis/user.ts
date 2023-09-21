@@ -119,7 +119,7 @@ export const unshortlistusers=async(id:string,userId:string,token:string)=>{
 
 export const getView=async(id:string,userId:string,token:string)=>{
    const res= await axios.put("https://www.jobeee.website/v4/api/profile/status/jobapplied",{id,userId,status:"view"},getHeaders(token))
-   console.log(res.data)
+  
 }
 
 export const getapplicant=async(id:string,token:string)=>{
