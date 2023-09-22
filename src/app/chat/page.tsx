@@ -185,7 +185,8 @@ function Page() {
 
     //to accept the incoming
   useEffect(() => {
-    socket.current = io('ws://www.jobeee.website');
+    // socket.current = io('ws://www.jobeee.website');
+    socket.current = io('ws://localhost:4000');
     socket.current.on('getMessage', (data) => {
       setArrivalMessage({
         sender: data.senderId,
@@ -267,8 +268,16 @@ function Page() {
       <div className="bg-indigo-950 p-5 w-screen hidden lg:block">
         <p className="text-white font-extrabold text-2xl">Jobee</p>
       </div>
-      <Modal open={modal}  onOk={()=>handleOk()} onCancel={()=>openModal(false)}>
+      <Modal open={modal}  onOk={handleOk} footer={null} onCancel={()=>openModal(false)}>
           <p>Do you want to pick up the vedio call</p>
+          <div className='flex justify-end mt-5'>
+             <button className='border-2 p-1 px-2 rounded-lg hover:border-red-200' onClick={()=>openModal(false)}>
+              Cancel
+             </button>
+             <button className='bg-blue-600 p-1 px-3  ml-3 rounded-lg  text-white hover:px-5 ' onClick={handleOk}>
+              OK
+             </button>
+          </div>
       </Modal>
       <div className='bg-indigo-950 p-3  lg:hidden'>
               <p className='text-white '>{username}</p>
@@ -307,7 +316,7 @@ function Page() {
                 {p.text.type === 'chat' ? (
                   <div className={p.sender === userId ? 'flex justify-end ' : 'flex justify-start '}>
                     
-                  <div className= {p.text.text.length >50 ? "bg-indigo-950 text-white text-sm rounded-lg p-3 my-5 w-1/2" : "bg-indigo-950 text-white text-sm rounded-lg p-3 my-5 "}>
+                  <div className= {p.text.text.length >50 ? "bg-indigo-950 text-white text-sm rounded-lg p-3 my-2 w-1/2" : "bg-indigo-950 text-white text-sm rounded-lg p-3 my-2 "}>
                     <p className=" text-white text-sm rounded-lg inline p-3">{p.text.text}</p>
                   
                   </div>
@@ -356,7 +365,7 @@ function Page() {
             )):<p className=" text-2xl md:text-8xl my-16 mx-32 font-bold text-slate-200">Open a message</p>
           }
             {typing && (
-              <p className="bg-indigo-950 inline text-white text-sm rounded-lg p-3 my-5">
+              <p className="bg-indigo-950 inline text-white text-sm rounded-lg p-3 my-2">
                 Typing...
               </p>
             )}

@@ -109,6 +109,7 @@ function Navbar({page}:{page:boolean}) {
           dispatch(loadingItems())
           const fetchData=async()=>{
             const res=await chatNotification(parsedToken.user.userId)
+           
             setnotification(res.data)
           }
           fetchData()
@@ -194,6 +195,7 @@ function Navbar({page}:{page:boolean}) {
            <Link href={"/login"}><button className='rounded-xl bg-indigo-700 text-white mx-2 px-4 py-1 text-medium font-semibold'>Login</button></Link>
          </div> :
          <div className='md:flex ml-3 hidden'>
+          
            <Badge count={notification.length} style={{ backgroundColor: 'green' }}>
       <BellOutlined className="text-white text-3xl" onClick={()=>openmodel(true)}/>
     </Badge>
