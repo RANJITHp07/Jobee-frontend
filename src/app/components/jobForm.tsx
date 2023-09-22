@@ -107,7 +107,7 @@ function JobForm() {
   
   
 
-  const handleAddSkill = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleAddSkill = (e: React.MouseEvent<HTMLButtonElement> |  React.KeyboardEvent<HTMLInputElement>) => {
     e.preventDefault()
     if (skillInput.trim() !== '') {
       setSkills((prevSkills) => [...prevSkills, skillInput]);
@@ -148,6 +148,11 @@ function JobForm() {
             placeholder="Enter the skill"
             className="mt-1 block w-full p-2 md:p-2 lg:p-3 border-2 border-gray-400 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             value={skillInput}
+            onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
+              if (e.key === 'Enter') {
+                handleAddSkill(e);
+              }
+            }}
             onChange={(e) => setSkillInput(e.target.value)}
           />
           <button
