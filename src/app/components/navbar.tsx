@@ -123,8 +123,7 @@ function Navbar({page}:{page:boolean}) {
  
    //connecting to socket
   useEffect(() => {
-    // socket.current = io('ws://www.jobeee.website');
-    socket.current = io('ws://localhost:4000');
+    socket.current = io('ws://www.jobeee.website');
   }, [socket]);
 
   useEffect(() => {
