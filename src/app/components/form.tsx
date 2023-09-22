@@ -84,7 +84,7 @@ function Form({ page }: { page: boolean }) {
               ref={role}
             >
               <option value="employer">Employee</option>
-              <option value="recruiter">JobSeeker</option>
+              <option value="recruiter">Recruiter</option>
               
             </select>
           </div>
