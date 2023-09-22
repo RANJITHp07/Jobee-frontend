@@ -1,5 +1,5 @@
 'use client'
-import React,{useEffect,useState} from "react"
+import React,{useEffect,useRef} from "react"
 import Image from 'next/image'
 import Navbar from './components/navbar'
 import Header from './components/header'
@@ -12,6 +12,7 @@ import dynamic from "next/dynamic"
 import { loadingItems } from "@/redux/features/loading-slice"
 
 
+
 const Footer = dynamic(() => import('./components/footer'));
 const Companies= dynamic(() => import('./components/companies'));
 const Detail = dynamic(() => import('./components/detail'));
@@ -21,9 +22,12 @@ export default function Home() {
 
   const userId: string = useAppSelector((state) => state.authReducer.value.userId);
   const loading:Boolean=useAppSelector((state)=>state.loadingReducer.value.loading)
-  const token=useAppSelector((state) => state.authReducer.value.token)
+  
   const dispatch=useDispatch()
   const router=useRouter()
+
+
+
 
   useEffect(()=>{
      const fetchData=async()=>{

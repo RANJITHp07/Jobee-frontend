@@ -3,13 +3,15 @@ import {createSlice,PayloadAction} from "@reduxjs/toolkit"
 
 interface InitialState {
     value: {
-        loading:Boolean
+        open:boolean,
+        roomId:number,
     };
 }
 
 const initialState: InitialState = {
     value: {
-       loading:true
+       open:false,
+       roomId:0
     },
 };
 
@@ -17,16 +19,23 @@ const modal = createSlice({
     name: "modal",
     initialState,
     reducers: {
-        openModal(){
-            return {
-                value:{
-                    loading:false
-                }
-             }
+        openModal(state,action){
+            
+            state.value.open=action.payload
+           
+            
         },
+
+        closeModal(state,action){
+            state.value.open=action.payload
+        },
+
+        setRoomId(state,action){
+            state.value.open=action.payload
+        }
         
     },
 });
 
-export const { openModal} = modal.actions;
+export const { openModal,closeModal,setRoomId } = modal.actions;
 export default modal.reducer;

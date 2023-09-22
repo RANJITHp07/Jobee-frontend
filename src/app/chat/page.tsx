@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef, ChangeEvent } from 'react';
 import Image from 'next/image';
 import Users from '../components/users';
 import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
 import SendIcon from '@mui/icons-material/Send';
 import { io, Socket } from 'socket.io-client';
 import Navbar from '../components/navbar';
@@ -15,14 +16,16 @@ import { Modal } from 'antd';
 import VideoCameraBackIcon from '@mui/icons-material/VideoCameraBack';
 import { chatMessage, sendMessage, uploadmedia } from '@/apis/chat';
 import { getPhoto, uploadlogo } from '@/apis/company';
+import { closeModal, openModal, setRoomId } from '@/redux/features/modal-slice';
 
 
 function Page() {
   const userId: string = useAppSelector((state) => state.authReducer.value.userId);
+  const open: boolean = useAppSelector((state) => state.modalReducer.value.open);
   const token:string=useAppSelector((state)=>state.authReducer.value.token)
+  const roomId:number=useAppSelector((state)=>state.modalReducer.value.roomId)
   const [typing, setTyping] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
-  const [roomId, setRoomId] = useState();
   const [id, setId] = useState(null);
   const [arrivalMessage, setArrivalMessage] = useState<any>(null);
   const [receiverId, setReceiverId] = useState('');
@@ -31,7 +34,6 @@ function Page() {
   const [message, setMessage] = useState<any>([]);
   const [image, setImage] = useState('');
   const scrollRef = useRef<any>();
-  const [modal, openModal] = useState<boolean>(false);
   const router = useRouter();
   const [showEmojii,setshowemojii]=useState(false)
   const [online,getonline]=useState([])
@@ -41,6 +43,7 @@ function Page() {
    const [file,setfile]=useState<File | null>(null)
   const [randomNumber, setRandomNumber] = useState<number | null>(null);
   const [typingTimeout, settypingTimeout] = useState<any>(null);
+  const dispatch=useDispatch()
   const [url,setImageUrl]=useState<any>([])
 
   //to add emojii
@@ -231,11 +234,11 @@ function Page() {
   useEffect(() => {
     if (userId && socket.current) {
       socket.current.on('vedio-answer', (data) => {
-        openModal(true);
-        setRoomId(data.text);
+        dispatch(openModal(true))
+        dispatch(setRoomId(data.text));
       });
     }
-  }, [userId, socket]);
+  }, [userId, socket,open,roomId]);
 
   const handleOk = () => {
     try {
@@ -268,10 +271,10 @@ function Page() {
       <div className="bg-indigo-950 p-5 w-screen hidden lg:block">
         <p className="text-white font-extrabold text-2xl">Jobee</p>
       </div>
-      <Modal open={modal}  onOk={handleOk} footer={null} onCancel={()=>openModal(false)}>
+      <Modal open={open}  onOk={handleOk} footer={null} onCancel={()=>dispatch(closeModal(false))}>
           <p>Do you want to pick up the vedio call</p>
           <div className='flex justify-end mt-5'>
-             <button className='border-2 p-1 px-2 rounded-lg hover:border-red-200' onClick={()=>openModal(false)}>
+             <button className='border-2 p-1 px-2 rounded-lg hover:border-red-200' onClick={()=>dispatch(closeModal(false))}>
               Cancel
              </button>
              <button className='bg-blue-600 p-1 px-3  ml-3 rounded-lg  text-white hover:px-5 ' onClick={handleOk}>

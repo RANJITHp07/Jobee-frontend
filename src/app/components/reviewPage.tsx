@@ -156,10 +156,18 @@ function ReviewPage({id,page}:{id:string,page:boolean}) {
             )
           })
         }
-        <Modal title="Share your Review" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <Modal title="Share your Review" open={isModalOpen} footer={null} onOk={handleOk} onCancel={handleCancel}>
          <textarea className='border-2 w-full h-32 p-2 rounded-md my-3' placeholder='Share your opinon' ref={review}></textarea>
          <p>Rate your Opinon</p>
          <Rate onChange={handleRatingChange} defaultValue={2} /> 
+         <div className='flex justify-end mt-5'>
+             <button className='border-2 p-1 px-2 rounded-lg hover:border-red-200' onClick={handleCancel}>
+              Cancel
+             </button>
+             <button className='bg-blue-600 p-1 px-3  ml-3 rounded-lg  text-white hover:px-5 ' onClick={handleOk}>
+              OK
+             </button>
+          </div>
       </Modal>
     </div>
   )
