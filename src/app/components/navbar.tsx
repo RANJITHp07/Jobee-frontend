@@ -14,6 +14,7 @@ import {useRouter} from 'next/navigation';
 import { logOut } from '@/redux/features/auth-slice';
 import { useAppSelector } from '@/redux/store';
 import 'aos/dist/aos.css';
+import { io, Socket } from 'socket.io-client';
 import AOS from 'aos'
 import {Modal} from 'antd'
 import ProfileMenu from './profileMenu';
@@ -21,12 +22,13 @@ import { getRoles } from '@/apis/job';
 import { chatNotification, deleteAllNotification } from '@/apis/chat';
 import { loadingItems } from '@/redux/features/loading-slice';
 import SearchIcon from '@mui/icons-material/Search';
+import { closeModal, openModal, setRoomId } from '@/redux/features/modal-slice';
 
 
  
 
 function Navbar({page}:{page:boolean}) {
-  const loading:Boolean=useAppSelector((state)=>state.loadingReducer.value.loading)
+  const roomId=useAppSelector((state)=>state.modalReducer.value.roomId)
   const [roles,setroles]=useState<any>([])
   const [open,setopen]=useState(false)
   const [token,setToken]=useState<any>({})
@@ -35,6 +37,7 @@ function Navbar({page}:{page:boolean}) {
   const [state,setstate]=useState(false)
   const [filter,setfilter]=useState<string[]>([])
   const [role,setrole]=useState<string>('')
+  const socket = useRef<Socket | null>();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const router=useRouter()
   const dispatch=useDispatch<AppDispatch>()
@@ -109,13 +112,44 @@ function Navbar({page}:{page:boolean}) {
           dispatch(loadingItems())
           const fetchData=async()=>{
             const res=await chatNotification(parsedToken.user.userId)
+           
             setnotification(res.data)
           }
           fetchData()
         
 
     }
-  }, [model]);
+  }, [model,open]);
+ 
+   //connecting to socket
+  useEffect(() => {
+    // socket.current = io('ws://www.jobeee.website');
+    socket.current = io('ws://localhost:4000');
+  }, [socket]);
+
+  useEffect(() => {
+    const userId = localStorage.getItem('token');
+
+    if (userId!==null && socket.current) {
+    
+      socket.current.on('vedio-answer', (data) => {
+       
+        dispatch(openModal(true))
+        dispatch(setRoomId(data.text));
+      });
+    }
+  }, [socket]);
+
+
+  const handleOk = () => {
+    try {
+      router.push(`/vediocall/${roomId}`);
+    } catch (err) {
+      throw err;
+    }
+  }
+
+ 
 
   //filter
 
@@ -187,13 +221,14 @@ function Navbar({page}:{page:boolean}) {
              }
       </div>
     
-
+     
         {
            ! token.user?.userId ?  <div className='hidden md:block'>
           <Link href={"/signin"}> <button className='rounded-xl bg-indigo-700 text-white mx-2 px-4 py-1 text-medium font-semibold'>Sign In</button></Link> 
            <Link href={"/login"}><button className='rounded-xl bg-indigo-700 text-white mx-2 px-4 py-1 text-medium font-semibold'>Login</button></Link>
          </div> :
          <div className='md:flex ml-3 hidden'>
+          
            <Badge count={notification.length} style={{ backgroundColor: 'green' }}>
       <BellOutlined className="text-white text-3xl" onClick={()=>openmodel(true)}/>
     </Badge>
@@ -232,7 +267,19 @@ function Navbar({page}:{page:boolean}) {
         
         </div>
       </div>
-
+      
+      <Modal open={open}  onOk={handleOk} footer={null} onCancel={()=>dispatch(closeModal(false))}>
+        
+          <p>Do you want to pick up the vedio call</p>
+          <div className='flex justify-end mt-5'>
+             <button className='border-2 p-1 px-2 rounded-lg hover:border-red-200' onClick={()=>dispatch(closeModal(false))}>
+              Cancel
+             </button>
+             <button className='bg-blue-600 p-1 px-3  ml-3 rounded-lg  text-white hover:px-5 ' onClick={handleOk}>
+              OK
+             </button>
+          </div>
+      </Modal>
       
     </nav>
   );

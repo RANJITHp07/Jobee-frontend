@@ -4,13 +4,15 @@ import authReducer from "./features/auth-slice"
 import saveReducer from "./features/save-slice"
 import loadingReducer from "./features/loading-slice"
 import userReducer from "./features/user-slice"
+import modalReducer from "./features/modal-slice"
 
 export const store=configureStore({
     reducer:{
         authReducer,
         saveReducer,
         loadingReducer,
-        userReducer
+        userReducer,
+        modalReducer
     }
 })
 
