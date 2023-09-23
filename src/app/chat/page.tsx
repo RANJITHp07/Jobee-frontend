@@ -188,7 +188,7 @@ function Page() {
 
     //to accept the incoming
   useEffect(() => {
-    socket.current = io('https://www.jobeee.website');
+    socket.current = io('ws://www.jobeee.website');
     socket.current.on('getMessage', (data) => {
       setArrivalMessage({
         sender: data.senderId,
@@ -199,7 +199,7 @@ function Page() {
   }, []);
 
   useEffect(() => {
-    arrivalMessage && setNewMessage(arrivalMessage.text);
+    arrivalMessage ;
   }, [arrivalMessage]);
 
   useEffect(() => {
@@ -251,7 +251,6 @@ function Page() {
     const fetchData = async () => {
       if (id && token) {
         const res = await chatMessage(id,token)
-        
         setMessage(res.data);
       }
     }
@@ -367,7 +366,7 @@ function Page() {
             )):<p className=" text-2xl md:text-8xl my-16 mx-32 font-bold text-slate-200">Open a message</p>
           }
             {typing && (
-              <p className="bg-indigo-950 inline text-white text-sm rounded-lg p-3 my-2">
+              <p className="bg-indigo-950 inline text-white text-sm rounded-lg p-3 my-3">
                 Typing...
               </p>
             )}
