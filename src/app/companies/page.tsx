@@ -96,13 +96,13 @@ function page() {
         <button className='text-white font-bold bg-indigo-950 p-2 rounded-xl m-3 lg:hidden' onClick={()=>setstate(true)}>Filter</button>
         <div className='flex'>
         <div className='w-60 p-3 border-r-2 hidden lg:block'>
-           <CompanyFilter setcompanies={setcomapnies} setstate={setstate}/>
+           <CompanyFilter setcompanies={setfilter} setstate={setstate}/>
         </div>
         {
            state && <div
            className="fixed top-0 left-0 right-0 bottom-0 flex  bg-black bg-opacity-50 z-50 "
          >
-           <CompanyFilter setcompanies={setcomapnies} setstate={setstate}/>
+           <CompanyFilter setcompanies={setfilter} setstate={setstate}/>
          </div>
         }
         
