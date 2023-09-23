@@ -119,15 +119,7 @@ function Navbar({page}:{page:boolean}) {
         
 
     }
-  }, [model,open]);
- 
-   //connecting to socket
-  
-
-
-
-
- 
+  }, [model]);
 
   //filter
 
@@ -245,6 +237,7 @@ function Navbar({page}:{page:boolean}) {
         
         </div>
       </div>
+
       
     </nav>
   );
