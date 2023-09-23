@@ -22,7 +22,7 @@ import { getRoles } from '@/apis/job';
 import { chatNotification, deleteAllNotification } from '@/apis/chat';
 import { loadingItems } from '@/redux/features/loading-slice';
 import SearchIcon from '@mui/icons-material/Search';
-import { closeModal, openModal, setRoomId } from '@/redux/features/modal-slice';
+
 
 
  
@@ -119,36 +119,7 @@ function Navbar({page}:{page:boolean}) {
         
 
     }
-  }, [model,open]);
- 
-   //connecting to socket
-  useEffect(() => {
-    socket.current = io('ws://www.jobeee.website');
-  }, [socket]);
-
-  useEffect(() => {
-    const userId = localStorage.getItem('token');
-
-    if (userId!==null && socket.current) {
-    
-      socket.current.on('vedio-answer', (data) => {
-       
-        dispatch(openModal(true))
-        dispatch(setRoomId(data.text));
-      });
-    }
-  }, [socket]);
-
-
-  const handleOk = () => {
-    try {
-      router.push(`/vediocall/${roomId}`);
-    } catch (err) {
-      throw err;
-    }
-  }
-
- 
+  }, [model]);
 
   //filter
 
@@ -262,23 +233,11 @@ function Navbar({page}:{page:boolean}) {
           >
            <ProfileMenu setopen={setopen}/>
           </div>
-        }
+         }
         
         </div>
       </div>
-      
-      <Modal open={open}  onOk={handleOk} footer={null} onCancel={()=>dispatch(closeModal(false))}>
-        
-          <p>Do you want to pick up the vedio call</p>
-          <div className='flex justify-end mt-5'>
-             <button className='border-2 p-1 px-2 rounded-lg hover:border-red-200' onClick={()=>dispatch(closeModal(false))}>
-              Cancel
-             </button>
-             <button className='bg-blue-600 p-1 px-3  ml-3 rounded-lg  text-white hover:px-5 ' onClick={handleOk}>
-              OK
-             </button>
-          </div>
-      </Modal>
+
       
     </nav>
   );
