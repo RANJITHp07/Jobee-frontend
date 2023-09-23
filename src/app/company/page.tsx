@@ -155,7 +155,7 @@ function Page() {
       </Modal>
         <div className="bg-indigo-950 p-5 w-screen flex justify-between">
         <p className='text-white font-extrabold text-2xl'>Jobee</p>
-        <MenuIcon className="block lg:hidden text-white" onClick={()=>{
+        <MenuIcon className="flex lg:hidden text-white" onClick={()=>{
           setShowFilter(true);
           }}/>
         </div>

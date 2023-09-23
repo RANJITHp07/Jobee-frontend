@@ -62,7 +62,7 @@ function Profile({ page}: ProfileProps) {
         formData.append('file',e.target.files[0]);
         const response = await upload("id",formData,token);
         
-        const res=await updateProfilephoto(userId,response.data,"profile",token)
+        await updateProfilephoto(userId,response.data,"profile",token)
         
         if(currUser){
           dispatch(updateUser({key:"photo", value:response.data}))

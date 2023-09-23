@@ -14,6 +14,7 @@ import {useRouter} from 'next/navigation';
 import { logOut } from '@/redux/features/auth-slice';
 import { useAppSelector } from '@/redux/store';
 import 'aos/dist/aos.css';
+import { io, Socket } from 'socket.io-client';
 import AOS from 'aos'
 import {Modal} from 'antd'
 import ProfileMenu from './profileMenu';
@@ -21,12 +22,13 @@ import { getRoles } from '@/apis/job';
 import { chatNotification, deleteAllNotification } from '@/apis/chat';
 import { loadingItems } from '@/redux/features/loading-slice';
 import SearchIcon from '@mui/icons-material/Search';
+import { closeModal, openModal, setRoomId } from '@/redux/features/modal-slice';
 
 
  
 
 function Navbar({page}:{page:boolean}) {
-  const loading:Boolean=useAppSelector((state)=>state.loadingReducer.value.loading)
+  const roomId=useAppSelector((state)=>state.modalReducer.value.roomId)
   const [roles,setroles]=useState<any>([])
   const [open,setopen]=useState(false)
   const [token,setToken]=useState<any>({})
@@ -35,6 +37,7 @@ function Navbar({page}:{page:boolean}) {
   const [state,setstate]=useState(false)
   const [filter,setfilter]=useState<string[]>([])
   const [role,setrole]=useState<string>('')
+  const socket = useRef<Socket | null>();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const router=useRouter()
   const dispatch=useDispatch<AppDispatch>()
@@ -116,7 +119,15 @@ function Navbar({page}:{page:boolean}) {
         
 
     }
-  }, [model]);
+  }, [model,open]);
+ 
+   //connecting to socket
+  
+
+
+
+
+ 
 
   //filter
 
@@ -188,7 +199,7 @@ function Navbar({page}:{page:boolean}) {
              }
       </div>
     
-
+     
         {
            ! token.user?.userId ?  <div className='hidden md:block'>
           <Link href={"/signin"}> <button className='rounded-xl bg-indigo-700 text-white mx-2 px-4 py-1 text-medium font-semibold'>Sign In</button></Link> 
@@ -234,7 +245,6 @@ function Navbar({page}:{page:boolean}) {
         
         </div>
       </div>
-
       
     </nav>
   );

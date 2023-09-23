@@ -84,7 +84,7 @@ function Form({ page }: { page: boolean }) {
               ref={role}
             >
               <option value="employer">Employee</option>
-              <option value="recruiter">JobSeeker</option>
+              <option value="recruiter">Recruiter</option>
               
             </select>
           </div>
@@ -174,7 +174,7 @@ function Form({ page }: { page: boolean }) {
       <div>
         <Image src={'/loginn.jpg'} width={1000} height={1000} alt="Signin Profile" className="hidden md:block" />
       </div>
-      <Modal title="Otp verification" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+      <Modal title="Otp verification" open={isModalOpen} footer={null} onOk={handleOk} onCancel={handleCancel}>
         <div className="flex">
           <input
             className="border-2 rounded-xl text-center w-12 h-12 overflow-hidden mx-2"
@@ -237,6 +237,14 @@ function Form({ page }: { page: boolean }) {
             ref={otpRefs[5]}
           />
         </div>
+        <div className='flex justify-end mt-5'>
+             <button className='border-2 p-1 px-2 rounded-lg hover:border-red-200' onClick={handleCancel}>
+              Cancel
+             </button>
+             <button className='bg-blue-600 p-1 px-3  ml-3 rounded-lg  text-white hover:px-5 ' onClick={handleOk}>
+              OK
+             </button>
+          </div>
       </Modal>
     </div>
   );
