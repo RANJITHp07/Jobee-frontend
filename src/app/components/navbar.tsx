@@ -22,7 +22,7 @@ import { getRoles } from '@/apis/job';
 import { chatNotification, deleteAllNotification } from '@/apis/chat';
 import { loadingItems } from '@/redux/features/loading-slice';
 import SearchIcon from '@mui/icons-material/Search';
-import { closeModal, openModal, setRoomId } from '@/redux/features/modal-slice';
+
 
 
  
@@ -233,7 +233,7 @@ function Navbar({page}:{page:boolean}) {
           >
            <ProfileMenu setopen={setopen}/>
           </div>
-        }
+         }
         
         </div>
       </div>
