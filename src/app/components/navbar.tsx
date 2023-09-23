@@ -28,7 +28,6 @@ import SearchIcon from '@mui/icons-material/Search';
  
 
 function Navbar({page}:{page:boolean}) {
-  const roomId=useAppSelector((state)=>state.modalReducer.value.roomId)
   const [roles,setroles]=useState<any>([])
   const [open,setopen]=useState(false)
   const [token,setToken]=useState<any>({})
