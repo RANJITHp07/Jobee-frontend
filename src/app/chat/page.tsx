@@ -366,7 +366,7 @@ function Page() {
             )):<p className=" text-2xl md:text-8xl my-16 mx-32 font-bold text-slate-200">Open a message</p>
           }
             {typing && (
-              <p className="bg-indigo-950 inline text-white text-sm rounded-lg p-3 my-2">
+              <p className="bg-indigo-950 inline text-white text-sm rounded-lg p-3 my-3">
                 Typing...
               </p>
             )}
