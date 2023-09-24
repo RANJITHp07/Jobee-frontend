@@ -99,7 +99,7 @@ function Form({ page }: { page: boolean }) {
             type="password"
             placeholder="Enter your password"
             className="mt-1 block w-full p-3 md:p-2 lg:p-3 border-2 border-gray-400 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            ref={password}
+            ref={ password }
             required
           />
           {!page && (

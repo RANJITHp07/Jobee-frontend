@@ -109,8 +109,12 @@ const useForm = ({ page }: UseFormProps) => {
   const handleClick = async (e:React.FormEvent<HTMLFormElement>) => {
     try {
        e.preventDefault()
-      if( password.current && password.current.value.length<8){
-        password.current.setCustomValidity("Password must be at least 8 words")
+       
+      if( password.current && password.current.value.length<8 && confirm_password.current){
+       
+        message.info("Minimum length should be 8")
+        password.current.value=''
+        confirm_password.current.value=''
         return 
       }
         if (password.current?.value === confirm_password.current?.value && email.current && username.current) {
@@ -126,7 +130,7 @@ const useForm = ({ page }: UseFormProps) => {
           
          
         } else {
-          confirm_password.current && confirm_password.current.setCustomValidity("Password not matching")
+          message.info("Password not matching")
           setLoading(false);
         }
       }
