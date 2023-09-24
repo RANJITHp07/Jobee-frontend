@@ -15,9 +15,10 @@ interface FilterProps {
     param1:string|null;
     param3:string|null;
     param4:string|null;
+    pagination: React.Dispatch<React.SetStateAction<number>>
   }
 
-function Filter({setShowFilter,setjob,param,param1,param3,param4}:FilterProps) {
+function Filter({setShowFilter,setjob,param,param1,param3,param4,pagination}:FilterProps) {
 
     const [state,dispatch]=useReducer(filterReducer,initialState);
      const [locations,setlocation]=useState([])
@@ -54,9 +55,11 @@ function Filter({setShowFilter,setjob,param,param1,param3,param4}:FilterProps) {
           async function fetchdata(){
             if(selectedWorkModes.length>0 || selectedsalary.length>0 ||selectedrating.length>0 || location.length>0 || selectedcompany.length>0 || (experience[0]!=0 && experience[1]!=100) ){
               const res=await filter(selectedWorkModes,selectedsalary,selectedcompany,experience,selectedrating,location)
+              pagination(1)
               setjob(res.data)
             }else if(!param && !param1 && !param3 && !param4){
               const res=await filter(selectedWorkModes,selectedsalary,selectedcompany,experience,selectedrating,location)
+              pagination(1)
               setjob(res.data)
             }
             

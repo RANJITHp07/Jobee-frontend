@@ -30,7 +30,8 @@ interface Props{
     companyType: 'Startup' | 'MNC' | 'Service-based' | 'Product-based' | 'Non-profit' | 'E-commerce' | 'Financial Institution' | 'Technology Company' | 'Consulting Firm' | 'Manufacturing Company';
     salary: number[];
     location:string;
-    createdAt:any
+    createdAt:any;
+    recruiting:boolean
 
 }
 
@@ -139,7 +140,7 @@ useEffect(()=>{
        </div>
        <div className={`${!page ? "grid" :"first-letter"}  mb-3  lg:mr-54`}>
         <p className=' text-sm  text-slate-500 my-1  md:inline  md:mr-4'><WorkOutlineIcon className='text-sm'/> {p.experience[0]}-{p.experience[1]} Yrs </p>
-        <p className=' text-sm  text-slate-500 my-1 md:inline md:mr-4'><CurrencyRupeeIcon className='text-sm'/> {p.salary[0]===0 && p.salary[1]===0 ?"Not disclosed" : <> {p.salary[0]}-{p.salary[1]} lakhs  </>}</p>
+        <p className=' text-sm  text-slate-500 my-1 md:inline md:mr-4'><CurrencyRupeeIcon className='text-sm star'/>{p.salary[0]===0 && p.salary[1]===0 ?"Not disclosed" : <>{p.salary[0]}-{p.salary[1]} lakhs  </>}</p>
         <p className=' text-sm text-slate-500 my-1 md:inline md:mr-4'><LocationOnIcon className='text-sm' />{p.location}</p>
        </div>
       </div>
@@ -154,7 +155,8 @@ useEffect(()=>{
           }
           
           }}>
-             <p className='text-xs text-slate-500'>{format(p.createdAt)}</p>
+            { p.recruiting ? <p className='text-xs text-red-400'>Stoped recruiting employee</p> : <p className='text-xs text-slate-500'>{format(p.createdAt)}</p>}
+             
              <div  className='flex'>
              {saved ? <BookmarkIcon/> : <TurnedInNotIcon/>}
         
@@ -163,10 +165,12 @@ useEffect(()=>{
      </div> :
      <div className='flex justify-betweem items-center'>  
      <div>
-      <p className='text-slate-500 text-sm'>{count || 0} Applied</p>
+     { p.recruiting ? <p className='text-xs text-red-400'>Stoped recruiting employee</p> : <p className='text-slate-500 text-sm'>{count || 0} Applied</p> }
+      
       </div>
       <div className='ml-auto'>
-      <button className='bg-indigo-950 text-white px-4 py-1 font-bold rounded-full mx-1' onClick={()=>{if(!applied){ userId ?handleApply(p._id ? p._id:"") : message.info("Please Login")}}}>{applied ? "Applied" : "Apply" }</button>
+      <button className='bg-indigo-950 text-white px-4 py-1 font-bold rounded-full mx-1' onClick={()=>{if(!applied){ userId ?
+        ( p.recruiting ? message.info("Stoped Recruiting"): handleApply(p._id ? p._id:"") ): message.info("Please Login")}}}>{applied ? "Applied" : "Apply" }</button>
       <button className='border-indigo-950 border-2 px-4 py-1 font-bold rounded-full mx-1'onClick={()=>{
         
          userId ? handleSave( p._id as string) : message.info("Please Login")

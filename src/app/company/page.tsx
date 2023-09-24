@@ -14,12 +14,9 @@ import CompanyPanel from '../components/companyPanel';
 import MenuIcon from '@mui/icons-material/Menu';
 import {deleteJob, getJobs, stopRecruiting} from "../../apis/job"
 import {Modal } from 'antd';
-import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
+
 import ReviewPage from '../components/reviewPage';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import DeleteIcon from '@mui/icons-material/Delete';
-import type { MenuProps } from 'antd';
-import { Dropdown } from 'antd';
+import JobCover from '../components/jobCover';
 
 
 
@@ -34,45 +31,9 @@ function Page() {
   const [showFilter, setShowFilter] = useState(false);
   const [url,seturl]=useState<string>('')
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [menuProps, setMenuProps] = useState<MenuProps>({
-    items: [],
-  });
 
 
 
-
-  useEffect(() => {
-    console.log("Updated id:", id);
-    const newItems: MenuProps['items'] = [
-      {
-        key: '1',
-        label: (
-          <p onClick={() => showDeleteConfirm(id)}>Delete</p>
-        ),
-      },
-      {
-        key: '2',
-        label: (
-          <a href={`/job/form?update=${id}`} rel="noopener noreferrer">
-            {id}
-          </a>
-        ),
-      },
-      {
-        key: '3',
-        label: (
-          <p onClick={() => console.log(id)}>
-            Stop Recruiting
-          </p>
-        ),
-      },
-    ];
-    
-    setMenuProps({
-      ...menuProps,
-      items: newItems,
-    });
-  },[id,menuProps])
 
 
   useEffect(()=>{
@@ -125,25 +86,7 @@ function Page() {
         <hr />
         {jobs.map((p: any) => (
           <>
-            <div key={p._id} className='my-3 cursor-pointer flex justify-between'>
-              <div onClick={() => { router.push(`/job/apply/${p._id}`) }}>
-                <p>Role: {p.role}</p>
-                <p>Location: {p.location}</p>
-                
-                </div>
-                <div className='flex text-xs'>
-                  {/* <DeleteIcon className='mx-3 text-md cursor-pointer' onClick={()=>showDeleteConfirm(p._id)}/>
-                  <ModeEditOutlineIcon className='cursor-pointer' onClick={()=>router.push(`/job/form?update=${p._id}`)}/> */}
-                  <Dropdown menu={menuProps} placement="bottomLeft">
-                  <MoreVertIcon  onClick={() =>
-                    setid(p._id)      
-                     }/>
-      </Dropdown>
-                  
-                </div>
-                
-            </div>
-            <hr className="my-3"/>
+            <JobCover job={p} showDelete={showDeleteConfirm}/>
             </>
         ))}
     </div>
