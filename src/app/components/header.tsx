@@ -130,7 +130,23 @@ function Header() {
           <form className='flex justify-center items-center bg-white p-2 rounded-full'>
           <WorkIcon className='text-slate-300 mx-2'/>
           <input type='text' placeholder='Enter Your Dream Job' className='outline-none focus:outline-non' value={search} onChange={handleChange} ref={username}/>
-            <button type='submit' className='rounded-full bg-indigo-950 text-white font-medium p-2'>Search</button>
+          {
+           state &&  <div className='absolute  bg-white h-40 overflow-y-scroll md:w-60 rounded-lg overflow-hidden p-3 box_shadow'>
+             {
+              filter.length>0 ? filter.map((p)=>{
+                 return(
+                   <p className='hover:bg-slate-200 p-2' onClick={()=>{
+                    setsearch(p)
+                     setstate(false)
+                     username.current && username.current.focus()
+                     
+                    }}>{p}</p>
+                 )
+               }) :<p className='text-slate-300'>No matching roles</p>
+             }
+           </div>
+         } 
+           <button type='submit' className='rounded-full bg-indigo-950 text-white font-medium p-2'>Search</button>
           </form>
          </div>
       </div>
