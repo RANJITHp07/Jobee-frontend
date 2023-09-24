@@ -188,7 +188,12 @@ function Page() {
 
     //to accept the incoming
   useEffect(() => {
-    socket.current = io('ws://www.jobeee.website');
+
+
+
+    socket.current = io('ws://www.jobeee.website/socket.io');
+
+
     socket.current.on('getMessage', (data) => {
       setArrivalMessage({
         sender: data.senderId,
