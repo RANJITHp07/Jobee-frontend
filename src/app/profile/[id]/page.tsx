@@ -139,7 +139,7 @@ function Page() {
           <hr className='border-1 border-indigo-950' />
         <div className=' flex items-center p-2 hover:bg-slate-100 '><a href='/profile/update' className='font-semibold mx-3 mt-6 text-slate-600'><EditIcon/>Update</a></div>
           <div className=' flex items-center my-2 p-2 hover:bg-slate-100'><a href="/chat" className='font-semibold mx-3 text-slate-600'><MarkUnreadChatAltIcon/>Chat</a></div>
-          <div className=' flex items-center my-2 p-2 hover:bg-slate-100'><a href="/chat" className='font-semibold mx-3 text-slate-600'><MarkUnreadChatAltIcon/>Saved</a></div>
+          <div className=' flex items-center my-2 p-2 hover:bg-slate-100'><a href="/chat" className='font-semibold mx-3 text-slate-600'><BookmarksIcon/>Saved</a></div>
           <div className=' flex items-center my-2 p-2 hover:bg-slate-100'><a href={currUser && `/profile/status?id=${currUser._id}`} className='font-semibold mx-3 text-slate-600'><PendingActionsIcon/>Application Status</a></div>
           <div className=' flex items-center my-2 p-2 hover:bg-slate-100'><a href='/login' className='font-semibold mx-3 text-slate-600 cursor-pointer' 
           onClick={()=>{

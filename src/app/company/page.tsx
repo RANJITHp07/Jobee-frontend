@@ -12,11 +12,14 @@ import Footer from '../components/footer';
 import LoadingPage from '../components/loadinPage';
 import CompanyPanel from '../components/companyPanel';
 import MenuIcon from '@mui/icons-material/Menu';
-import {deleteJob, getJobs} from "../../apis/job"
+import {deleteJob, getJobs, stopRecruiting} from "../../apis/job"
 import {Modal } from 'antd';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import ReviewPage from '../components/reviewPage';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DeleteIcon from '@mui/icons-material/Delete';
+import type { MenuProps } from 'antd';
+import { Dropdown } from 'antd';
 
 
 
@@ -25,19 +28,58 @@ function Page() {
   const token=useAppSelector((state)=>state.authReducer.value.token)
   const [loading,setloading]=useState(true)
   const [company, setCompany] = useState<any>();
+  const [id,setid]=useState<string>('')
   const { confirm } = Modal;
   const [jobs,setjobs]=useState([]);
   const [showFilter, setShowFilter] = useState(false);
   const [url,seturl]=useState<string>('')
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [menuProps, setMenuProps] = useState<MenuProps>({
+    items: [],
+  });
 
+
+
+
+  useEffect(() => {
+    console.log("Updated id:", id);
+    const newItems: MenuProps['items'] = [
+      {
+        key: '1',
+        label: (
+          <p onClick={() => showDeleteConfirm(id)}>Delete</p>
+        ),
+      },
+      {
+        key: '2',
+        label: (
+          <a href={`/job/form?update=${id}`} rel="noopener noreferrer">
+            {id}
+          </a>
+        ),
+      },
+      {
+        key: '3',
+        label: (
+          <p onClick={() => console.log(id)}>
+            Stop Recruiting
+          </p>
+        ),
+      },
+    ];
+    
+    setMenuProps({
+      ...menuProps,
+      items: newItems,
+    });
+  },[id,menuProps])
 
 
   useEffect(()=>{
     const fetchData=async()=>{
       if(company){
         const response=await getPhoto(company.logo)
-        console.log(response.data)
+        
         seturl(response.data)
       }
      
@@ -46,7 +88,10 @@ function Page() {
     
   },[company])
 
-  const showDeleteConfirm = (id:string) => {
+
+  
+  
+   function showDeleteConfirm(id:string){
     confirm({
       title: 'Are you sure delete this job application?',
       icon: <ExclamationCircleFilled />,
@@ -75,7 +120,7 @@ function Page() {
 
  // job listing page
   const jobListings = useMemo(() => (
-    <div className='box_shadow rounded-lg p-3  lg:w-10/12 lg:mx-auto mt-12 lg:1/4' id='job'>
+    <div className='box_shadow rounded-lg p-3  lg:w-10/12 lg:mx-auto mt-12 mx-2 lg:1/4' id='job'>
         <p className='font-bold text-slate-500'>JOBS</p>
         <hr />
         {jobs.map((p: any) => (
@@ -87,8 +132,14 @@ function Page() {
                 
                 </div>
                 <div className='flex text-xs'>
-                  <DeleteIcon className='mx-3 text-md cursor-pointer' onClick={()=>showDeleteConfirm(p._id)}/>
-                  <ModeEditOutlineIcon className='cursor-pointer' onClick={()=>router.push(`/job/form?update=${p._id}`)}/>
+                  {/* <DeleteIcon className='mx-3 text-md cursor-pointer' onClick={()=>showDeleteConfirm(p._id)}/>
+                  <ModeEditOutlineIcon className='cursor-pointer' onClick={()=>router.push(`/job/form?update=${p._id}`)}/> */}
+                  <Dropdown menu={menuProps} placement="bottomLeft">
+                  <MoreVertIcon  onClick={() =>
+                    setid(p._id)      
+                     }/>
+      </Dropdown>
+                  
                 </div>
                 
             </div>
@@ -103,7 +154,7 @@ function Page() {
       try {
         if(userId){
           const res = await getCompany(userId)
-          console.log(res.data);
+          
           if (res.data === null){
             router.push('/company/details');
           } else {
@@ -124,7 +175,7 @@ function Page() {
       try {
         if(userId){
           const res=await getJobs(userId)
-          console.log(res?.data)
+          
           if(res?.data.length===0){
             showModal()
           }

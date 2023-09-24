@@ -111,25 +111,25 @@ function Filter({setShowFilter,setjob,param,param1,param3,param4}:FilterProps) {
     <p className='text-sm mt-3'>RATING</p>
              <div className='flex mt-2'>
                         <input type='checkbox' checked={selectedrating.includes(2)} onChange={()=>handleratingToggle(2)}/>
-                        <p className='text-sm ml-2 text-slate-500'>2<StarIcon className='text-sm text-yellow-500'/></p>
+                        <p className='text-sm ml-2 text-slate-500'>2<StarIcon className='text-sm star text-yellow-500'/></p>
                         </div>
                         <div className='flex mt-2' >
                         <input type='checkbox' checked={selectedrating.includes(3)} onChange={()=>handleratingToggle(3)}/>
-                        <p className='text-sm ml-2 text-slate-500'>3<StarIcon className='text-sm text-yellow-500'/></p>
+                        <p className='text-sm ml-2 text-slate-500'>3<StarIcon className='text-sm star text-yellow-500'/></p>
                         </div>
                         <div className='flex mt-2'  >
                         <input type='checkbox' checked={selectedrating.includes(4)} onChange={()=>handleratingToggle(4)}/>
-                        <p className='text-sm ml-2 text-slate-500'>4<StarIcon className='text-sm text-yellow-500'/></p>
+                        <p className='text-sm ml-2 text-slate-500'>4<StarIcon className='text-sm star text-yellow-500'/></p>
                         </div>
                         <div className='flex mt-2'>
                         <input type='checkbox' checked={selectedrating.includes(5)} onChange={()=>handleratingToggle(5)}/>
-                        <p className='text-sm ml-2 text-slate-500'>5<StarIcon className='text-sm text-yellow-500'/></p>
+                        <p className='text-sm ml-2 text-slate-500'>5<StarIcon className='text-sm star text-yellow-500'/></p>
                         </div>
             <hr className='border-1 mt-5'/>
 
             <p className='text-sm mt-3'>SALARY</p>
              {
-                salray.slice(0,page.page1).map((p)=>{
+                salray.slice(1,page.page1).map((p)=>{
                     return (
                         <div className='flex mt-2'>
                         <input type='checkbox' checked={selectedsalary.includes(p)} onChange={() => handlesalaryToggle(p)}/>

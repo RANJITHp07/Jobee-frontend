@@ -84,7 +84,7 @@ function ReviewPage({id,page}:{id:string,page:boolean}) {
     const fetchData=async()=>{
       if(userId){
         const res=await getUser(userId,token)
-        console.log(res.data,userId)
+        
         setuser(res.data)
       }
     }

@@ -82,9 +82,9 @@ export default function App() {
         {
           companies.map((p:any,index:number)=>{
             return (
-              <SwiperSlide className='companies'>
-              <div className='box_shadow my-3 h-72  p-5 '>
-                <Image src={url[index]} width={100} height={100} alt='photo' className='mt-3 h-32 w-24' />
+              <SwiperSlide className='companies '>
+              <div className='box_shadow my-3 h-72  p-5 rounded-md '>
+                {url[index] && <Image src={url[index]} width={100} height={100} alt='photo' className='mt-3 h-32 w-24' /> }
                 <p className='font-extrabold text-indigo-950 text-center mt-3'>{p.companyId.username}</p>
                 <p className='text-center text-slate-500 mb-5'>{p.companyType}</p>
               </div>

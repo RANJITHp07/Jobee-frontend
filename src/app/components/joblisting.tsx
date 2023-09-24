@@ -128,7 +128,7 @@ useEffect(()=>{
           <p className='font-medium mr-4'>{p.company.companyusername}</p>
           </div>
           <p className='text-xs'>{p.company.companyType}</p>
-          <p className='text-xs mb-5'>{p.company.rating}<StarIcon className='text-xs text-yellow-500'/></p>
+          <p className='text-xs mb-5'>{p.company.rating}<StarIcon className='text-xs star text-yellow-500'/></p>
         </div>
         <div className='ml-auto md:ml-auto lg:hidden '>
          { url!='' && <Image src={url} width={100} height={100} alt="photo" className='rounded-xl' onClick={()=>{router.push(`/company/${p.company._id}`)}} />}

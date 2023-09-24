@@ -124,11 +124,13 @@ function Profile({ page}: ProfileProps) {
         )}
         <div className={`${page ? "": "p-3"} md:w-1/2 ml-3 my-auto md:ml-7 mt-2`}>
           <p className="font-bold text-xl text-slate-500">
-           <Person3Icon/>Name: {page ? <span className="text-medium text-slate-700 font-semibold">{currUser.userId.username}</span> : <input type="text" className=" sm:w-1/2  md:w-full p-2 font-medium text-slate-400 rounded-xl border-2 border-slate-700 my-2" defaultValue={currUser.userId.username} onChange={(e:React.ChangeEvent<HTMLInputElement>)=>{if(currUser)setAuth({username:e.target.value})}} />}
+           <Person3Icon/>Name: {page ? <span className="text-medium text-slate-700 font-semibold">{currUser.userId.username}</span> : <input type="text" className=" sm:w-1/2  md:w-full p-2 font-medium text-slate-400 rounded-xl border-2 border-slate-700 my-2" defaultValue={currUser.userId.username} onChange={(e:React.ChangeEvent<HTMLInputElement>)=>{if(currUser)
+            
+            dispatch(setAuth({ key:"username",value:e.target.value}))}} />}
           </p>
           <p className="font-bold text-xl text-slate-500">
            <MailIcon/>Email Id: {page ? <span className="text-medium text-slate-700 font-semibold">{currUser.userId.email}</span> : <input type="text" className=" sm:w-1/2 md:w-full font-medium text-slate-400   p-2 rounded-xl border-2 border-slate-700 my-2" defaultValue={currUser.userId.email} 
-            onChange={(e:React.ChangeEvent<HTMLInputElement>)=>{if(currUser)setAuth({email:e.target.value})}}/>}
+            onChange={(e:React.ChangeEvent<HTMLInputElement>)=>{if(currUser)dispatch(setAuth({ key:"email",value:e.target.value}))}}/>}
           </p>
           <p className="font-bold text-xl text-slate-500">
            <CallIcon/>Contact: {page ? <span className="text-medium text-slate-700 font-semibold">{currUser.phoneNumber=="0" ?"Not Mentioned": currUser.phoneNumber}</span> : <input type="text" className=" sm:w-1/2 md:w-full font-medium text-slate-400  p-2 rounded-xl border-2 border-slate-700 my-2" defaultValue={currUser.phoneNumber=='0' ? "Not mentioned" : currUser.phoneNumber} onChange={(e:React.ChangeEvent<HTMLInputElement>)=>{if(currUser)dispatch(updateUser({key:"phoneNumber", value:e.target.value}))}} />}

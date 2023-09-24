@@ -45,6 +45,7 @@ function Page() {
         
            if(currAuth?.email || currAuth?.username){
             if(currUser?.userId?.email){
+              console.log(currAuth)
               await updateAuth(currUser?.userId?.email,currAuth,token)
             }
              

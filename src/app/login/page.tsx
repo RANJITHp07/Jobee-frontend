@@ -16,8 +16,15 @@ function Login() {
    // checking whether the user is logged in or not
     const storedToken = localStorage.getItem('token');
     if(storedToken!==null){
-         router.push("/");
-         message.info("Already logged In")
+      const parsedToken: any = JSON.parse(storedToken);
+      if(parsedToken.user.role==='recruiter'){
+        router.push("/company");
+        message.info("Already logged In")
+      }else{
+        router.push("/");
+        message.info("Already logged In")
+      }
+         
     }else{
       setloading(false)
     }

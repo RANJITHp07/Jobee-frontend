@@ -36,19 +36,20 @@ export const user=createSlice({
         getUser(state:any,action: PayloadAction<any>){
            state.value.user= action.payload
            
+           
         }
         ,
           getAuth(state:any,action: PayloadAction<any>){
             state.value.auth= action.payload
+            
           },
 
         setAuth(state,action: PayloadAction<any>){
-           if(action.payload.email){
-            state.value.auth.email = action.payload.email;
-            console.log(state.value.auth)
-           }else{
-                state.value.auth.username = action.payload.username;
-           }
+            state.value.auth={
+                ...state.value.auth,
+                [action.payload.key]:action.payload.value
+              }
+              console
              
         }
     }

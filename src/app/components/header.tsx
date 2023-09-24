@@ -1,5 +1,5 @@
 'use client'
-import React,{useState,useEffect, ChangeEvent, use} from 'react'
+import React,{useState,useEffect, ChangeEvent, useRef} from 'react'
 import Image from 'next/image'
 import WorkIcon from '@mui/icons-material/Work';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -15,6 +15,7 @@ import { message } from 'antd';
 function Header() {
   const [isIframeVisible, setIsIframeVisible] = useState(false);
   const userId: string = useAppSelector((state) => state.authReducer.value.userId);
+  const username=useRef<HTMLInputElement>(null)
   const [search,setsearch]=useState('')
   const [roles,setroles]=useState([])
   const [state,setstate]=useState(false)
@@ -128,7 +129,7 @@ function Header() {
          <div className='rounded-full p-5 mb-5'>
           <form className='flex justify-center items-center bg-white p-2 rounded-full'>
           <WorkIcon className='text-slate-300 mx-2'/>
-          <input type='text' placeholder='Enter Your Dream Job' className='outline-none focus:outline-non'/>
+          <input type='text' placeholder='Enter Your Dream Job' className='outline-none focus:outline-non' value={search} onChange={handleChange} ref={username}/>
             <button type='submit' className='rounded-full bg-indigo-950 text-white font-medium p-2'>Search</button>
           </form>
          </div>
@@ -142,7 +143,13 @@ function Header() {
             <div>
               <div className='flex'>
               <WorkIcon className='text-slate-300 mr-2'/>
-          <input type='text' placeholder='Enter Your Dream Job' className='outline-none focus:outline-non  md:w-3/4' value={search} onChange={handleChange}/>
+          <input type='text' placeholder='Enter Your Dream Job' className='outline-none focus:outline-non  md:w-3/4' value={search} onChange={handleChange}
+          onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
+            if (e.key === 'Enter') {
+               handleJob()
+            }
+          }}
+          />
               </div>
             
          {
@@ -150,8 +157,12 @@ function Header() {
              {
               filter.length>0 ? filter.map((p)=>{
                  return(
-                   <p className='hover:bg-slate-200 p-2' onClick={()=>{setsearch(p)
-                     setstate(false)}}>{p}</p>
+                   <p className='hover:bg-slate-200 p-2' onClick={()=>{
+                    setsearch(p)
+                     setstate(false)
+                     username.current && username.current.focus()
+                     
+                    }}>{p}</p>
                  )
                }) :<p className='text-slate-300'>No matching roles</p>
              }
@@ -161,7 +172,13 @@ function Header() {
           <div>
              <div className='lg:flex hidden'>
              <LocationOnIcon className='text-slate-300 mr-2 hidden lg:block'/>
-          <input type='text' placeholder='Search your Location' className='outline-none focus:outline-non md:w-3/4  hidden lg:block' value={locationsearch} onChange={handlelocationChange}/>
+          <input type='text' placeholder='Search your Location' className='outline-none focus:outline-non md:w-3/4  hidden lg:block' value={locationsearch} onChange={handlelocationChange}
+          onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
+            if (e.key === 'Enter') {
+               handleJob()
+            }
+          }}
+          />
              </div>
              {
            locationstate &&  <div className='absolute  bg-white h-40 overflow-y-scroll md:w-56 rounded-lg overflow-hidden p-3 box_shadow'>
