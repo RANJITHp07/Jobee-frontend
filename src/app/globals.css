@@ -21,6 +21,10 @@
     flex-shrink:0 !important;
   }
 
+  .star{
+    width:0.6em !important ;
+  }
+
 
 
     @media (min-width: 1240px) {

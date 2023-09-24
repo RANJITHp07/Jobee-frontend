@@ -87,6 +87,8 @@ function page() {
         message.success("Form succesfully completed")
         router.push("/company")
         
+      }else{
+        message.info("Uplaod the photo")
       }
     } catch (err) {
       console.log(err);

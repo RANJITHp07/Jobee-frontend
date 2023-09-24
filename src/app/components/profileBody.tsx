@@ -133,6 +133,11 @@ function ProfileBody({ page }: ProfileBodyProps) {
             className="mt-1 mb-2 border-2 border-slate-700 rounded-lg overflow-scroll p-2 bg-slate-100 md:w-full md:overflow-x-hidden"
             value={skillInput}
             onChange={(e) => setSkillInput(e.target.value)}
+            onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
+              if (e.key === 'Enter') {
+                handleAddSkill()
+              }
+            }}
           />
           <button
             className="bg-indigo-950 ml-2 px-2 text-white rounded-lg"
@@ -228,10 +233,16 @@ function ProfileBody({ page }: ProfileBodyProps) {
             className="mt-1 mb-2 border-2 border-slate-700 rounded-lg overflow-scroll p-2 bg-slate-100 md:w-full md:overflow-x-hidden"
             value={languageInput}
             onChange={(e) => setlanguageInput(e.target.value)}
+            onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
+              if (e.key === 'Enter') {
+                 handleAddLanguage()
+              }
+            }}
           />
           <button
             className="bg-indigo-950 ml-2 px-2 text-white rounded-lg"
             onClick={handleAddLanguage}
+            
           >
             Add
           </button>
@@ -241,10 +252,12 @@ function ProfileBody({ page }: ProfileBodyProps) {
           <div
             key={index}
             className="bg-slate-300 bg-opacity-30 border mx-1 border-slate-200 rounded-xl mb-5 pl-2 inline-block backdrop-filter backdrop-blur-lg"
+            
           >
             {languages}
             <CancelIcon
               onClick={() => handleRemoveLanguage(index)}
+              
               className="cursor-pointer ml-2 text-gray-600 hover:text-red-100"
             />
           </div>

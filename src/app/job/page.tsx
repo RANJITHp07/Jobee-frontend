@@ -91,11 +91,11 @@ function Page() {
           <div
             className="fixed top-0 left-0 right-0 bottom-0 flex  bg-black bg-opacity-50 z-50"
           >
-            <Filter setShowFilter={setShowFilter} setjob={setjob} param={param} param1={param1} param3={param3} param4={param4}  />
+            <Filter setShowFilter={setShowFilter} setjob={setjob} pagination={setpagination} param={param} param1={param1} param3={param3} param4={param4}  />
           </div>
         )}
         <div className=' hidden lg:block w-72 lg:w-72 border-2'>
-        <Filter setShowFilter={setShowFilter} setjob={setjob} param={param} param1={param1} param3={param3} param4={param4}   />
+        <Filter setShowFilter={setShowFilter} setjob={setjob} param={param} pagination={setpagination} param1={param1} param3={param3} param4={param4}   />
         </div>
         <div>
           <button
@@ -110,7 +110,7 @@ function Page() {
             }
 
           </div>
-          <Pagination defaultCurrent={1} total={(Math.ceil(job.length / 4) * 10)}  onChange={(e:number) => {
+          <Pagination defaultCurrent={pagination} total={(Math.ceil(job.length / 4) * 10)}  onChange={(e:number) => {
               setpagination(e);
             }} className='text-center mt-32 mb-5' />
         </div>

@@ -230,3 +230,15 @@ export const mutualskills=async(id:string,skills:string[])=>{
  }
 
 
+
+
+ export const stopRecruiting=async(id:string)=>{
+    try{
+        const res=await  axios.post(`https://www.jobeee.website/v6/api/job/stop/recruiting/${id}` )
+        return res
+       }catch(err){
+        throw err
+       }
+ }
+
+

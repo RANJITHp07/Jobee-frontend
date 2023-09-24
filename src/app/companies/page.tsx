@@ -67,7 +67,7 @@ function page() {
   useEffect(() => {
     const fetchMessageUrls = async () => {
       
-        const imageUrlPromises = comapnies.map(async (p:any) => {
+        const imageUrlPromises = filter.map(async (p:any) => {
            const res= await getPhoto(p.logo);
           return res.data
           
@@ -82,7 +82,7 @@ function page() {
     fetchMessageUrls();
       
       
-  }, [comapnies]);
+  }, [filter]);
 
   return (
 
@@ -117,18 +117,20 @@ function page() {
         
         {
           filter.length>0 ? filter.slice(pagination * 4 - 4, pagination * 4).map((p:any,index:number)=>{
+            const imageUrlIndex = (pagination - 1) * 4 + index;
                 return <div className="box_shadow mx-3  md:mx-5 my-5 rounded-lg p-2 cursor-pointer" onClick={()=>router.push(`/company/${p._id}`)}>
                     <div className="md:flex">
                         <div className="grid place-content-center">
-                         {url[index*pagination] && <Image src={url[index*pagination]} width={200} height={200} alt=''/>}
+                         {url[imageUrlIndex] && <Image src={url[imageUrlIndex]} width={200} height={200} alt='' className='h-44 w-44 '/>}
                         </div>
                         
                         
                         <div className="mx-5 mt-3">
-              <p><span className='font-bold text-slate-800'>Name:</span> {p.companyusername}</p>
+              <p><span className='font-bold text-slate-800'>Name:
+              </span> {p.companyusername}</p>
               <p><span className='font-bold text-slate-800'>CompanyType:</span> {p.companyType}</p>
             <p><span className='font-bold text-slate-800'>Location:</span> {p.location}</p>
-            <p><span className='font-bold text-slate-800'>Rating:</span> {p.rating}<StarIcon className='text-xs text-yellow-500'/></p>
+            <p><span className='font-bold text-slate-800'>Rating:</span> {p.rating}<StarIcon className='text-xs star text-yellow-500'/></p>
             </div>
                         
                     </div>

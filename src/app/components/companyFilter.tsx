@@ -99,24 +99,24 @@ function CompanyFilter({setcompanies,setstate}:{setcompanies: React.Dispatch<any
              <p className='text-sm mt-5'>RATING</p>
              <div className='flex mt-2'>
                         <input type='checkbox' onChange={()=>handlerating("2")} checked={rating.includes("2")} />
-                        <p className='text-sm ml-2 text-slate-500'>2<StarIcon className='text-sm text-yellow-500'/></p>
+                        <p className='text-sm ml-2 text-slate-500'>2<StarIcon className='text-sm star text-yellow-500'/></p>
                         </div>
                         <div className='flex mt-2' >
                         <input type='checkbox' onChange={()=>handlerating("3")} checked={rating.includes("3")} />
-                        <p className='text-sm ml-2 text-slate-500'>3<StarIcon className='text-sm text-yellow-500'/></p>
+                        <p className='text-sm ml-2 text-slate-500'>3<StarIcon className='text-sm star text-yellow-500'/></p>
                         </div>
                         <div className='flex mt-2'  >
                         <input type='checkbox' onChange={()=>handlerating("4")} checked={rating.includes("4")} />
-                        <p className='text-sm ml-2 text-slate-500'>4<StarIcon className='text-sm text-yellow-500'/></p>
+                        <p className='text-sm ml-2 text-slate-500'>4<StarIcon className='text-sm star text-yellow-500'/></p>
                         </div>
                         <div className='flex mt-2'>
                         <input type='checkbox' onChange={()=>handlerating("5")} checked={rating.includes("5")}  />
-                        <p className='text-sm ml-2 text-slate-500'>5<StarIcon className='text-sm text-yellow-500'/></p>
+                        <p className='text-sm ml-2 text-slate-500'>5<StarIcon className='text-sm star text-yellow-500'/></p>
                         </div>
             <hr className='border-1 mt-5'/>
            {location.length>0 &&  <><p className='text-sm mt-5'>LOCATIONS</p>
             {
-               location &&  location.slice(0,page.page3).map((p:any)=>{
+               location &&  location.slice(1,page.page3).map((p:any)=>{
                     return (
                         <div className='flex mt-2'>
                         <input type='checkbox' onChange={()=>handleLocation(p)} checked={places.includes(p)}/>

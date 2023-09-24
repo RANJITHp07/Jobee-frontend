@@ -12,11 +12,11 @@ import Footer from '../components/footer';
 import LoadingPage from '../components/loadinPage';
 import CompanyPanel from '../components/companyPanel';
 import MenuIcon from '@mui/icons-material/Menu';
-import {deleteJob, getJobs} from "../../apis/job"
+import {deleteJob, getJobs, stopRecruiting} from "../../apis/job"
 import {Modal } from 'antd';
-import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
+
 import ReviewPage from '../components/reviewPage';
-import DeleteIcon from '@mui/icons-material/Delete';
+import JobCover from '../components/jobCover';
 
 
 
@@ -25,6 +25,7 @@ function Page() {
   const token=useAppSelector((state)=>state.authReducer.value.token)
   const [loading,setloading]=useState(true)
   const [company, setCompany] = useState<any>();
+  const [id,setid]=useState<string>('')
   const { confirm } = Modal;
   const [jobs,setjobs]=useState([]);
   const [showFilter, setShowFilter] = useState(false);
@@ -33,11 +34,13 @@ function Page() {
 
 
 
+
+
   useEffect(()=>{
     const fetchData=async()=>{
       if(company){
         const response=await getPhoto(company.logo)
-        console.log(response.data)
+        
         seturl(response.data)
       }
      
@@ -46,7 +49,10 @@ function Page() {
     
   },[company])
 
-  const showDeleteConfirm = (id:string) => {
+
+  
+  
+   function showDeleteConfirm(id:string){
     confirm({
       title: 'Are you sure delete this job application?',
       icon: <ExclamationCircleFilled />,
@@ -75,24 +81,12 @@ function Page() {
 
  // job listing page
   const jobListings = useMemo(() => (
-    <div className='box_shadow rounded-lg p-3  lg:w-10/12 lg:mx-auto mt-12 lg:1/4' id='job'>
+    <div className='box_shadow rounded-lg p-3  lg:w-10/12 lg:mx-auto mt-12 mx-2 lg:1/4' id='job'>
         <p className='font-bold text-slate-500'>JOBS</p>
         <hr />
         {jobs.map((p: any) => (
           <>
-            <div key={p._id} className='my-3 cursor-pointer flex justify-between'>
-              <div onClick={() => { router.push(`/job/apply/${p._id}`) }}>
-                <p>Role: {p.role}</p>
-                <p>Location: {p.location}</p>
-                
-                </div>
-                <div className='flex text-xs'>
-                  <DeleteIcon className='mx-3 text-md cursor-pointer' onClick={()=>showDeleteConfirm(p._id)}/>
-                  <ModeEditOutlineIcon className='cursor-pointer' onClick={()=>router.push(`/job/form?update=${p._id}`)}/>
-                </div>
-                
-            </div>
-            <hr className="my-3"/>
+            <JobCover job={p} showDelete={showDeleteConfirm}/>
             </>
         ))}
     </div>
@@ -103,7 +97,7 @@ function Page() {
       try {
         if(userId){
           const res = await getCompany(userId)
-          console.log(res.data);
+          
           if (res.data === null){
             router.push('/company/details');
           } else {
@@ -124,7 +118,7 @@ function Page() {
       try {
         if(userId){
           const res=await getJobs(userId)
-          console.log(res?.data)
+          
           if(res?.data.length===0){
             showModal()
           }
