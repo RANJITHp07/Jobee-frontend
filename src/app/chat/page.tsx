@@ -191,7 +191,7 @@ function Page() {
 
 
 
-    socket.current = io('ws://www.jobeee.website/socket.io');
+    socket.current = io('wss://www.jobeee.website/socket.io');
 
 
     socket.current.on('getMessage', (data) => {
