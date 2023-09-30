@@ -190,6 +190,7 @@ function Page() {
   useEffect(() => {
     socket.current = io('wss://www.jobeee.website');
     socket.current.on('getMessage', (data) => {
+      console.log(data)
       setArrivalMessage({
         sender: data.senderId,
         text: data.text,
