@@ -201,7 +201,7 @@ function Page() {
         createdAt: Date.now(),
       });
     });
-  }, [socket,userId]);
+  }, [userId,socket]);
 
   useEffect(() => {
     arrivalMessage && setNewMessage('') ;
