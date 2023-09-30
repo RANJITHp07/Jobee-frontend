@@ -1,7 +1,7 @@
 'use client'
 import CloseIcon from '@mui/icons-material/Close';
 import React,{useEffect,useState} from 'react'
-import { company } from '../data/filterData'
+import { company } from '../../services/data/filterData'
 import StarIcon from '@mui/icons-material/Star';
 import { companyFilter, getLocations, jobCompanies } from '@/apis/job';
 
