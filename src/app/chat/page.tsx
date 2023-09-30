@@ -89,7 +89,7 @@ function Page() {
                
         }
 
-        socket.current.emit('sendMessage', { senderId: userId, receiverId: receiverId, text: newMessage });
+        socket.current.emit('sendMessage', { senderId: userId, receiverId: receiverId, text: newMessage,type:"chat" });
         const res = await sendMessage(id,userId,'chat',newMessage,token)
         
         setNewMessage('');
@@ -153,7 +153,7 @@ function Page() {
           id,userId,type,response?.data,token
       )
       if(socket.current){
-        socket?.current.emit('sendMessage', { senderId: userId, receiverId:receiverId , text:response.data });
+        socket?.current.emit('sendMessage', { senderId: userId, receiverId:receiverId , text:response.data,type:type });
       
         setNewMessage('');
         
