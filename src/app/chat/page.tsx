@@ -195,6 +195,7 @@ function Page() {
 
 
     socket.current.on('getMessage', (data) => {
+      console.log("message revieved")
       setArrivalMessage({
         sender: data.senderId,
         text: data.text,
@@ -254,7 +255,7 @@ function Page() {
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log("message revieved")
+      
       if (id && token) {
         const res = await chatMessage(id,token)
         setMessage(res.data);
