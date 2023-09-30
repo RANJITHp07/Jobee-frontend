@@ -35,7 +35,7 @@ function Page() {
   const [image, setImage] = useState('');
   const scrollRef = useRef<any>();
   const router = useRouter();
-  const [showEmojii,setshowemojii]=useState(false)
+  const [showEmojii,setshowemojii]=useState(false)  
   const [online,getonline]=useState([])
   const [username,setusername]=useState('')
   const [type,settype]=useState('')
@@ -188,12 +188,7 @@ function Page() {
 
     //to accept the incoming
   useEffect(() => {
-
-
-
-    socket.current = io('ws://www.jobeee.website/socket.io');
-
-
+    socket.current = io('wss://www.jobeee.website');
     socket.current.on('getMessage', (data) => {
       setArrivalMessage({
         sender: data.senderId,
@@ -201,10 +196,10 @@ function Page() {
         createdAt: Date.now(),
       });
     });
-  }, []);
+  }, [socket,userId]);
 
   useEffect(() => {
-    arrivalMessage ;
+    arrivalMessage && setNewMessage('') ;
   }, [arrivalMessage]);
 
   useEffect(() => {
@@ -254,13 +249,14 @@ function Page() {
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log("message revieved")
       if (id && token) {
         const res = await chatMessage(id,token)
         setMessage(res.data);
       }
     }
     fetchData();
-  }, [id, newMessage, image,token]);
+  }, [id, arrivalMessage,newMessage,socket,token]);
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
