@@ -88,7 +88,15 @@ function Page() {
         if(!u){
                
         }
-
+        setMessage((prev:any)=>[...prev,{
+          conversationId:id,
+          sender:userId,
+          text:{
+            text:newMessage,
+            type:"chat"
+          }
+          
+       }])
         socket.current.emit('sendMessage', { senderId: userId, receiverId: receiverId, text: newMessage,type:"chat" });
         const res = await sendMessage(id,userId,'chat',newMessage,token)
         
@@ -263,7 +271,7 @@ function Page() {
       }
     }
     fetchData();
-  }, [id, arrivalMessage,newMessage,socket,token]);
+  }, [id,socket,token]);
 
 
   useEffect(() => {
