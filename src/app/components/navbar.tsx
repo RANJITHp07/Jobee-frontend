@@ -167,7 +167,7 @@ function Navbar({page}:{page:boolean}) {
                 <SearchIcon className='text-slate-400'/>
                  <input type="text" placeholder="Search you job" className='focus:outline-none' value={role} autoFocus  onChange={handleChange} onKeyDown={(e:React.KeyboardEvent<HTMLInputElement>)=>handleInputKeyDown(e)} ref={inputRef}/>
                  {
-                    state && <div className='absolute box_shadow bg-white p-3 rounded-lg top-20 w-56 z-50'>
+                    state && <div className='absolute box_shadow bg-white p-3 rounded-lg top-16 w-56 z-50'>
                    { filter.length>0 ? filter.map((p:string)=>{
                        return (
                         <>
@@ -188,6 +188,8 @@ function Navbar({page}:{page:boolean}) {
                   }
               </div>
              }
+
+             
       </div>
     
      
