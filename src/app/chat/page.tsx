@@ -201,10 +201,10 @@ function Page() {
         createdAt: Date.now(),
       });
     });
-  }, []);
+  }, [socket,userId]);
 
   useEffect(() => {
-    arrivalMessage ;
+    arrivalMessage && setNewMessage('') ;
   }, [arrivalMessage]);
 
   useEffect(() => {
