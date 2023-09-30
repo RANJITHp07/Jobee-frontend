@@ -190,7 +190,13 @@ function Page() {
   useEffect(() => {
     socket.current = io('wss://www.jobeee.website');
     socket.current.on('getMessage', (data) => {
-     
+      console.log(data)
+      setMessage((prev:any)=>[...prev,{
+        conversationId:id,
+        sender:data.senderId,
+        text:data.text
+      }
+      ])
       setArrivalMessage({
         sender: data.senderId,
         text: data.text,
@@ -252,7 +258,6 @@ function Page() {
   useEffect(() => {
     const fetchData = async () => {
       if (id && token) {
-         console.log("message revieved")
         const res = await chatMessage(id,token)
         setMessage(res.data);
       }
