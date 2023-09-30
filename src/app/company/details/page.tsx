@@ -3,7 +3,7 @@ import Navbar from '@/app/components/navbar'
 import React,{ChangeEvent,useState,useRef,useEffect,FormEvent} from 'react'
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import { company } from '../../data/filterData';
+import { company } from '../../../services/data/filterData';
 import { message } from 'antd';
 import Image from 'next/image';
 import { useAppSelector } from '@/redux/store';
