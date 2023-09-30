@@ -190,13 +190,15 @@ function Page() {
   useEffect(() => {
     socket.current = io('wss://www.jobeee.website');
     socket.current.on('getMessage', (data) => {
+     
       setArrivalMessage({
         sender: data.senderId,
         text: data.text,
         createdAt: Date.now(),
       });
     });
-  }, [socket,userId]);
+
+  }, [socket]);
 
   useEffect(() => {
     arrivalMessage && setNewMessage('') ;
@@ -249,14 +251,15 @@ function Page() {
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log("message revieved")
       if (id && token) {
+         console.log("message revieved")
         const res = await chatMessage(id,token)
         setMessage(res.data);
       }
     }
     fetchData();
   }, [id, arrivalMessage,newMessage,socket,token]);
+
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
