@@ -195,7 +195,7 @@ function Page() {
 
 
     socket.current.on('getMessage', (data) => {
-      console.log("message revieved")
+     
       setArrivalMessage({
         sender: data.senderId,
         text: data.text,
@@ -257,12 +257,13 @@ function Page() {
     const fetchData = async () => {
       
       if (id && token) {
+         console.log("message revieved")
         const res = await chatMessage(id,token)
         setMessage(res.data);
       }
     }
     fetchData();
-  }, [id, newMessage, image,token]);
+  }, [id, newMessage,socket, image,token]);
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
