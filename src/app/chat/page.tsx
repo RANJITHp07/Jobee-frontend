@@ -254,6 +254,7 @@ function Page() {
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log("message revieved")
       if (id && token) {
         const res = await chatMessage(id,token)
         setMessage(res.data);
