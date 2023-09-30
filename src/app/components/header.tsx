@@ -131,7 +131,7 @@ function Header() {
           <WorkIcon className='text-slate-300 mx-2'/>
           <input type='text' placeholder='Enter Your Dream Job' className='outline-none focus:outline-non' value={search} onChange={handleChange} ref={username}/>
           {
-           state &&  <div className='absolute  bg-white h-40 overflow-y-scroll md:w-60 rounded-lg overflow-hidden p-3 box_shadow'>
+           state &&  <div className='absolute hidden md:block  bg-white h-40 overflow-y-scroll md:w-60 rounded-lg overflow-hidden p-3 box_shadow'>
              {
               filter.length>0 ? filter.map((p)=>{
                  return(
@@ -148,6 +148,22 @@ function Header() {
          } 
            <button type='submit' className='rounded-full bg-indigo-950 text-white font-medium p-2'>Search</button>
           </form>
+          {
+           state &&  <div className='absolute  md:hidden bg-white h-40 z-50    overflow-y-scroll w-72 ml-7 rounded-lg overflow-hidden p-3 box_shadow'>
+             {
+              filter.length>0 ? filter.map((p)=>{
+                 return(
+                   <p className='hover:bg-slate-200 p-2' onClick={()=>{
+                    setsearch(p)
+                     setstate(false)
+                     username.current && username.current.focus()
+                     
+                    }}>{p}</p>
+                 )
+               }) :<p className='text-slate-300'>No matching roles</p>
+             }
+           </div>
+         } 
          </div>
       </div>
        <div  className='hidden md:flex' >
