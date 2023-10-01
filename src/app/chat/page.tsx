@@ -198,7 +198,7 @@ function Page() {
   useEffect(() => {
     socket.current = io('wss://www.jobeee.website');
     socket.current.on('getMessage', (data) => {
-      console.log(data)
+      setid(id)
       setMessage((prev:any)=>[...prev,{
         conversationId:id,
         sender:data.senderId,
