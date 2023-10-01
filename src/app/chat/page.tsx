@@ -88,7 +88,15 @@ function Page() {
         if(!u){
                
         }
-
+        setMessage((prev:any)=>[...prev,{
+          conversationId:id,
+          sender:userId,
+          text:{
+            text:newMessage,
+            type:"chat"
+          }
+          
+       }])
         socket.current.emit('sendMessage', { senderId: userId, receiverId: receiverId, text: newMessage,type:"chat" });
         const res = await sendMessage(id,userId,'chat',newMessage,token)
         
@@ -190,13 +198,7 @@ function Page() {
   useEffect(() => {
     socket.current = io('wss://www.jobeee.website');
     socket.current.on('getMessage', (data) => {
-      console.log(data)
-      setMessage((prev:any)=>[...prev,{
-        conversationId:id,
-        sender:data.senderId,
-        text:data.text
-      }
-      ])
+      setId(id)
       setArrivalMessage({
         sender: data.senderId,
         text: data.text,
@@ -263,7 +265,7 @@ function Page() {
       }
     }
     fetchData();
-  }, [id, arrivalMessage,newMessage,socket,token]);
+  }, [id,socket,token]);
 
 
   useEffect(() => {
