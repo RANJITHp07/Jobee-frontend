@@ -1,4 +1,4 @@
-const apiRoutes = {
+const userRoutes = {
     createProfile: '/v4/api/profile',
     getProfile: '/v4/api/profile/',
     statusJob: '/v4/api/profile/getusers/',
@@ -16,5 +16,5 @@ const apiRoutes = {
     jobcount: '/v4/api/profile/countjobapplication/',
   };
   
-  export default apiRoutes;
+  export default userRoutes;
   
