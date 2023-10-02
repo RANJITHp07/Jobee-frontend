@@ -4,7 +4,7 @@ import Payment from '../components/payment'
 import { useAppSelector } from '@/redux/store';
 import Navbar from '../components/navbar';
 import { useRouter } from 'next/navigation';
-import { getPlans,getUsepayment, payment } from '@/apis/payments';
+import { getPlans,getUsePayment, payment } from '@/apis/payments';
 import LoadinPage from '../components/loadinPage';
 
 
@@ -22,7 +22,7 @@ function Page() {
     const fetchData=async()=>{
       let response
       let res
-      (userId && token) ? response=await getUsepayment(userId,token) :""
+      (userId && token) ? response=await getUsePayment(userId,token) :""
       console.log(response?.data)
       response?.data? res=await payment(response.data.stripeCustomerId,token) :""
       

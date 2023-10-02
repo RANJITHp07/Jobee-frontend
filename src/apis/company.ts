@@ -7,7 +7,7 @@ const getHeaders = (token: string) => ({
    },
 });
 
-export const uploadLogo = async (file: FormData, category: string) => {
+export const uploadlogo = async (file: FormData, category: string) => {
     try {
         const res = await Api.post(companyRoutes.uploadLogo(category), file);
         return res;
