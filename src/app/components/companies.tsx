@@ -1,21 +1,22 @@
 'use client'
 import React, { useEffect,useState } from 'react';
-
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Image from 'next/image';
 import 'swiper/css';
 import 'swiper/css/pagination';
-
+import { useRouter } from 'next/navigation'
 import { Pagination } from 'swiper/modules';
-import { getAllcompanies, getPhoto } from '@/apis/company';
+import { getPhoto } from '@/apis/company';
+import { jobCompanies } from '@/apis/job';
 
 export default function App() {
   const [companies,setcompanies]=useState<any>([])
   const [url,setImageurl]=useState<string[]>([])
+  const router=useRouter()
 
   useEffect(()=>{
     const fecthData=async()=>{
-      const res=await getAllcompanies()
+      const res=await jobCompanies()
       setcompanies(res.data)
     }
     fecthData()
@@ -82,10 +83,10 @@ export default function App() {
         {
           companies.map((p:any,index:number)=>{
             return (
-              <SwiperSlide className='companies '>
-              <div className='box_shadow my-3 h-72  p-5 rounded-md '>
+              <SwiperSlide className='companies cursor-pointer '>
+              <div className='box_shadow my-3 h-72  p-5 rounded-md ' onClick={()=>router.push(`/company/${p._id}`)} >
                 {url[index] && <Image src={url[index]} width={100} height={100} alt='photo' className='mt-3 h-32 w-24' /> }
-                <p className='font-extrabold text-indigo-950 text-center mt-3'>{p.companyId.username}</p>
+                <p className='font-extrabold text-indigo-950 text-center mt-3'>{p.companyusername}</p>
                 <p className='text-center text-slate-500 mb-5'>{p.companyType}</p>
               </div>
             </SwiperSlide >

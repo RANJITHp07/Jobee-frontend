@@ -121,9 +121,9 @@ useEffect(()=>{
 
   return (
     <div {...p} className={page ?'box_shadow p-3 mx-10 my-8 rounded-xl md:w-10/12  job md:ml-16 w-3/4':'box_shadow p-3 my-3 rounded-xl  w-full '} >
-      <div  className='cursor-pointer'>
-      <div className='flex'>
-        <div onClick={()=>{router.push(`/job/${p._id}`)}}>
+      <div>
+      <div className='flex cursor-pointer' onClick={()=>{ page ? router.push(`/job/${p._id}`) : router.push(`/company/${p.company._id}` )}}>
+        <div className='cursor-pointer' >
           <p className='font-bold'>{p.role}</p> 
           <div className='flex items-center'>
           <p className='font-medium mr-4'>{p.company.companyusername}</p>

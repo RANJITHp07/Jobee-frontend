@@ -45,7 +45,7 @@ function Page() {
         
            if(currAuth?.email || currAuth?.username){
             if(currUser?.userId?.email){
-              console.log(currAuth)
+             
               await updateAuth(currUser?.userId?.email,currAuth,token)
             }
              
@@ -62,6 +62,7 @@ function Page() {
       try {
        
           const res = await getProfile(userId,token)
+          console.log({user:res?.data})
         dispatch(getUser(res?.data))
           dispatch(getAuth({email:res?.data.userId.email,username:res?.data.userId.username}))
 

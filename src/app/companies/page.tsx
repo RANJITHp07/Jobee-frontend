@@ -3,11 +3,10 @@ import React, { ChangeEvent, useEffect, useState } from 'react'
 import Image from "next/image"
 import Navbar from '../components/navbar'
 import { useRouter } from 'next/navigation'
-import { Searchcomapny, getPhoto} from '@/apis/company'
-import { AutoComplete, Input } from 'antd';
+import {  getPhoto} from '@/apis/company'
 import { Pagination } from 'antd';
 import CompanyFilter from '../components/companyFilter'
-import { companyFilter, jobCompanies } from '@/apis/job'
+import { jobCompanies } from '@/apis/job'
 import StarIcon from '@mui/icons-material/Star';
 import LoadinPage from '../components/loadinPage'
 
@@ -17,21 +16,20 @@ function page() {
     const [comapnies,setcomapnies]=useState<any>([])
     const [url,setImageUrl]=useState<any>([])
     const[items,setitems]=useState<any>([])
-    const [search,setsearch]=useState<string>('')
     const[pagination,setpagination]=useState(1)
     const [state,setstate]=useState(false)
     const[loading,setloading]=useState(true)
     const [filter,setfilter]=useState([])
     const router=useRouter()
 
-    const handleSearch=async()=>{
-          try{
-            const res=await Searchcomapny(search)
-            setcomapnies(res.data)
-          }catch(err){
-            throw err
-          }
-    }
+    // const handleSearch=async()=>{
+    //       try{
+    //         const res=await Searchcomapny(search)
+    //         setcomapnies(res.data)
+    //       }catch(err){
+    //         throw err
+    //       }
+    // }
 
   useEffect(()=>{
     const fetchData=async()=>{
