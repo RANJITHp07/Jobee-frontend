@@ -57,7 +57,7 @@ function page() {
         if(file){
           const formData = new FormData();
           formData.append('file', file);
-            response = await uploadlogo(formData)
+            response = await uploadlogo(formData,'')
             data.logo=response.data
         }
         
@@ -69,7 +69,7 @@ function page() {
         
         const formData = new FormData();
         formData.append('file', file);
-          const response = await uploadlogo(formData)
+          const response = await uploadlogo(formData,'')
         
          
         const data={
