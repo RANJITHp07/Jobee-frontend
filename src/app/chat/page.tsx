@@ -14,7 +14,7 @@ import Picker from '@emoji-mart/react'
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
 import { Modal } from 'antd';
 import VideoCameraBackIcon from '@mui/icons-material/VideoCameraBack';
-import { chatMessage, sendMessage, uploadmedia } from '@/apis/chat';
+import { chatMessage, sendMessage} from '@/apis/chat';
 import { getPhoto, uploadlogo } from '@/apis/company';
 import { closeModal, openModal, setRoomId } from '@/redux/features/modal-slice';
 
