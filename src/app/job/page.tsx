@@ -51,9 +51,10 @@ function Page() {
         }
          else {
         const res = await filter([], [], [], [0, 100], [], []);
-          
+        console.log(res.data)
           jobData = res.data;
         }
+        
         setjob(jobData);
         setloading(false);
       } catch (err) {

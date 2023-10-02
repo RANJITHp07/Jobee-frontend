@@ -1,4 +1,5 @@
-import axios from "axios";
+import Api from "@/services/api";
+import chatRoutes from "../services/endpoints/chatEndpoint";
 
 
 const getHeaders = (token:string) => ({
@@ -9,7 +10,7 @@ const getHeaders = (token:string) => ({
 
 export const sendMessage=async(id:string,userId:string,type:string,newMessage:string,token:string)=>{
     try{
-        const res = await axios.post('https://www.jobeee.website/v2/api/chat/message', {
+        const res = await Api.post(chatRoutes.sendMessage, {
             conversationId: id,
             sender: userId,
             text: {
@@ -25,7 +26,7 @@ export const sendMessage=async(id:string,userId:string,type:string,newMessage:st
 
 export const createConvo=async(recieveId:string,senderId:string,token:string)=>{
   try{
-    const res=await axios.post("https://www.jobeee.website/v2/api/chat/convo",{recieveId,senderId},getHeaders(token))
+    const res=await Api.post(chatRoutes.createConvo,{recieveId,senderId},getHeaders(token))
     return res
   }catch(err){
     throw err
@@ -34,7 +35,7 @@ export const createConvo=async(recieveId:string,senderId:string,token:string)=>{
 
 export const getConvo=async(userId:string,token:string)=>{
   try{
-    const res=await axios.get(`https://www.jobeee.website/v2/api/chat/convo/${userId}`,getHeaders(token));
+    const res=await Api.get(chatRoutes.getConvo(userId),getHeaders(token));
     return res
   }catch(err){
     throw err
@@ -47,7 +48,7 @@ export const uploadmedia=async(id:string,userId:string,text: {
   text: any;
 },token:string)=>{
    try{
-    const res = await axios.post('https://www.jobeee.website/v2/api/chat/message', {
+    const res = await Api.post(chatRoutes.uploadMedia, {
       conversationId: id,
       sender: userId,
       text:text
@@ -61,7 +62,7 @@ export const uploadmedia=async(id:string,userId:string,text: {
 
 export const chatMessage=async(id:string,token:string)=>{
   try{
-    const res = await axios.get(`https://www.jobeee.website/v2/api/chat/message/${id}`,getHeaders(token));
+    const res = await Api.get(chatRoutes.chatMessage(id),getHeaders(token));
     return res
   }catch(err){
     throw err
@@ -70,7 +71,7 @@ export const chatMessage=async(id:string,token:string)=>{
 
 export const chatNotification=async(userId:string)=>{
   try{
-    const res = await axios.post(`https://www.jobeee.website/v2/api/chat/getallmessages`,{id:userId});
+    const res = await Api.post(chatRoutes.chatNotification,{id:userId});
     return res
   }catch(err){
     throw err
@@ -79,7 +80,7 @@ export const chatNotification=async(userId:string)=>{
 
 export const deleteAllNotification=async(userId:string)=>{
   try{
-    const res = await axios.post(`https://www.jobeee.website/v2/api/chat/deleteallmessages`,{id:userId});
+    const res = await Api.post(chatRoutes.deleteAllNotification,{id:userId});
     return res
   }catch(err){
     throw err
@@ -88,7 +89,7 @@ export const deleteAllNotification=async(userId:string)=>{
 
 export const deletedingleNotification=async(userId:string,index:number)=>{
   try{
-    const res = await axios.post(`https://www.jobeee.website/v2/api/chat/deleteallmessagesatindex`,{id:userId,index:index});
+    const res = await Api.post(chatRoutes.deleteSingleNotification,{id:userId,index:index});
     return res
   }catch(err){
     throw err

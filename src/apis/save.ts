@@ -1,4 +1,5 @@
-import axios from "axios"
+import Api from "@/services/api";
+import saveRoutes from "@/services/endpoints/saveEndpoint";
 
 const getHeaders = (token:string) => ({
    headers: {
@@ -7,12 +8,12 @@ const getHeaders = (token:string) => ({
 });
 
 export const savejobs=async(data:{id:string,jobId:string},token:string)=>{
-   const res=await axios.post("https://www.jobeee.website/v6/api/job/save",data,getHeaders(token))
+   const res=await Api.post(saveRoutes.savejobs,data,getHeaders(token))
    return res
 }
 
 export const savedJobs=async(id:string,token:string)=>{
-    const res=await axios.get(`https://www.jobeee.website/v6/api/job/save/${id}`,getHeaders(token))
+    const res=await Api.get(saveRoutes.savedJobs(id),getHeaders(token))
     
     return res
  }

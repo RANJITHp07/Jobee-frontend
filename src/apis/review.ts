@@ -1,4 +1,5 @@
-import axios from "axios"
+import Api from "@/services/api";
+import reviewRoutes from "@/services/endpoints/reviewEndpoints";
 
 
 const getHeaders = (token:string) => ({
@@ -9,7 +10,7 @@ const getHeaders = (token:string) => ({
 
 export const deletereview=async(id:string,index:number,token:string)=>{
    try{
-    const res=await axios.put(`https://www.jobeee.website/v3/api/company/review/delete/${id}`,{id:id,index},getHeaders(token))
+    const res=await Api.put(reviewRoutes.deleteReview(id),{id:id,index},getHeaders(token))
     return res
    }catch(err){
     throw err
@@ -18,8 +19,7 @@ export const deletereview=async(id:string,index:number,token:string)=>{
 
 export const savecomment=async(id:string,index:number,comment:string,rating:number,token:string)=>{
     try{
-        const res= await axios.put("https://www.jobeee.website/v3/api/company/update/review",{id:id,index:index,comment:comment,rating},getHeaders(token))
-       
+        const res= await Api.put(reviewRoutes.updateReview,{id:id,index:index,comment:comment,rating},getHeaders(token))
         return res
     }catch(err){
         throw err

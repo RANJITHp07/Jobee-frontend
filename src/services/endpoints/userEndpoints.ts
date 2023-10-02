@@ -1,9 +1,9 @@
-const userRoutes = {
+const  userRoutes = {
     createProfile: '/v4/api/profile',
 
     getProfile: '/v4/api/profile/',
 
-    statusJob: '/v4/api/profile/getusers/',
+    statusJob: '/v4/api/profile/getusers/',  
 
     updateProfile: '/v4/api/profile/',
 

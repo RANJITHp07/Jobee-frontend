@@ -1,4 +1,5 @@
-import axios from 'axios'
+import Api from "@/services/api";
+import jobRoutes from "@/services/endpoints/jobEndpoint";
 
 
 interface JobData{
@@ -14,7 +15,8 @@ interface JobData{
   
 
 export const filter=async (selectedWorkModes:string[],selectedsalary:number[][],selectedcompany:string[],sliderRange:[number,number],rating:number[],location:string[])=>{
-        const res=await axios.get("https://www.jobeee.website/v6/api/job/search/filter", {params: {
+     console.log(jobRoutes.companyFilter)   
+    const res=await Api.get(jobRoutes.filter, {params: {
             workmode: selectedWorkModes,
             salary: selectedsalary,
             companyType: selectedcompany,
@@ -28,7 +30,7 @@ export const filter=async (selectedWorkModes:string[],selectedsalary:number[][],
 
 export const jobForm=async(jobData:JobData)=>{
     try{
-        const res =await axios.post("https://www.jobeee.website/v6/api/job",jobData)
+        const res =await Api.post(jobRoutes.jobForm,jobData)
         return res
     }catch(err){
         console.log(err)
@@ -37,7 +39,7 @@ export const jobForm=async(jobData:JobData)=>{
 
 export const getLocations=async()=>{
     try{
-        const res=await axios.get("https://www.jobeee.website/v6/api/job/location/parts");
+        const res=await Api.get(jobRoutes.getLocations);
         return res
 
     }catch(err){
@@ -47,7 +49,7 @@ export const getLocations=async()=>{
 
 export const getRoles=async()=>{
     try{
-        const res=await axios.get("https://www.jobeee.website/v6/api/job/roles/parts");
+        const res=await Api.get(jobRoutes.getRoles);
         return res
 
     }catch(err){
@@ -57,7 +59,7 @@ export const getRoles=async()=>{
 
 export const getUser=async (id:string)=>{
     try{
-        const res=await axios.get(`https://www.jobeee.website/v6/api/job/${id}`)
+        const res=await Api.get(jobRoutes.getUser(id))
         return res
     }catch(err){
         console.log(err)
@@ -67,7 +69,7 @@ export const getUser=async (id:string)=>{
 
 export const getJobs=async(userId:string)=>{
     try{
-        const res=await axios.get(`https://www.jobeee.website/v6/api/job/jobs/company/${userId}`)
+        const res=await Api.get(jobRoutes.getJobs(userId));
         return res
     }catch(err){
         console.log(err)
@@ -77,7 +79,7 @@ export const getJobs=async(userId:string)=>{
 
 export const companyFilter=async(location:string[],rating:string[],companyType:string[])=>{
     try{
-        const res=await axios.get("https://www.jobeee.website/v6/api/job/companies/filter",{
+        const res=await Api.get(jobRoutes.companyFilter,{
             params:{
                 companyType,
                 location,
@@ -93,7 +95,7 @@ export const companyFilter=async(location:string[],rating:string[],companyType:s
 
 export const deleteJob=async(JobId:string)=>{
     try{
-        const res=await axios.delete(`https://www.jobeee.website/v6/api/job/${JobId}`)
+        const res=await Api.delete(jobRoutes.deleteJob(JobId));
         return res
     }catch(err){
         console.log(err)
@@ -102,7 +104,7 @@ export const deleteJob=async(JobId:string)=>{
 
 export const searchJob=async(param:string)=>{
     try{
-        const res=await axios.post("https://www.jobeee.website/v6/api/job/search",{search:param})
+        const res=await Api.post(jobRoutes.searchJob,{search:param})
         return res
     }catch(err){
         throw err
@@ -114,7 +116,7 @@ export const searchJob=async(param:string)=>{
 
 export const jobApply=async(id:string,userId:string,token:string)=>{
     try{
-        const res=await axios.post("https://www.jobeee.website/v4/api/profile/jobapplied",{_id:id,userId:userId},{
+        const res=await Api.post(jobRoutes.jobApply,{_id:id,userId:userId},{
             headers: {
                 Authorization: token,
             },
@@ -127,7 +129,7 @@ export const jobApply=async(id:string,userId:string,token:string)=>{
 
 export const findSimilarJobs=async(role:string,location:string,skills:string[])=>{
    try{
-    const res = await axios.post('https://www.jobeee.website/v6/api/job/findsimilar', { role: role, location: location,skills:skills });
+    const res = await Api.post(jobRoutes.findSimilarJobs, { role: role, location: location,skills:skills });
     return res
    }catch(err){
     throw err
@@ -138,7 +140,7 @@ export const findSimilarJobs=async(role:string,location:string,skills:string[])=
 export const userExist=async(id:string,userId:string,token:string)=>{
     try{
         
-        const res=await axios.get(`https://www.jobeee.website/v4/api/profile/userExist/${id}`,{
+        const res=await Api.get(jobRoutes.userExist(id),{
             params:{
                 userId:userId
             },...{
@@ -155,7 +157,7 @@ export const userExist=async(id:string,userId:string,token:string)=>{
 
 export const getcompanyJob=async(id:string)=>{
     try{
-        const res=await axios.get(`https://www.jobeee.website/v6/api/job/jobs/company/${id}`)
+        const res=await Api.get(jobRoutes.getcompanyJob(id))
         return res
     }catch(err){
         throw err
@@ -164,7 +166,7 @@ export const getcompanyJob=async(id:string)=>{
 
 export const updateApplication=async(param:string,jobData:any)=>{
     try{
-        const res=await axios.put("https://www.jobeee.website/v6/api/job",{id:param,update:jobData})
+        const res=await Api.put(jobRoutes.updateApplication,{id:param,update:jobData})
         return res
     }catch(err){
         throw err
@@ -173,7 +175,7 @@ export const updateApplication=async(param:string,jobData:any)=>{
 
 export const getJobapplication=async(param:string)=>{
     try{
-        const res=await axios.get(`https://www.jobeee.website/v6/api/job/${param}`)
+        const res=await Api.get(jobRoutes.getJobapplication(param))
         return res
     }catch(err){
         throw err
@@ -183,7 +185,7 @@ export const getJobapplication=async(param:string)=>{
 export const jobCompanies=async()=>{
     try{
         
-        const res=await  axios.get("https://www.jobeee.website/v6/api/job/get/companies")
+        const res=await  Api.get(jobRoutes.jobCompanies)
         return res
     }catch(err){
         throw err
@@ -192,7 +194,7 @@ export const jobCompanies=async()=>{
 
 export const Jobroleserach=async(role:string,location:string)=>{
    try{
-    const res=await  axios.get("https://www.jobeee.website/v6/api/job/role/search",{params: {
+    const res=await  Api.get(jobRoutes.Jobroleserach,{params: {
         role:role,
         location:location
     }})
@@ -206,7 +208,7 @@ export const Jobroleserach=async(role:string,location:string)=>{
 
 export const mutualskills=async(id:string,skills:string[])=>{
     try{
-     const res=await  axios.post("https://www.jobeee.website/v6/api/job/mutual/skills",{id,skills})
+     const res=await  Api.post(jobRoutes.mutualskills,{id,skills})
      return res
     }catch(err){
      throw err
@@ -216,7 +218,7 @@ export const mutualskills=async(id:string,skills:string[])=>{
 
  export const savedorNot=async(userId:string,id:string)=>{
     try{
-        const res=await  axios.get("https://www.jobeee.website/v6/api/job/saved/exist",{
+        const res=await  Api.get(jobRoutes.savedorNot,{
             params:{
                 userId:userId,
                 id:id
@@ -234,7 +236,7 @@ export const mutualskills=async(id:string,skills:string[])=>{
 
  export const stopRecruiting=async(id:string)=>{
     try{
-        const res=await  axios.post(`https://www.jobeee.website/v6/api/job/stop/recruiting/${id}` )
+        const res=await  Api.post(jobRoutes.stopRecruiting(id) )
         return res
        }catch(err){
         throw err
