@@ -145,7 +145,7 @@ function Page() {
       
       if(file){
         formData.append('file', file);
-        let response=await uploadlogo(formData);
+        let response=await uploadlogo(formData,"");
         
         setMessage((prev:any)=>[...prev,{
           conversationId:id,
