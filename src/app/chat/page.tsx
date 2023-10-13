@@ -200,7 +200,6 @@ function Page() {
     socket.current = io('wss://www.jobeee.website');
  
     socket.current.on('getMessage', (data) => {
-      console.log(id,userId,data)
       setMessage((prev:any)=>[...prev,{
         conversationId:id,
         sender:data.senderId,
