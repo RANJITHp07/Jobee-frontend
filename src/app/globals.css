@@ -98,3 +98,15 @@
   }
 }
 
+
+.hide-scrollbar::-webkit-scrollbar {
+  width: 0.4rem; /* Change this value if you want to keep a thin scrollbar */
+  background: transparent; /* This makes the scrollbar invisible */
+}
+
+/* Define a custom class to show the scrollbar while scrolling */
+.show-scrollbar::-webkit-scrollbar {
+  width: 0.4rem; /* Change this value if you want to keep a thin scrollbar */
+  background: #888; 
+}
+

@@ -10,6 +10,7 @@ import Navbar from '../components/navbar';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import { useAppSelector } from '@/redux/store';
 import data from '@emoji-mart/data'
+import { format } from 'timeago.js';
 import Picker from '@emoji-mart/react'
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
 import { Modal } from 'antd';
@@ -196,9 +197,19 @@ function Page() {
 
     //to accept the incoming
   useEffect(() => {
-    socket.current = io('wss://www.jobeee.website');
+    // socket.current = io('wss://www.jobeee.website');
+    socket.current = io('http://localhost:4000');
     socket.current.on('getMessage', (data) => {
-      setId(id)
+      console.log(id,userId,data)
+      setMessage((prev:any)=>[...prev,{
+        conversationId:id,
+        sender:data.senderId,
+        text:{
+          text:data.text.text,
+          type:data.text.type
+        }
+        
+     }])
       setArrivalMessage({
         sender: data.senderId,
         text: data.text,
@@ -206,7 +217,7 @@ function Page() {
       });
     });
 
-  }, [socket]);
+  }, [socket,arrivalMessage]);
 
   useEffect(() => {
     arrivalMessage && setNewMessage('') ;
@@ -260,7 +271,9 @@ function Page() {
   useEffect(() => {
     const fetchData = async () => {
       if (id && token) {
+        
         const res = await chatMessage(id,token)
+        console.log(res.data)
         setMessage(res.data);
       }
     }
@@ -277,7 +290,7 @@ function Page() {
       <div className="hidden">
         <Navbar page={false} />
       </div>
-      <div className="bg-indigo-950 p-5 w-screen hidden lg:block">
+      <div className="bg-indigo-950 p-5 hidden lg:block">
         <p className="text-white font-extrabold text-2xl">Jobee</p>
       </div>
       <Modal open={open}  onOk={handleOk} footer={null} onCancel={()=>dispatch(closeModal(false))}>
@@ -300,7 +313,7 @@ function Page() {
           <Users setShowFilter={setShowFilter} userId={userId} setid={setId} setrecieverId={setReceiverId} setusername={setusername}/>
         </div>
       )}
-      <div className="lg:flex bg-[url('/wallpaper.jpg')] w-screen">
+      <div className="lg:flex">
         <div className="hidden lg:block lg:w-1/4 h-1/2">
           <Users setShowFilter={setShowFilter} userId={userId} setid={setId} setrecieverId={setReceiverId}  setusername={setusername}/>
         </div>
@@ -316,7 +329,7 @@ function Page() {
               {id && <p className='text-white text-xs online'>{id in online ? "Online" : "Offline"}</p>}
             </div>
        
-          <div className="overflow-y-auto h-screen lg:h-full m-3">
+          <div className="overflow-y-auto h-screen  m-3 hide-scrollbar">
             
             { message.length>0 ? message.map((p: any, index: number) => (
               <div
@@ -329,8 +342,8 @@ function Page() {
                   <div className={p.sender === userId ? 'flex justify-end ' : 'flex justify-start '}>
                     
                   <div className= {p.text.text.length >50 ? "bg-indigo-950 text-white text-sm rounded-lg p-3 my-2 w-1/2" : "bg-indigo-950 text-white text-sm rounded-lg p-3 my-2 "}>
-                    <p className=" text-white text-sm rounded-lg inline p-3">{p.text.text}</p>
-                  
+                    <p className=" text-white text-md  rounded-lg inline p-3">{p.text.text}</p>
+                    <p className='text-xs text-right'>{format(p.createdAt).split(' ').slice(0,2).join(' ')}</p>
                   </div>
                   </div>
                   
@@ -377,7 +390,7 @@ function Page() {
             )):<p className=" text-2xl md:text-8xl my-16 mx-32 font-bold text-slate-200">Open a message</p>
           }
             {typing && (
-              <p className="bg-indigo-950 inline text-white text-sm rounded-lg p-3 my-3">
+              <p className="bg-indigo-950 inline text-white text-sm rounded-lg p-3 ">
                 Typing...
               </p>
             )}
