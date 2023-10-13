@@ -110,11 +110,12 @@ function Page() {
   return (
   
     <div>
-      {
-        loading ? <LoadinPage/> : <>
-         <div className="bg-indigo-950">
+        <div className="bg-indigo-950">
         <Navbar page={true} />
       </div>
+      {
+        loading ? <LoadinPage/> : <>
+       
       
       <div className="lg:flex ">
         <div className="hidden lg:block md:w-56 lg:w-72 border-2 pt-6">
