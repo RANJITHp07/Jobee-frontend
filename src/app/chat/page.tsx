@@ -197,8 +197,8 @@ function Page() {
 
     //to accept the incoming
   useEffect(() => {
-    // socket.current = io('wss://www.jobeee.website');
-    socket.current = io('http://localhost:4000');
+    socket.current = io('wss://www.jobeee.website');
+ 
     socket.current.on('getMessage', (data) => {
       console.log(id,userId,data)
       setMessage((prev:any)=>[...prev,{
